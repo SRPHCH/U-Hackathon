@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="40a0a0f5-3946-470e-ba31-6bffefe3a835"></script>
+
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("b44b62f1-33b0-49e5-a32d-6f8d6b5f2fbf") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("6aea78ff-e928-40ce-96fa-5476b3500dc8") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("39761f10-d688-4df7-a78d-42ace00a763c") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("a9e9fc40-4140-4f3d-b0cf-8022a5b6b66b") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("715ba472-2c09-4586-8ac3-c921003cf212") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("047a5779-9147-4526-a69a-bb431b6d7298") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("7b007f33-027f-4573-b26c-2603f85b14fa") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("4618d94f-b47c-436a-83e6-d9d107e01615") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("34b31ef4-4904-4047-8d37-7d35764e1d72") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("ff5637f7-0f31-420f-880d-e126e504e88d") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("1538d26c-eb87-4853-9b38-22da63fd7b01") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* thai */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("19a71093-6001-4567-ae09-83dd5406cf50") format('woff2');
+  unicode-range: U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("bf09e502-e3ef-4872-a7a0-1dd7f9643897") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("071b3bfa-fcec-42ad-86ef-4f7be73a58dc") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("ce256557-c5ef-45ce-aa38-7d7742f18120") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* thai */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("bf3efe49-37bb-402f-8b05-5a8e0eebe3fb") format('woff2');
+  unicode-range: U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("7550e14d-8182-4d9f-ae98-ff44d9b99e91") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("0d839336-c891-49e1-bdde-5b2154650619") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("87452599-7091-48fb-8c1e-3d41f3c04bd9") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* thai */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("5a3a6487-dd4c-4d13-b9f3-a15b9b1bfb36") format('woff2');
+  unicode-range: U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("c3c46ea0-9592-4d9d-ae3f-0dede9c1234e") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("9e212bde-17e0-4b5f-a6a4-69d1a3be6d59") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("94ddce3a-b765-45de-ba2f-af286ffdcfa7") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* thai */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("410348ea-4f7e-4452-a5c6-397f81e8d763") format('woff2');
+  unicode-range: U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("64096e0e-e25a-4282-94f5-ecbfef86d226") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("2138abc2-4c6b-4f43-baaf-f536b8fb4d3e") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("acde4740-ea0b-43dc-901c-45beeab45ca0") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* thai */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("d7373245-715d-4f66-9ee6-05c108fcd2c6") format('woff2');
+  unicode-range: U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("5b4ee713-bc40-4385-90e7-cfce6fef5f57") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans Thai';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("5b9169ca-ecf1-407d-847c-f76dec752611") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#fdfbfc;color:oklch(0.22 0.02 330);font-family:'IBM Plex Sans Thai',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:oklch(0.55 0.13 358);text-decoration:none;transition:color .25s ease}
+a:hover{color:oklch(0.22 0.02 330)}
+::selection{background:oklch(0.9 0.07 358)}
+</style>
+</helmet>
+
+<div style="min-height:100vh;overflow-x:hidden;position:relative">
+
+<!-- NAV -->
+<nav style="position:sticky;top:0;z-index:50;background:rgba(253,251,252,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid oklch(0.93 0.012 350)">
+  <div style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:32px">
+    <a href="#top" style="display:flex;align-items:center;gap:10px;color:oklch(0.22 0.02 330)">
+      <span style="width:30px;height:30px;border-radius:9px;background:oklch(0.84 0.09 358);display:grid;place-items:center;color:oklch(0.3 0.06 355);font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:14px">S/</span>
+      <span style="font-weight:700;font-size:19px;letter-spacing:-.01em">Solora</span>
+    </a>
+    <div style="display:flex;gap:4px;flex:1;flex-wrap:wrap">
+      <a href="#agents" style="padding:8px 14px;border-radius:999px;color:oklch(0.35 0.02 330);font-size:15px;transition:all .25s ease" style-hover="background:oklch(0.96 0.025 358);color:oklch(0.55 0.13 358)">เอเจนท์</a>
+      <a href="#advisor" style="padding:8px 14px;border-radius:999px;color:oklch(0.35 0.02 330);font-size:15px;transition:all .25s ease" style-hover="background:oklch(0.96 0.025 358);color:oklch(0.55 0.13 358)">AI Advisor</a>
+      <a href="#oracle" style="padding:8px 14px;border-radius:999px;color:oklch(0.35 0.02 330);font-size:15px;transition:all .25s ease" style-hover="background:oklch(0.96 0.025 358);color:oklch(0.55 0.13 358)">Oracle</a>
+      <a href="#pricing" style="padding:8px 14px;border-radius:999px;color:oklch(0.35 0.02 330);font-size:15px;transition:all .25s ease" style-hover="background:oklch(0.96 0.025 358);color:oklch(0.55 0.13 358)">ราคา</a>
+      <a href="#faq" style="padding:8px 14px;border-radius:999px;color:oklch(0.35 0.02 330);font-size:15px;transition:all .25s ease" style-hover="background:oklch(0.96 0.025 358);color:oklch(0.55 0.13 358)">คำถามที่พบบ่อย</a>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a href="#" style="padding:9px 18px;border-radius:10px;border:1px solid oklch(0.88 0.02 350);color:oklch(0.22 0.02 330);font-size:15px;font-weight:500;transition:all .3s cubic-bezier(.2,.8,.2,1)" style-hover="border-color:oklch(0.84 0.09 358);color:oklch(0.55 0.13 358)">เข้าสู่ระบบ</a>
+      <a href="#pricing" style="padding:10px 18px;border-radius:10px;background:oklch(0.84 0.09 358);color:oklch(0.3 0.06 355);font-size:15px;font-weight:500;box-shadow:0 6px 18px -6px oklch(0.84 0.09 358 / .55);transition:all .3s cubic-bezier(.2,.8,.2,1)" style-hover="transform:translateY(-2px);box-shadow:0 12px 26px -8px oklch(0.84 0.09 358 / .65);color:oklch(0.3 0.06 355)" style-active="transform:scale(.97)">เริ่มใช้ฟรี</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header id="top" style="position:relative;padding:88px 24px 72px">
+  <div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(oklch(0.93 0.015 350) 1px,transparent 1px),linear-gradient(90deg,oklch(0.93 0.015 350) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 70% 60% at 50% 30%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 30%,#000 20%,transparent 75%);opacity:.7"></div>
+  <div style="position:absolute;top:120px;left:50%;width:900px;height:600px;transform:translateX(-50%);background:radial-gradient(closest-side at 35% 50%,oklch(0.92 0.06 358 / .6),transparent),radial-gradient(closest-side at 70% 45%,oklch(0.93 0.05 300 / .55),transparent),radial-gradient(closest-side at 50% 80%,oklch(0.95 0.05 170 / .5),transparent);filter:blur(40px);pointer-events:none"></div>
+
+  <div style="position:relative;max-width:900px;margin:0 auto;text-align:center">
+    <a href="#oracle" style="display:inline-flex;align-items:center;gap:10px;padding:6px 8px 6px 6px;border-radius:999px;background:#fff;border:1px solid oklch(0.92 0.02 350);box-shadow:0 2px 10px -4px oklch(0.6 0.1 358 / .25);font-size:14px;color:oklch(0.35 0.02 330);transition:all .3s ease" style-hover="border-color:oklch(0.8 0.1 358);transform:translateY(-1px);color:oklch(0.35 0.02 330)">
+      <span style="padding:3px 10px;border-radius:999px;background:oklch(0.96 0.025 358);color:oklch(0.52 0.13 358);font-family:'IBM Plex Mono',monospace;font-size:12px">ใหม่</span>
+      <span>Oracle Agent — เอเจนท์นักทำนายทิศทางธุรกิจ</span>
+      <span style="color:oklch(0.55 0.13 358)">→</span>
+    </a>
+    <h1 style="margin:28px 0 0;font-size:clamp(40px,6.4vw,76px);line-height:1.12;font-weight:700;letter-spacing:-.025em;text-wrap:balance">ทีมเอไอที่ทำงานแทนคุณ<br><span style="color:oklch(0.68 0.13 358)">ตลอด 24 ชั่วโมง</span></h1>
+    <p style="margin:24px auto 0;max-width:640px;font-size:19px;line-height:1.7;color:oklch(0.42 0.02 330);text-wrap:pretty">คือแพลตฟอร์มเอเจนท์เอไอสำหรับเจ้าของธุรกิจ E‑Commerce ที่ทำงานคนเดียว แต่ละเอเจนท์ดูแลงานเฉพาะด้าน ตั้งแต่การเงิน การตลาด กฎหมาย ไปจนถึงข่าวตลาด และทำงานต่อเนื่องโดยไม่ต้องรอคำสั่ง</p>
+
+    <div style="margin-top:40px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.06em;color:oklch(0.5 0.03 330)">01 — คุณทำธุรกิจด้านไหน?</div>
+    <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
+      <sc-for list="{{ industries }}" as="ind" hint-placeholder-count="6">
+        <button sc-camel-on-click="{{ ind.pick }}" style="font-family:inherit;font-size:15px;padding:10px 18px;border-radius:999px;cursor:pointer;border:1px solid {{ ind.border }};background:{{ ind.bg }};color:{{ ind.color }};box-shadow:{{ ind.shadow }};transition:all .35s cubic-bezier(.2,.8,.2,1)" style-hover="transform:translateY(-2px);border-color:oklch(0.84 0.09 358)" style-active="transform:scale(.96)">{{ ind.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- product mock -->
+  <div data-reveal="1" style="position:relative;max-width:1080px;margin:56px auto 0">
+    <div style="background:#fff;border:1px solid oklch(0.92 0.015 350);border-radius:20px;box-shadow:0 40px 80px -40px oklch(0.45 0.12 358 / .35),0 2px 6px oklch(0.5 0.05 350 / .06);overflow:hidden">
+      <div style="display:flex;align-items:center;gap:8px;padding:14px 18px;border-bottom:1px solid oklch(0.95 0.01 350)">
+        <span style="width:10px;height:10px;border-radius:50%;background:oklch(0.85 0.08 358)"></span>
+        <span style="width:10px;height:10px;border-radius:50%;background:oklch(0.9 0.05 358)"></span>
+        <span style="width:10px;height:10px;border-radius:50%;background:oklch(0.94 0.03 358)"></span>
+        <span style="margin-left:14px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.55 0.02 330)">solora.ai / workspace / {{ cur.key }}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0">
+        <div style="padding:28px;border-right:1px solid oklch(0.95 0.01 350)">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+            <div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.55 0.13 358);letter-spacing:.05em">AI ADVISOR · การจัดสรรโทเคนที่แนะนำ</div>
+              <div style="margin-top:6px;font-size:20px;font-weight:600">{{ cur.label }}</div>
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.5 0.02 330)">2.0M tokens / เดือน</div>
+          </div>
+          <div style="margin-top:22px;display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ mixRows }}" as="row" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:120px 1fr 44px;gap:12px;align-items:center;font-size:14px">
+                <span style="color:oklch(0.3 0.02 330)">{{ row.name }}</span>
+                <span style="height:8px;border-radius:99px;background:oklch(0.96 0.012 350);overflow:hidden">
+                  <span style="display:block;height:100%;width:{{ row.w }};background:{{ row.c }};border-radius:99px;transition:width .8s cubic-bezier(.2,.8,.2,1),background .4s ease"></span>
+                </span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:oklch(0.4 0.02 330);text-align:right">{{ row.pct }}%</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="margin-top:22px;padding:14px 16px;border-radius:12px;background:oklch(0.975 0.015 358);font-size:14px;line-height:1.65;color:oklch(0.35 0.03 340)">{{ cur.note }}</div>
+        </div>
+        <div style="padding:28px;background:oklch(0.99 0.004 350)">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.5 0.02 330);letter-spacing:.05em">เชื่อมการทำงานที่แนะนำ</div>
+          <div style="margin-top:12px;display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+            <sc-for list="{{ chain }}" as="ch" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="padding:7px 12px;border-radius:9px;background:#fff;border:1px solid oklch(0.9 0.03 358);font-size:13px;font-weight:500">{{ ch.name }}</span>
+                <sc-if value="{{ ch.arrow }}" hint-placeholder-val="{{ true }}"><span style="color:oklch(0.84 0.09 358);font-family:'IBM Plex Mono',monospace">→</span></sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div style="margin-top:26px;display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.5 0.02 330);letter-spacing:.05em">
+            <span data-pulse="1" style="width:7px;height:7px;border-radius:50%;background:oklch(0.8 0.11 160)"></span>
+            กิจกรรมล่าสุดของเอเจนท์
+          </div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ feed }}" as="f" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:start;padding:10px 12px;border-radius:10px;background:#fff;border:1px solid oklch(0.94 0.01 350);font-size:13px;line-height:1.5;opacity:{{ f.o }};transition:all .5s ease">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 0;text-align:center;border-radius:6px;background:oklch(0.96 0.025 358);color:oklch(0.52 0.13 358)">{{ f.code }}</span>
+                <span style="color:oklch(0.3 0.02 330)">{{ f.text }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:oklch(0.6 0.02 330);white-space:nowrap">{{ f.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- AGENTS -->
+<section id="agents" style="padding:96px 24px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px 64px;align-items:end">
+      <div>
+        
+        <h2 style="margin:14px 0 0;font-size:clamp(32px,4.4vw,52px);line-height:1.2;font-weight:700;letter-spacing:-.02em;text-wrap:balance">หนึ่งคนทำธุรกิจ<br>แต่มีทีมครบทุกฝ่าย</h2>
+      </div>
+      <p style="margin:0;font-size:17px;line-height:1.75;color:oklch(0.42 0.02 330);text-wrap:pretty">เอเจนท์แต่ละตัวถูกโปรแกรมให้ทำงานในสายของตัวเอง เฝ้าดูข้อมูล ส่งสรุป และแจ้งเตือนเมื่อมีสิ่งที่ต้องตัดสินใจ คุณสั่งงานเพิ่มได้เสมอ แต่ไม่จำเป็นต้องรอคุณสั่ง</p>
+    </div>
+    <div style="margin-top:48px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px">
+      <sc-for list="{{ agents }}" as="a" hint-placeholder-count="6">
+        <div data-reveal="1">
+          <div style="height:100%;padding:26px;border-radius:18px;background:#fff;border:1px solid oklch(0.93 0.012 350);transition:all .45s cubic-bezier(.2,.8,.2,1);cursor:default;display:flex;flex-direction:column;gap:16px" style-hover="transform:translateY(-6px);border-color:oklch(0.85 0.08 358);box-shadow:0 24px 48px -24px oklch(0.7 0.12 358 / .3)">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:{{ a.tint }};color:oklch(0.32 0.04 330);font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:14px">{{ a.code }}</span>
+              <span style="display:flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.45 0.08 150)">
+                <span data-pulse="1" style="width:7px;height:7px;border-radius:50%;background:oklch(0.8 0.11 160)"></span>{{ a.status }}
+              </span>
+            </div>
+            <div>
+              <div style="font-size:21px;font-weight:600">{{ a.name }}</div>
+              <div style="margin-top:4px;font-size:15px;color:oklch(0.48 0.02 330)">{{ a.role }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:1px dashed oklch(0.91 0.015 350)">
+              <sc-for list="{{ a.tasks }}" as="t" hint-placeholder-count="3">
+                <div style="display:flex;gap:10px;font-size:14px;line-height:1.55;color:oklch(0.35 0.02 330)"><span style="color:oklch(0.84 0.09 358);font-family:'IBM Plex Mono',monospace">+</span><span>{{ t }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- ADVISOR -->
+<section id="advisor" style="padding:40px 24px 96px">
+  <div data-reveal="1" style="max-width:1200px;margin:0 auto;border-radius:28px;background:oklch(0.975 0.014 358);border:1px solid oklch(0.93 0.025 358);padding:clamp(28px,5vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:48px;align-items:center">
+    <div>
+      
+      <h2 style="margin:14px 0 0;font-size:clamp(30px,4vw,46px);line-height:1.22;font-weight:700;letter-spacing:-.02em;text-wrap:balance">รู้ว่าควรใช้เอเจนท์ไหน<br><span style="color:oklch(0.68 0.13 358)">ก่อนจะเสียโทเคนไปเปล่าๆ</span></h2>
+      <p style="margin:20px 0 0;font-size:17px;line-height:1.75;color:oklch(0.42 0.02 330);text-wrap:pretty">Advisor วิเคราะห์ประเภทสินค้า ช่องทางขาย และช่วงเวลาของธุรกิจคุณ แล้วแนะนำว่าควรเน้นเอเจนท์ด้านไหน ควรแบ่งโทเคนอย่างไร และเอเจนท์ตัวไหนควรส่งข้อมูลต่อกัน</p>
+      <div style="margin-top:28px;display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ advisorPoints }}" as="p" hint-placeholder-count="3">
+          <div style="display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start;padding:14px 16px;border-radius:14px;background:#fff;border:1px solid oklch(0.93 0.02 358);transition:all .4s cubic-bezier(.2,.8,.2,1)" style-hover="transform:translateX(6px);border-color:oklch(0.82 0.1 358)">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:oklch(0.55 0.13 358);padding-top:2px">{{ p.n }}</span>
+            <div><div style="font-weight:600;font-size:16px">{{ p.t }}</div><div style="margin-top:3px;font-size:14px;line-height:1.6;color:oklch(0.45 0.02 330)">{{ p.d }}</div></div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="background:#fff;border-radius:20px;border:1px solid oklch(0.92 0.02 358);padding:28px;box-shadow:0 30px 60px -36px oklch(0.5 0.15 358 / .4)">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.5 0.02 330);letter-spacing:.05em">แผนผังการเชื่อมเอเจนท์ · {{ cur.label }}</div>
+      <div style="margin-top:22px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+        <sc-for list="{{ nodeGrid }}" as="nd" hint-placeholder-count="6">
+          <div style="padding:16px 12px;border-radius:14px;text-align:center;border:1px solid {{ nd.border }};background:{{ nd.bg }};transition:all .5s cubic-bezier(.2,.8,.2,1)" style-hover="transform:scale(1.04)">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:{{ nd.fg }}">{{ nd.code }}</div>
+            <div style="margin-top:6px;font-size:13px;font-weight:500;color:oklch(0.3 0.02 330)">{{ nd.name }}</div>
+            <div style="margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.5 0.02 330)">{{ nd.pct }}%</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="margin-top:18px;padding:14px 16px;border-radius:12px;background:oklch(0.975 0.015 358);font-size:14px;line-height:1.6">
+        <span style="font-weight:600">ลำดับที่แนะนำ: </span>{{ chainText }}
+      </div>
+      <div style="margin-top:12px;font-size:13px;color:oklch(0.5 0.02 330)">เปลี่ยนประเภทธุรกิจด้านบนเพื่อดูคำแนะนำที่ต่างกัน</div>
+    </div>
+  </div>
+</section>
+
+<!-- ORACLE -->
+<section id="oracle" style="padding:96px 24px;background:oklch(0.955 0.028 300);color:oklch(0.22 0.02 330);position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(oklch(0.9 0.04 300) 1px,transparent 1px),linear-gradient(90deg,oklch(0.9 0.04 300) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 60% 70% at 80% 40%,#000,transparent 70%);-webkit-mask-image:radial-gradient(ellipse 60% 70% at 80% 40%,#000,transparent 70%);opacity:.6"></div>
+  <div style="position:relative;max-width:1200px;margin:0 auto">
+    <div data-reveal="1" style="max-width:760px">
+      
+      <h2 style="margin:14px 0 0;font-size:clamp(32px,4.6vw,56px);line-height:1.18;font-weight:700;letter-spacing:-.02em;text-wrap:balance">นักทำนายประจำธุรกิจของคุณ</h2>
+      <p style="margin:20px 0 0;font-size:18px;line-height:1.75;color:oklch(0.42 0.02 330);text-wrap:pretty">Oracle ค้นหาและดึงข้อมูลตั้งแต่อดีตจนถึงล่าสุดในแต่ละวัน คัดเฉพาะที่เกี่ยวกับธุรกิจของคุณ ย่อยและสรุปผล แล้วทำนายว่าแนวโน้มจะไปทางไหน พร้อมแนวทางที่ควรทำต่อ</p>
+    </div>
+
+    <div style="margin-top:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+        <div data-reveal="1">
+          <div style="height:100%;padding:20px;border-radius:16px;background:oklch(0.99 0.008 300);border:1px solid oklch(0.9 0.04 300);transition:all .45s cubic-bezier(.2,.8,.2,1)" style-hover="background:#fff;border-color:oklch(0.82 0.08 300);box-shadow:0 20px 40px -24px oklch(0.6 0.12 300 / .45);transform:translateY(-4px)">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.55 0.13 330)">{{ s.n }}</div>
+            <div style="margin-top:10px;font-size:18px;font-weight:600">{{ s.t }}</div>
+            <div style="margin-top:6px;font-size:14px;line-height:1.6;color:oklch(0.45 0.02 330)">{{ s.d }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div data-reveal="1" style="margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px">
+      <div style="grid-column:span 2;min-width:0;padding:28px;border-radius:20px;background:oklch(0.99 0.008 300);border:1px solid oklch(0.9 0.04 300)">
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:baseline">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.5 0.03 300)">FORECAST · 90 วันข้างหน้า</div>
+            <div style="margin-top:6px;font-size:18px;font-weight:600">{{ cur.trend }}</div>
+          </div>
+          <div style="font-size:34px;font-weight:700;color:oklch(0.55 0.13 330)">{{ cur.forecast }}</div>
+        </div>
+        <svg sc-camel-view-box="0 0 600 220" style="margin-top:20px;width:100%;height:auto;display:block" sc-camel-preserve-aspect-ratio="none">
+          <line x1="0" y1="55" x2="600" y2="55" stroke="oklch(0.9 0.03 300)" stroke-dasharray="3 5"></line>
+          <line x1="0" y1="110" x2="600" y2="110" stroke="oklch(0.9 0.03 300)" stroke-dasharray="3 5"></line>
+          <line x1="0" y1="165" x2="600" y2="165" stroke="oklch(0.9 0.03 300)" stroke-dasharray="3 5"></line>
+          <polygon points="380,118 430,92 480,80 530,56 600,34 600,96 530,110 480,124 430,128 380,118" fill="oklch(0.84 0.09 358 / .35)"></polygon>
+          <polyline points="0,170 40,160 80,166 120,148 160,152 200,138 240,144 280,126 320,132 380,118" fill="none" stroke="oklch(0.6 0.1 290)" stroke-width="2.5" stroke-linejoin="round"></polyline>
+          <polyline points="380,118 430,110 480,102 530,84 600,66" fill="none" stroke="oklch(0.72 0.14 358)" stroke-width="2.5" stroke-dasharray="7 6" stroke-linejoin="round"></polyline>
+          <line x1="380" y1="10" x2="380" y2="210" stroke="oklch(0.8 0.04 300)"></line>
+          <circle cx="380" cy="118" r="5" fill="oklch(0.72 0.14 358)"></circle>
+        </svg>
+        <div style="margin-top:12px;display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.5 0.03 300)">
+          <span>ข้อมูลย้อนหลัง 24 เดือน</span><span>วันนี้</span><span>คาดการณ์</span>
+        </div>
+      </div>
+      <div style="padding:28px;border-radius:20px;background:oklch(0.965 0.03 358);color:oklch(0.22 0.02 330);display:flex;flex-direction:column;gap:14px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.52 0.13 358)">แนวทางที่แนะนำ</div>
+        <sc-for list="{{ recs }}" as="r" hint-placeholder-count="3">
+          <div style="display:grid;grid-template-columns:28px 1fr;gap:10px;font-size:15px;line-height:1.6;padding-bottom:12px;border-bottom:1px solid oklch(0.91 0.03 358)">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:oklch(0.55 0.13 358);padding-top:2px">{{ r.n }}</span><span>{{ r.t }}</span>
+          </div>
+        </sc-for>
+        <div style="font-size:13px;color:oklch(0.45 0.02 330);line-height:1.6">ทุกคำทำนายแสดงแหล่งข้อมูลและระดับความมั่นใจ เพื่อให้คุณตัดสินใจเองได้</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" style="padding:104px 24px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div data-reveal="1" style="text-align:center;max-width:680px;margin:0 auto">
+      
+      <h2 style="margin:14px 0 0;font-size:clamp(32px,4.4vw,52px);line-height:1.2;font-weight:700;letter-spacing:-.02em">จ่ายเท่าที่ธุรกิจคุณใช้</h2>
+      <p style="margin:16px 0 0;font-size:17px;line-height:1.7;color:oklch(0.42 0.02 330)">ทดลองใช้ฟรี 14 วันทุกแพ็กเกจ ไม่ต้องใช้บัตรเครดิต</p>
+      <div style="margin:28px auto 0;display:inline-flex;padding:4px;border-radius:999px;background:oklch(0.96 0.015 350);border:1px solid oklch(0.92 0.015 350);gap:4px">
+        <button sc-camel-on-click="{{ setMonthly }}" style="font-family:inherit;font-size:14px;padding:9px 20px;border-radius:999px;border:none;cursor:pointer;background:{{ mBg }};color:{{ mFg }};box-shadow:{{ mSh }};transition:all .35s cubic-bezier(.2,.8,.2,1)">รายเดือน</button>
+        <button sc-camel-on-click="{{ setYearly }}" style="font-family:inherit;font-size:14px;padding:9px 20px;border-radius:999px;border:none;cursor:pointer;background:{{ yBg }};color:{{ yFg }};box-shadow:{{ ySh }};transition:all .35s cubic-bezier(.2,.8,.2,1)">รายปี <span style="color:oklch(0.55 0.13 358);font-weight:600">−20%</span></button>
+      </div>
+    </div>
+    <div style="margin-top:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;align-items:stretch">
+      <sc-for list="{{ plans }}" as="pl" hint-placeholder-count="3">
+        <div data-reveal="1">
+          <div style="height:100%;position:relative;padding:32px;border-radius:22px;background:{{ pl.bg }};border:1px solid {{ pl.border }};box-shadow:{{ pl.shadow }};display:flex;flex-direction:column;transition:all .45s cubic-bezier(.2,.8,.2,1)" style-hover="transform:translateY(-6px);box-shadow:0 30px 60px -30px oklch(0.7 0.12 358 / .4)">
+            <sc-if value="{{ pl.hot }}" hint-placeholder-val="{{ false }}">
+              <span style="position:absolute;top:20px;right:20px;padding:4px 10px;border-radius:999px;background:oklch(0.84 0.09 358);color:oklch(0.3 0.06 355);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em">แนะนำ</span>
+            </sc-if>
+            <div style="font-size:20px;font-weight:600">{{ pl.name }}</div>
+            <div style="margin-top:6px;font-size:14px;color:oklch(0.45 0.02 330)">{{ pl.desc }}</div>
+            <div style="margin-top:24px;display:flex;align-items:baseline;gap:6px">
+              <span style="font-size:44px;font-weight:700;letter-spacing:-.02em">฿{{ pl.price }}</span>
+              <span style="font-size:14px;color:oklch(0.5 0.02 330)">/ เดือน</span>
+            </div>
+            <div style="margin-top:4px;min-height:20px;font-size:13px;color:oklch(0.5 0.02 330)">{{ pl.billNote }}</div>
+            <a href="#" style="margin-top:22px;text-align:center;padding:13px 18px;border-radius:12px;font-weight:500;font-size:15px;background:{{ pl.btnBg }};color:{{ pl.btnFg }};border:1px solid {{ pl.btnBorder }};transition:all .3s cubic-bezier(.2,.8,.2,1)" style-hover="transform:translateY(-2px);background:oklch(0.8 0.1 358);border-color:oklch(0.8 0.1 358);color:oklch(0.3 0.06 355)" style-active="transform:scale(.97)">เริ่มทดลองใช้</a>
+            <div style="margin-top:26px;padding-top:22px;border-top:1px solid oklch(0.92 0.015 350);display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ pl.features }}" as="ft" hint-placeholder-count="5">
+                <div style="display:flex;gap:10px;font-size:14px;line-height:1.55"><span style="color:oklch(0.68 0.12 358)">✓</span><span>{{ ft }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="padding:40px 24px 104px">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:48px">
+    <div data-reveal="1">
+      
+      <h2 style="margin:14px 0 0;font-size:clamp(32px,4.2vw,48px);line-height:1.2;font-weight:700;letter-spacing:-.02em">คำถามที่พบบ่อย</h2>
+      <p style="margin:16px 0 0;font-size:16px;line-height:1.7;color:oklch(0.45 0.02 330)">ไม่พบคำตอบที่ต้องการ? ติดต่อทีมงานได้ที่ <a href="mailto:hello@solora.ai">hello@solora.ai</a></p>
+    </div>
+    <div style="grid-column:span 2;min-width:0;display:flex;flex-direction:column;gap:10px">
+      <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="6">
+        <div style="border-radius:16px;background:#fff;border:1px solid {{ q.border }};transition:all .4s ease" style-hover="border-color:oklch(0.85 0.08 358)">
+          <button sc-camel-on-click="{{ q.toggle }}" style="width:100%;font-family:inherit;text-align:left;background:none;border:none;cursor:pointer;padding:20px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:17px;font-weight:500;color:oklch(0.22 0.02 330)">
+            <span>{{ q.q }}</span>
+            <span style="flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:{{ q.iconBg }};color:{{ q.iconFg }};font-size:18px;transform:rotate({{ q.rot }});transition:all .45s cubic-bezier(.2,.8,.2,1)">+</span>
+          </button>
+          <div style="display:grid;grid-template-rows:{{ q.rows }};transition:grid-template-rows .45s cubic-bezier(.2,.8,.2,1)">
+            <div style="overflow:hidden"><div style="padding:0 22px 22px;font-size:15px;line-height:1.75;color:oklch(0.42 0.02 330);text-wrap:pretty">{{ q.a }}</div></div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding:0 24px 96px">
+  <div data-reveal="1" style="max-width:1200px;margin:0 auto;position:relative;overflow:hidden;border-radius:28px;padding:clamp(40px,7vw,88px) 24px;text-align:center;background:oklch(0.975 0.014 358);border:1px solid oklch(0.93 0.025 358)">
+    <div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(oklch(0.92 0.03 358) 1px,transparent 1px),linear-gradient(90deg,oklch(0.92 0.03 358) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 50% 80% at 100% 50%,#000,transparent);-webkit-mask-image:radial-gradient(ellipse 50% 80% at 100% 50%,#000,transparent)"></div>
+    <div style="position:relative">
+      <h2 style="margin:0;font-size:clamp(32px,4.8vw,58px);line-height:1.18;font-weight:700;letter-spacing:-.02em;text-wrap:balance">เปิดทีมเอไอของคุณ <span style="color:oklch(0.68 0.13 358)">ภายใน 5 นาที</span></h2>
+      <p style="margin:18px auto 0;max-width:560px;font-size:17px;line-height:1.7;color:oklch(0.42 0.02 330)">เลือกประเภทธุรกิจ เชื่อมต่อร้านค้าออนไลน์ แล้วให้เอเจนท์เริ่มทำงานทันที</p>
+      <div style="margin-top:30px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="#top" style="padding:14px 26px;border-radius:12px;background:oklch(0.84 0.09 358);color:oklch(0.3 0.06 355);font-weight:500;font-size:16px;box-shadow:0 10px 24px -10px oklch(0.84 0.09 358 / .7);transition:all .3s cubic-bezier(.2,.8,.2,1)" style-hover="transform:translateY(-2px);color:oklch(0.3 0.06 355);box-shadow:0 16px 32px -12px oklch(0.84 0.09 358 / .8)" style-active="transform:scale(.97)">เริ่มใช้ฟรี 14 วัน</a>
+        <a href="#" style="padding:14px 26px;border-radius:12px;background:#fff;border:1px solid oklch(0.88 0.03 358);color:oklch(0.22 0.02 330);font-weight:500;font-size:16px;transition:all .3s cubic-bezier(.2,.8,.2,1)" style-hover="transform:translateY(-2px);border-color:oklch(0.84 0.09 358);color:oklch(0.55 0.13 358)">นัดดูเดโม</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="border-top:1px solid oklch(0.93 0.012 350);padding:64px 24px 40px">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:36px">
+    <div style="grid-column:span 2;min-width:0;max-width:340px">
+      <div style="display:flex;align-items:center;gap:10px">
+        
+        <span style="font-weight:700;font-size:20px">Solora</span>
+      </div>
+      <p style="margin:16px 0 0;font-size:14px;line-height:1.7;color:oklch(0.45 0.02 330)">แพลตฟอร์มเอเจนท์เอไอสำหรับผู้ประกอบการ E‑Commerce ที่ทำธุรกิจคนเดียว</p>
+      <div style="margin-top:18px;display:flex;flex-direction:column;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:oklch(0.5 0.02 330)">
+        <span>PDPA Compliant</span><span>เข้ารหัสข้อมูล AES‑256</span>
+      </div>
+    </div>
+    <sc-for list="{{ footCols }}" as="col" hint-placeholder-count="4">
+      <div>
+        <div style="font-weight:600;font-size:15px">{{ col.h }}</div>
+        <div style="margin-top:16px;display:flex;flex-direction:column;gap:11px">
+          <sc-for list="{{ col.items }}" as="it" hint-placeholder-count="4">
+            <a href="#" style="font-size:14px;color:oklch(0.45 0.02 330);transition:all .25s ease" style-hover="color:oklch(0.55 0.13 358);transform:translateX(3px)">{{ it }}</a>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+  <div style="max-width:1200px;margin:48px auto 0;padding-top:24px;border-top:1px solid oklch(0.94 0.01 350);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px;color:oklch(0.5 0.02 330)">
+    <span>© 2026 Solora AI Co., Ltd. สงวนลิขสิทธิ์</span>
+    <span>กรุงเทพฯ ประเทศไทย · hello@solora.ai</span>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;defaultIndustry&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;it&quot;,&quot;fashion&quot;,&quot;beauty&quot;,&quot;food&quot;,&quot;home&quot;,&quot;baby&quot;],&quot;default&quot;:&quot;it&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;defaultBilling&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;monthly&quot;,&quot;yearly&quot;],&quot;default&quot;:&quot;yearly&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;animations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const NAMES = { finance: 'Finance', marketing: 'Marketing', legal: 'Legal', market: 'Market Update', oracle: 'Oracle', daily: 'Daily Update' };
+const CODES = { finance: 'FN', marketing: 'MK', legal: 'LG', market: 'MI', oracle: 'OR', daily: 'DL' };
+const IND = {
+  it: { label: 'ไอที & คอมพิวเตอร์', mix: { market: 26, marketing: 24, oracle: 18, finance: 14, daily: 10, legal: 8 }, chain: ['market', 'oracle', 'marketing'], note: 'ราคาชิ้นส่วนและสินค้ารุ่นใหม่เปลี่ยนแทบทุกสัปดาห์ ให้ Market Update และ Oracle ใช้โทเคนมากที่สุด แล้วส่งต่อให้ Marketing ปรับราคาและโปรโมชัน', trend: 'ความต้องการโน้ตบุ๊กเกมมิ่งช่วงเปิดเทอม', forecast: '+18%' },
+  fashion: { label: 'แฟชั่น & เสื้อผ้า', mix: { marketing: 32, oracle: 20, market: 16, finance: 14, daily: 10, legal: 8 }, chain: ['oracle', 'marketing', 'finance'], note: 'เทรนด์เปลี่ยนตามฤดูกาลและโซเชียล Oracle ควรจับสัญญาณก่อน แล้ว Marketing วางคอนเทนต์ Finance คุมสต็อกไม่ให้ค้าง', trend: 'ยอดขายเสื้อผ้าโทนเอิร์ธโทนก่อนปลายปี', forecast: '+24%' },
+  beauty: { label: 'ความงาม & สกินแคร์', mix: { marketing: 30, legal: 18, market: 16, oracle: 14, finance: 12, daily: 10 }, chain: ['legal', 'marketing', 'daily'], note: 'ข้อความโฆษณาเครื่องสำอางต้องผ่านข้อกำหนด อย. ให้ Legal ตรวจก่อน Marketing ปล่อยแคมเปญ แล้ว Daily Update ติดตามผลทุกเช้า', trend: 'สกินแคร์กันแดดสำหรับผิวแพ้ง่าย', forecast: '+15%' },
+  food: { label: 'อาหาร & เครื่องดื่ม', mix: { finance: 24, legal: 20, marketing: 20, market: 14, oracle: 12, daily: 10 }, chain: ['finance', 'legal', 'marketing'], note: 'มาร์จิ้นบางและต้นทุนวัตถุดิบผันผวน Finance ควรนำ ส่วน Legal ดูฉลากและใบอนุญาต ก่อนส่งต่อให้ Marketing', trend: 'เครื่องดื่มลดน้ำตาลกลุ่มวัยทำงาน', forecast: '+11%' },
+  home: { label: 'ของแต่งบ้าน', mix: { marketing: 26, finance: 22, oracle: 18, market: 16, daily: 10, legal: 8 }, chain: ['oracle', 'finance', 'marketing'], note: 'สินค้าชิ้นใหญ่ ค่าส่งสูง Oracle คาดการณ์ช่วงขายดี Finance คำนวณต้นทุนขนส่ง แล้ว Marketing เลือกช่วงยิงโฆษณา', trend: 'ของแต่งคอนโดขนาดเล็กช่วงต้นปี', forecast: '+9%' },
+  baby: { label: 'แม่และเด็ก', mix: { legal: 24, marketing: 24, market: 16, finance: 14, oracle: 12, daily: 10 }, chain: ['legal', 'market', 'marketing'], note: 'ลูกค้าให้ความสำคัญกับความปลอดภัยของสินค้า Legal ตรวจมาตรฐาน มอก. และรีวิว Market Update ดูคู่แข่ง ก่อนให้ Marketing สื่อสาร', trend: 'ของเล่นเสริมพัฒนาการวัย 1–3 ปี', forecast: '+13%' }
+};
+const FEED = [
+  { code: 'MI', text: 'พบคู่แข่ง 3 ร้านลดราคาสินค้าขายดีของคุณ 8%' },
+  { code: 'FN', text: 'กระแสเงินสดสัปดาห์นี้เป็นบวก ฿42,300 ค่าโฆษณาเกินงบ 6%' },
+  { code: 'LG', text: 'ตรวจคำโฆษณา 12 ชิ้น ต้องแก้ 1 ชิ้นก่อนเผยแพร่' },
+  { code: 'OR', text: 'คาดการณ์ความต้องการช่วง 30 วันข้างหน้าเพิ่มขึ้น' },
+  { code: 'MK', text: 'ร่างแคมเปญ 11.11 พร้อมแคปชันและภาพ 4 ชุด' },
+  { code: 'DL', text: 'ส่งสรุปเช้าวันนี้แล้ว: ยอดขายเมื่อวาน +12%' }
+];
+const AGENTS = [
+  { code: 'FN', name: 'Finance Agent', role: 'การเงิน บัญชี และกระแสเงินสด', status: 'ทำงานอยู่', tasks: ['ติดตามรายรับรายจ่ายและกำไรต่อออเดอร์', 'เตือนเมื่อต้นทุนโฆษณาหรือค่าส่งสูงผิดปกติ', 'สรุปภาษีและเอกสารที่ต้องเตรียมรายเดือน'] },
+  { code: 'MK', name: 'Marketing Agent', role: 'คอนเทนต์ โฆษณา และโปรโมชัน', status: 'ทำงานอยู่', tasks: ['เขียนคำบรรยายสินค้าและแคปชันโซเชียล', 'วางแผนแคมเปญตามวันขายสำคัญ', 'วิเคราะห์ผลโฆษณาและแนะนำการปรับงบ'] },
+  { code: 'LG', name: 'Legal Agent', role: 'กฎหมาย ข้อบังคับ และความเสี่ยง', status: 'เฝ้าระวัง', tasks: ['ตรวจข้อความโฆษณาให้ถูกต้องตามข้อกำหนด', 'ติดตามกฎหมายคุ้มครองผู้บริโภคและ PDPA', 'ร่างนโยบายคืนสินค้าและข้อตกลงการใช้งาน'] },
+  { code: 'MI', name: 'Market & Industry Update', role: 'ข่าวตลาด คู่แข่ง และอุตสาหกรรม', status: 'ทำงานอยู่', tasks: ['ติดตามราคาและโปรโมชันของคู่แข่ง', 'สรุปข่าวอุตสาหกรรมที่กระทบสินค้าของคุณ', 'แจ้งเตือนสินค้าหรือเทรนด์ที่เริ่มมาแรง'] },
+  { code: 'DL', name: 'Daily Update', role: 'สรุปประจำวันในข้อความเดียว', status: 'ส่งทุก 08:00', tasks: ['รวมผลงานของทุกเอเจนท์เป็นสรุปสั้นๆ', 'จัดลำดับสิ่งที่ต้องตัดสินใจวันนี้', 'ส่งผ่านอีเมลหรือแอปแชตที่คุณใช้'] },
+  { code: 'OP', name: 'Operations Agent', role: 'สต็อก ออเดอร์ และการจัดส่ง', status: 'เอเจนท์เสริม', tasks: ['คาดการณ์สต็อกที่ใกล้หมดและเวลาสั่งเพิ่ม', 'ติดตามออเดอร์ที่ส่งล่าช้า', 'ตอบคำถามลูกค้าเรื่องสถานะพัสดุ'] }
+];
+
+class Component extends DCLogic {
+  state = { ind: this.props.defaultIndustry ?? 'it', yearly: (this.props.defaultBilling ?? 'yearly') === 'yearly', open: 0, tick: 0 };
+
+  componentDidMount() {
+    const animate = this.props.animations ?? true;
+    this.timer = setInterval(() => this.setState(s => ({ tick: s.tick + 1 })), 3200);
+    if (!animate) return;
+    document.querySelectorAll('[data-pulse]').forEach(el => {
+      el.animate([{ boxShadow: '0 0 0 0 oklch(0.8 0.11 160 / .55)' }, { boxShadow: '0 0 0 7px oklch(0.8 0.11 160 / 0)' }], { duration: 1800, iterations: Infinity, easing: 'ease-out' });
+    });
+    const els = [...document.querySelectorAll('[data-reveal]')];
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.animate([{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'none' }], { duration: 800, easing: 'cubic-bezier(.2,.8,.2,1)', delay: (+e.target.dataset.delay || 0), fill: 'backwards' });
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0.12 });
+    const vh = window.innerHeight;
+    els.forEach(el => {
+      if (el.getBoundingClientRect().top < vh) return;
+      const sib = [...el.parentElement.children].filter(c => c.hasAttribute('data-reveal'));
+      el.dataset.delay = Math.min(sib.indexOf(el), 5) * 80;
+      io.observe(el);
+    });
+    this.io = io;
+  }
+  componentWillUnmount() { clearInterval(this.timer); this.io && this.io.disconnect(); }
+
+  renderVals() {
+    const { ind, yearly, open, tick } = this.state;
+    const cur = { key: ind, ...IND[ind] };
+    const sorted = Object.entries(cur.mix).sort((a, b) => b[1] - a[1]);
+    const top = sorted[0][0];
+    const pink = 'oklch(0.84 0.09 358)', ink = 'oklch(0.22 0.02 330)';
+
+    const industries = Object.entries(IND).map(([k, v]) => {
+      const on = k === ind;
+      return { label: v.label, pick: () => this.setState({ ind: k }), bg: on ? pink : '#fff', color: on ? 'oklch(0.3 0.06 355)' : ink, border: on ? pink : 'oklch(0.9 0.015 350)', shadow: on ? '0 8px 20px -8px oklch(0.84 0.09 358 / .6)' : 'none' };
+    });
+    const mixRows = sorted.map(([k, p], i) => ({ name: NAMES[k], pct: p, w: (p / sorted[0][1] * 100) + '%', c: i === 0 ? pink : i < 3 ? 'oklch(0.88 0.06 358)' : 'oklch(0.86 0.04 350)' }));
+    const chain = cur.chain.map((k, i) => ({ name: NAMES[k], arrow: i < cur.chain.length - 1 }));
+    const feed = [0, 1, 2, 3].map(i => {
+      const f = FEED[(tick + i) % FEED.length];
+      return { ...f, t: ['เพิ่งเสร็จ', '2 นาที', '9 นาที', '21 นาที'][i], o: 1 - i * 0.18 };
+    });
+    const order = ['market', 'oracle', 'marketing', 'finance', 'legal', 'daily'];
+    const nodeGrid = order.map(k => {
+      const inChain = cur.chain.includes(k);
+      return { code: CODES[k], name: NAMES[k], pct: cur.mix[k], bg: k === top ? 'oklch(0.96 0.03 358)' : '#fff', border: inChain ? pink : 'oklch(0.93 0.012 350)', fg: inChain ? 'oklch(0.52 0.13 358)' : 'oklch(0.55 0.02 330)' };
+    });
+
+    const base = [590, 1490, 3900];
+    const fmt = n => n.toLocaleString('en-US');
+    const plans = [
+      { name: 'Starter', desc: 'สำหรับร้านที่เพิ่งเริ่มต้น', features: ['เลือกเอเจนท์ได้ 3 ตัว', '500K โทเคนต่อเดือน', 'Daily Update ทุกเช้า', 'เชื่อมต่อร้านค้าออนไลน์ 1 ร้าน'] },
+      { name: 'Pro', desc: 'สำหรับร้านที่กำลังเติบโต', hot: true, features: ['เอเจนท์หลักครบ 6 ตัว', '2M โทเคนต่อเดือน', 'AI Advisor จัดสรรโทเคนอัตโนมัติ', 'Oracle รายงานแนวโน้มรายสัปดาห์', 'เชื่อมต่อร้านค้าได้ 3 ร้าน'] },
+      { name: 'Scale', desc: 'สำหรับหลายแบรนด์หรือหลายช่องทาง', features: ['เอเจนท์ไม่จำกัด สร้างเอเจนท์เองได้', '6M โทเคนต่อเดือน', 'Oracle ทำนายรายวันพร้อมแหล่งอ้างอิง', 'เชื่อมต่อร้านค้าและ API ไม่จำกัด', 'ผู้ดูแลบัญชีส่วนตัว'] }
+    ].map((p, i) => {
+      const price = yearly ? Math.round(base[i] * 0.8 / 10) * 10 : base[i];
+      return { ...p, hot: !!p.hot, price: fmt(price), billNote: yearly ? `เรียกเก็บ ฿${fmt(price * 12)} ต่อปี` : 'เรียกเก็บรายเดือน ยกเลิกได้ทุกเมื่อ',
+        bg: p.hot ? 'oklch(0.985 0.012 358)' : '#fff', border: p.hot ? pink : 'oklch(0.93 0.012 350)', shadow: p.hot ? '0 24px 50px -30px oklch(0.7 0.12 358 / .45)' : 'none',
+        btnBg: p.hot ? pink : '#fff', btnFg: p.hot ? 'oklch(0.3 0.06 355)' : ink, btnBorder: p.hot ? pink : 'oklch(0.88 0.02 350)' };
+    });
+    const tg = on => ({ bg: on ? '#fff' : 'transparent', fg: on ? ink : 'oklch(0.5 0.02 330)', sh: on ? '0 2px 8px -2px oklch(0.4 0.05 350 / .2)' : 'none' });
+    const m = tg(!yearly), y = tg(yearly);
+
+    const faqData = [
+      ['ทำไมต้องเลือก Solora แทนการใช้แชตบอตเอไอทั่วไป?', 'แชตบอตทั่วไปตอบเมื่อคุณถาม แต่ Solora มีเอเจนท์หลายตัวที่รู้จักร้านของคุณ เชื่อมกับข้อมูลยอดขายจริง และทำงานต่อเนื่องเอง เช่น เฝ้าราคาคู่แข่งหรือตรวจคำโฆษณา จากนั้นสรุปมาให้คุณตัดสินใจ คุณไม่ต้องเขียนพรอมต์ใหม่ทุกครั้ง'],
+      ['เอเจนท์ทำงานตลอดเวลาโดยไม่ต้องสั่งจริงหรือไม่?', 'จริง แต่ละเอเจนท์มีรอบการทำงานของตัวเอง เช่น Market Update ตรวจข่าวและราคาทุกชั่วโมง Daily Update ส่งสรุปทุกเช้า คุณยังสั่งงานเพิ่มหรือหยุดเอเจนท์ตัวไหนก็ได้ทุกเมื่อ'],
+      ['Oracle ทำนายแม่นยำแค่ไหน?', 'Oracle ใช้ข้อมูลย้อนหลังของร้าน ข้อมูลตลาด และข่าวที่เกี่ยวข้องมาสร้างคาดการณ์ ทุกผลลัพธ์แสดงระดับความมั่นใจและแหล่งข้อมูลที่ใช้ ควรใช้เป็นข้อมูลประกอบการตัดสินใจ ไม่ใช่คำรับประกันผล'],
+      ['โทเคนคืออะไร และถ้าใช้หมดจะเกิดอะไรขึ้น?', 'โทเคนคือหน่วยการประมวลผลของเอไอ ยิ่งเอเจนท์ทำงานมากก็ใช้มาก AI Advisor ช่วยแบ่งโทเคนไปยังเอเจนท์ที่สำคัญกับธุรกิจคุณที่สุด หากใช้หมดก่อนสิ้นเดือน ระบบจะแจ้งเตือนและคุณเลือกซื้อเพิ่มหรือรอรอบถัดไปได้'],
+      ['เชื่อมต่อกับร้านค้าออนไลน์ที่ใช้อยู่ได้หรือไม่?', 'ได้ Solora เชื่อมต่อกับมาร์เก็ตเพลสและแพลตฟอร์มร้านค้าออนไลน์หลัก รวมถึงไฟล์ยอดขายแบบ CSV และ Google Sheets ใช้เวลาตั้งค่าไม่กี่นาที'],
+      ['ข้อมูลร้านของฉันปลอดภัยหรือไม่?', 'ข้อมูลถูกเข้ารหัสทั้งขณะส่งและขณะจัดเก็บ ไม่นำไปใช้ฝึกโมเดลสาธารณะ และเป็นไปตาม พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล (PDPA) คุณลบข้อมูลทั้งหมดได้เองทุกเมื่อ'],
+      ['ยกเลิกหรือเปลี่ยนแพ็กเกจได้ตลอดไหม?', 'ได้ เปลี่ยนแพ็กเกจหรือยกเลิกได้จากหน้าตั้งค่า แพ็กเกจรายเดือนไม่มีสัญญาผูกมัด']
+    ];
+    const faqs = faqData.map(([q, a], i) => {
+      const on = open === i;
+      return { q, a, toggle: () => this.setState({ open: on ? -1 : i }), rows: on ? '1fr' : '0fr', rot: on ? '45deg' : '0deg', iconBg: on ? pink : 'oklch(0.96 0.02 358)', iconFg: on ? 'oklch(0.3 0.06 355)' : 'oklch(0.52 0.13 358)', border: on ? 'oklch(0.85 0.08 358)' : 'oklch(0.93 0.012 350)' };
+    });
+
+    return {
+      industries, cur, mixRows, chain, feed, agents: AGENTS.map((a, i) => ({ ...a, tint: ['oklch(0.93 0.05 358)','oklch(0.93 0.05 300)','oklch(0.94 0.05 250)','oklch(0.94 0.05 170)','oklch(0.95 0.06 90)','oklch(0.94 0.05 50)'][i] })), nodeGrid,
+      chainText: cur.chain.map(k => NAMES[k]).join(' → '),
+      advisorPoints: [
+        { n: 'A1', t: 'เน้นเอเจนท์ที่สำคัญกับธุรกิจคุณ', d: 'จัดลำดับความสำคัญจากประเภทสินค้าและช่องทางขาย' },
+        { n: 'A2', t: 'แบ่งโทเคนให้คุ้มที่สุด', d: 'บอกว่าเอเจนท์ไหนควรได้โทเคนมากที่สุด และปรับตามฤดูกาล' },
+        { n: 'A3', t: 'เชื่อมเอเจนท์ให้ทำงานต่อกัน', d: 'กำหนดว่าผลลัพธ์ของเอเจนท์หนึ่งควรส่งต่อให้ตัวไหน' }
+      ],
+      steps: [
+        { n: '01', t: 'ค้นหา', d: 'สำรวจข่าว ราคา รีวิว และสถิติจากหลายแหล่งทุกวัน' },
+        { n: '02', t: 'ดึงข้อมูล', d: 'รวมข้อมูลย้อนหลังจนถึงข้อมูลล่าสุดของวันนี้' },
+        { n: '03', t: 'ย่อยและสแครป', d: 'คัดเฉพาะส่วนที่เชื่อมโยงกับสินค้าและลูกค้าของคุณ' },
+        { n: '04', t: 'สรุปผล', d: 'สรุปเป็นประเด็นสั้นๆ ที่อ่านจบในไม่กี่นาที' },
+        { n: '05', t: 'ทำนาย', d: 'คาดการณ์ทิศทางและเสนอแนวทางที่ควรทำต่อ' }
+      ],
+      recs: [
+        { n: 'R1', t: 'เพิ่มสต็อกสินค้ากลุ่มขาขึ้น 20–25% ก่อนสัปดาห์ที่ 3' },
+        { n: 'R2', t: 'เลื่อนงบโฆษณา 15% ไปยังช่วงที่คาดว่าความต้องการสูงสุด' },
+        { n: 'R3', t: 'เตรียมโปรโมชันรับมือคู่แข่งที่มีแนวโน้มลดราคา' }
+      ],
+      plans, setMonthly: () => this.setState({ yearly: false }), setYearly: () => this.setState({ yearly: true }),
+      mBg: m.bg, mFg: m.fg, mSh: m.sh, yBg: y.bg, yFg: y.fg, ySh: y.sh,
+      faqs,
+      footCols: [
+        { h: 'ผลิตภัณฑ์', items: ['เอเจนท์ทั้งหมด', 'AI Advisor', 'Oracle Agent', 'การเชื่อมต่อ'] },
+        { h: 'แหล่งข้อมูล', items: ['คู่มือเริ่มต้น', 'บทความ', 'ศูนย์ช่วยเหลือ', 'สถานะระบบ'] },
+        { h: 'บริษัท', items: ['เกี่ยวกับเรา', 'ร่วมงานกับเรา', 'ติดต่อเรา'] },
+        { h: 'กฎหมาย', items: ['ข้อกำหนดการใช้งาน', 'นโยบายความเป็นส่วนตัว', 'ความปลอดภัย'] }
+      ]
+    };
+  }
+}
+</script>
+
+
+</body></html>

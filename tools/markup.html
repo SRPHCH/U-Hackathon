@@ -1,0 +1,241 @@
+<div style="min-height:100vh;overflow-x:hidden">
+<a class="skip" href="#agents">ข้ามไปยังเนื้อหา</a>
+
+<nav class="nav" aria-label="เมนูหลัก">
+  <div class="wrap">
+    <a href="#top" class="brand" aria-label="Solora หน้าแรก">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="11" r="7" fill="oklch(0.76 0.13 358)"></circle><rect x="2" y="17" width="22" height="2.5" fill="oklch(0.23 0.035 350)"></rect><rect x="6" y="21.5" width="14" height="2.5" fill="oklch(0.23 0.035 350)"></rect></svg>
+      Solora
+    </a>
+    <div class="nav-links">
+      <a href="#agents">เอเจนท์</a>
+      <a href="#advisor">Secretary</a>
+      <a href="#oracle">Market Update</a>
+      <a href="#pricing">ราคา</a>
+      <a href="#faq">คำถามที่พบบ่อย</a>
+    </div>
+    <div class="nav-cta">
+      <a href="solora-app.html" class="u">เข้าสู่ระบบ</a>
+      <a href="solora-app.html" class="btn sm">เริ่มใช้ฟรี</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+<!-- HERO -->
+<header id="top" class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <h1>ทีมเอไอที่ทำงานแทนคุณ ตลอด 24 ชั่วโมง</h1>
+        <div class="hero-side">
+          <p class="lede">นี่คือ Platform Agentic AI สำหรับเจ้าของธุรกิจ E‑Commerce ที่เป็น Solo Entrepreneur แต่ละ Agent ดูแลงานเฉพาะด้าน ตั้งแต่การเงิน การตลาด กฎหมาย ไปจนถึงข่าวสารในตลาด และทำงานต่อเนื่องโดยไม่ต้องรอคำสั่ง</p>
+          <div class="cta-row">
+            <a href="solora-app.html" class="btn">เริ่มใช้งาน</a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-ant">
+        <iframe src="ant-mascot.html?v=5" title="มาสคอตมดแดงสวมหมวกทรงสุภาพบุรุษ กดเพื่อแกล้ง" loading="eager" allowtransparency="true"></iframe>
+        <span class="ant-hint">กดเพื่อแกล้ง</span>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- AGENTS -->
+<section id="agents" class="sec" style="padding-top:40px">
+  <div class="wrap">
+    <div class="sec-head" style="grid-template-columns:minmax(0,1fr)">
+      <h2>เป็น Solo Entrepreneur<br>แต่มีทีมครบทุกฝ่าย</h2>
+    </div>
+    <div class="agents">
+      <sc-for list="{{ agents }}" as="a" hint-placeholder-count="6">
+        <article class="agent">
+          <div>
+            <div class="agent-name"><h3 style="font:inherit">{{ a.name }}</h3></div>
+            <div class="agent-role">{{ a.role }}</div>
+          </div>
+          <ul>
+            <sc-for list="{{ a.tasks }}" as="t" hint-placeholder-count="3">
+              <li><span>{{ t }}</span></li>
+            </sc-for>
+          </ul>
+        </article>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- ADVISOR -->
+<section id="advisor" class="sec advisor">
+  <div class="wrap"><div class="advisor-shell"><div class="advisor-grid">
+    <div>
+      <h2>มี Secretary เลือก Agent ให้ ไม่ต้องนั่งเลือกเอง</h2>
+      <p style="margin-top:20px;font-size:17px;line-height:1.8;color:var(--ink-2);text-wrap:pretty">Secretary วิเคราะห์ประเภทสินค้า ช่องทางขาย และแนวทางการทำธุรกิจของคุณ แล้วเรียกใช้ AI Agent ด้านที่เหมาะสมให้ ช่วยบริหารจัดการ Token ได้อย่างคุ้มค่า และกำหนดว่า Agent ตัวไหนควรส่งข้อมูลต่อกัน</p>
+      <dl class="points">
+        <sc-for list="{{ advisorPoints }}" as="p" hint-placeholder-count="3">
+          <div><dt>{{ p.t }}</dt><dd>{{ p.d }}</dd></div>
+        </sc-for>
+      </dl>
+    </div>
+    <div class="map">
+      <h3>แผนผังการเชื่อมเอเจนท์ · {{ cur.label }}</h3>
+      <ul class="map-list">
+        <sc-for list="{{ nodeGrid }}" as="nd" hint-placeholder-count="6">
+          <li class="map-row" data-in="{{ nd.inChain }}">
+            <span>{{ nd.name }}</span>
+            <span class="data" style="text-align:right">{{ nd.pct }}%</span>
+            <span class="step data">{{ nd.step }}</span>
+          </li>
+        </sc-for>
+      </ul>
+      <p class="map-foot"><b>ลำดับที่แนะนำ: </b>{{ chainText }}</p>
+    </div>
+  </div></div></div>
+</section>
+
+<!-- ORACLE -->
+<section id="oracle" class="sec oracle" style="padding-top:0">
+  <div class="wrap"><div class="oracle-shell">
+    <h2>ช่วยประเมินแนวทางการเติบโตของตลาดคุณ</h2>
+    <p class="lede2">Market & Industry Update ค้นหาและดึงข้อมูลในแต่ละวัน คัดเฉพาะที่เกี่ยวกับธุรกิจของคุณ ย่อยและสรุปผล แล้วทำนายว่าแนวโน้มจะไปทางไหน พร้อมแนวทางที่ควรทำต่อ</p>
+
+    <ol class="steps">
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+        <li>
+          <div class="n data">{{ s.n }}</div>
+          <div class="t">{{ s.t }}</div>
+          <div class="d">{{ s.d }}</div>
+        </li>
+      </sc-for>
+    </ol>
+
+    <div class="forecast">
+      <div class="fc">
+        <div class="fc-head">
+          <div>
+            <div class="fc-label">คาดการณ์ 90 วันข้างหน้า</div>
+            <div class="fc-trend">{{ cur.trend }}</div>
+          </div>
+          <div class="fc-num num">{{ cur.forecast }}</div>
+        </div>
+        <svg sc-camel-view-box="0 0 600 220" role="img" aria-label="กราฟข้อมูลย้อนหลัง 24 เดือนและช่วงคาดการณ์">
+          <line x1="0" y1="55" x2="600" y2="55" stroke="oklch(0.92 0.014 355)"></line>
+          <line x1="0" y1="110" x2="600" y2="110" stroke="oklch(0.92 0.014 355)"></line>
+          <line x1="0" y1="165" x2="600" y2="165" stroke="oklch(0.92 0.014 355)"></line>
+          <polygon points="380,118 430,92 480,80 530,56 600,34 600,96 530,110 480,124 430,128 380,118" fill="oklch(0.865 0.085 358 / .45)"></polygon>
+          <polyline points="0,170 40,160 80,166 120,148 160,152 200,138 240,144 280,126 320,132 380,118" fill="none" stroke="oklch(0.3 0.03 350)" stroke-width="2.5" stroke-linejoin="round"></polyline>
+          <polyline points="380,118 430,110 480,102 530,84 600,66" fill="none" stroke="oklch(0.6 0.19 356)" stroke-width="2.5" stroke-dasharray="7 6" stroke-linejoin="round"></polyline>
+          <line x1="380" y1="10" x2="380" y2="210" stroke="oklch(0.82 0.04 355)"></line>
+          <circle cx="380" cy="118" r="5" fill="oklch(0.6 0.19 356)"></circle>
+        </svg>
+        <div class="fc-axis"><span>ข้อมูลย้อนหลัง 24 เดือน</span><span>วันนี้</span><span>คาดการณ์</span></div>
+      </div>
+      <div class="recs">
+        <h3>แนวทางที่แนะนำ</h3>
+        <ol>
+          <sc-for list="{{ recs }}" as="r" hint-placeholder-count="3">
+            <li><span class="data">{{ r.n }}</span><span>{{ r.t }}</span></li>
+          </sc-for>
+        </ol>
+        <p>ทุกคำทำนายแสดงแหล่งข้อมูลและระดับความมั่นใจ เพื่อให้คุณตัดสินใจเองได้</p>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="sec">
+  <div class="wrap">
+    <div class="pricing-head">
+      <h2>จ่ายเท่าที่ธุรกิจคุณใช้</h2>
+      <div class="toggle" role="group" aria-label="รอบการเรียกเก็บเงิน">
+        <button sc-camel-on-click="{{ setMonthly }}" aria-pressed="{{ mOn }}">รายเดือน</button>
+        <button sc-camel-on-click="{{ setYearly }}" aria-pressed="{{ yOn }}">รายปี <b>ถูกกว่า 0%</b></button>
+      </div>
+    </div>
+    <div class="plans plans-one">
+      <sc-for list="{{ plans }}" as="pl" hint-placeholder-count="3">
+        <div class="plan" data-hot="{{ pl.hotS }}">
+          <div class="plan-name"><span>{{ pl.name }}</span>
+            <sc-if value="{{ pl.hot }}" hint-placeholder-val="{{ false }}"><small>แนะนำ</small></sc-if>
+          </div>
+          <div class="plan-desc">{{ pl.desc }}</div>
+          <div class="price num">฿{{ pl.price }}<small>/ เดือน</small></div>
+          <div class="bill">{{ pl.billNote }}</div>
+          <a href="solora-app.html" class="btn">เริ่มทดลองใช้</a>
+          <ul class="feat">
+            <sc-for list="{{ pl.features }}" as="ft" hint-placeholder-count="5">
+              <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 7.5l3.2 3L12 3.5"></path></svg><span>{{ ft }}</span></li>
+            </sc-for>
+          </ul>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="sec" style="padding-top:24px">
+  <div class="wrap faq-wrap">
+    <h2 class="faq-title">คำถามที่พบบ่อย</h2>
+    <div class="faqs">
+      <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="6">
+        <div class="faq" data-open="{{ q.on }}">
+          <button sc-camel-on-click="{{ q.toggle }}" aria-expanded="{{ q.on }}">
+            <span>{{ q.q }}</span>
+            <span class="ic"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M10 3v14M3 10h14"></path></svg></span>
+          </button>
+          <div class="a" style="grid-template-rows:{{ q.rows }}">
+            <div><p>{{ q.a }}</p></div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <p class="faq-contact">ไม่พบคำตอบที่ต้องการ? ติดต่อทีมงานได้ที่ <a class="u" href="mailto:XXX@gmail.com">XXX@gmail.com</a></p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-wrap">
+  <div class="wrap"><div class="cta">
+    <h2>ให้ทีม AI ช่วยพาธุรกิจของคุณไปให้ถึงฝัน เริ่มได้ตั้งแต่ตอนนี้</h2>
+    <p>แค่สมัคร Plan ก็เริ่มใช้งานได้ทันที ไม่ต้องผูกกับร้านค้า</p>
+    <div class="cta-row" style="margin-top:30px">
+      <a href="solora-app.html" class="btn">เริ่มใช้งาน</a>
+    </div>
+  </div></div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand">
+          <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="11" r="7" fill="oklch(0.76 0.13 358)"></circle><rect x="2" y="17" width="22" height="2.5" fill="oklch(0.23 0.035 350)"></rect><rect x="6" y="21.5" width="14" height="2.5" fill="oklch(0.23 0.035 350)"></rect></svg>
+          Solora
+        </div>
+        <p>Platform Agentic AI สำหรับผู้ประกอบการ E‑Commerce ที่เป็น Solo Entrepreneur</p>
+        <div class="badges"><span>PDPA Compliant</span><span>เข้ารหัสข้อมูล AES‑256</span></div>
+      </div>
+      <sc-for list="{{ footCols }}" as="col" hint-placeholder-count="4">
+        <div>
+          <h4>{{ col.h }}</h4>
+          <ul>
+            <sc-for list="{{ col.items }}" as="it" hint-placeholder-count="4">
+              <li><a href="#">{{ it }}</a></li>
+            </sc-for>
+          </ul>
+        </div>
+      </sc-for>
+    </div>
+    <div class="legal">
+      <span>© 2026 Solora AI Co., Ltd. สงวนลิขสิทธิ์</span>
+      <span>กรุงเทพฯ ประเทศไทย · XXX@gmail.com</span>
+    </div>
+  </div>
+</footer>
+</div>

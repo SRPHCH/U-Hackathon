@@ -339,10 +339,12 @@ html,body{background:transparent!important;overflow:hidden}
 .fx .money .bill{width:100%;filter:drop-shadow(0 6px 10px oklch(0.4 0.08 160 / .3));transform:rotate(-7deg);position:relative;z-index:1}
 .fx .money .hand{width:46%;margin-top:-5vmin;position:relative;z-index:2}
 .fx .money .arm{width:42%;height:42vmin;margin-top:-3vmin;border-radius:10px 10px 0 0;background:linear-gradient(180deg,#fff 0 9vmin,oklch(0.26 0.03 350) 9vmin)}
+.av-mode .fx{display:none!important}
 .fx .wave{position:absolute;left:13%;top:34%;font-size:15vmin;line-height:1;transform-origin:78% 88%;transform:scale(var(--hs)) rotate(var(--hr));opacity:min(1,calc(var(--hs)*3));font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif}
 @media (prefers-reduced-motion:reduce){.fx .steam i,.fx .vein{animation:none}.fx .steam i{opacity:.8}}
 </style>
-<script>window.DOT_VIEW = {"shape":"ant","color":"#E2513F","material":"plush","style":"gentleman","gender":"male","yaw":0.28,"motion":true};</script>
+<script>if(new URLSearchParams(location.search).get("av")==="1")document.documentElement.classList.add("av-mode");</script>
+<script>(function(){var q=new URLSearchParams(location.search);window.DOT_VIEW={shape:"ant",color:q.get("color")||"#E2513F",material:"plush",style:q.get("style")||"gentleman",gender:"male",yaw:0.28,motion:true};})();</script>
 <script type="module">
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
@@ -353,6 +355,7 @@ const VIEW = window.DOT_VIEW || (new URLSearchParams(location.search).get('view'
 if(VIEW) document.documentElement.classList.add('viewer');
 // Studio preset: a launcher may write window.DOT_PRESET = {shape, color, material, style, gender, lang, step} into the page.
 const PRESET = window.DOT_PRESET || null;
+const SNAP = new URLSearchParams(location.search).get('snap') === '1';
 // Embed mode: the studio inside a host page's iframe (?embed=1), without its own header and footer.
 const EMBED = !VIEW && new URLSearchParams(location.search).get('embed') === '1';
 if(EMBED) document.documentElement.classList.add('embed');
@@ -1652,8 +1655,9 @@ class Studio {
 /* =====================================================================
    11. App: state, i18n, UI, turntable loop, thumbnails, downloads
    ===================================================================== */
-const MAIN_RES = 132, THUMB_RES = 70, THUMB_PX = 240, BASE_YAW = -.3;
-const FRAME = 1.85;   // camera margin around the character; the full-window viewer frames a little tighter
+const MAIN_RES = new URLSearchParams(location.search).get('av') === '1' ? 64 : 132, THUMB_RES = 70, THUMB_PX = 240, BASE_YAW = -.3;
+const AVM = new URLSearchParams(location.search).get('av') === '1';
+const FRAME = AVM ? 1.34 : 1.85;   // camera margin around the character; the full-window viewer frames a little tighter
 const $ = s => document.querySelector(s);
 const ICONS = {
   globe:'<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
@@ -1707,10 +1711,19 @@ let main = null, thumb = null;
 const stage = $('#stage');
 try{
   const cv = document.createElement('canvas'); cv.className = 'gl'; cv.setAttribute('aria-hidden','true'); stage.prepend(cv);
-  main = new Studio(cv, {main:true});
-  if(!VIEW){ const tc = document.createElement('canvas'); tc.width = tc.height = THUMB_PX; thumb = new Studio(tc, {main:false}); thumb.setSize(THUMB_PX, THUMB_PX); }
+  main = SNAP ? null : new Studio(cv, {main:true});
+  if(!VIEW || SNAP){ const tc = document.createElement('canvas'); tc.width = tc.height = THUMB_PX; thumb = new Studio(tc, {main:false}); thumb.setSize(THUMB_PX, THUMB_PX); }
 }catch(err){ console.warn('WebGL unavailable', err); main = null; thumb = null; stage.querySelector('canvas.gl')?.remove(); }
 
+if(SNAP && thumb){
+  window.addEventListener('message', e => { const d = e.data; if(!d || d.type !== 'ant:render') return;
+    const c = {shape:'ant', color:normHex(d.color) || '#E2513F', material:'plush', style:pick(d.style, STYLE_IDS, 'gentleman'), gender:'male'};
+    thumb.build(c, d.res || (THUMB_RES + 20)); const P = d.pose || null; thumb.root.rotation.order = 'ZYX'; thumb.root.rotation.y = BASE_YAW*.6 + (P ? P.yaw || 0 : 0); thumb.root.rotation.z = P ? P.rz || 0 : 0; thumb.root.position.y = P ? P.y || 0 : 0;
+    if(P){ const sc = thumb.scaleBase, q = P.sq || 0; thumb.puppet.scale.set(sc*(1 + q*.7), sc*(1 - q), sc*(1 + q*.7)); }
+    thumb.elev = .1; thumb.place(d.margin || 1.16, true); thumb.render();
+    try{ e.source.postMessage({type:'ant:rendered', id:d.id, url:thumb.renderer.domElement.toDataURL('image/png')}, '*'); }catch(err){} });
+  try{ parent.postMessage({type:'ant:ready'}, '*'); }catch(err){}
+}
 function resize(){ if(!main) return; const r = stage.getBoundingClientRect(); main.setSize(Math.max(1,r.width), Math.max(1,r.height)); dirty = true; }
 let dirty = true, popT = 1, T0 = 0, motion = !(VIEW && VIEW.motion === false) && !matchMedia('(prefers-reduced-motion: reduce)').matches;
 function rebuildMain(){ if(!main) return; const t0 = performance.now(); main.build(cfg(), MAIN_RES); popT = 0; dirty = true; if(performance.now()-t0 > 120) console.info('build', (performance.now()-t0).toFixed(0)+'ms'); }
@@ -1724,7 +1737,7 @@ if(main){
     ray.setFromCamera(ndc, main.camera); return ray.intersectObject(main.puppet, true).length > 0; };
   cv.addEventListener('pointermove', e => { stage.classList.toggle('over', hit(e)); });
   cv.addEventListener('pointerleave', () => stage.classList.remove('over'));
-  cv.addEventListener('click', e => { if(hit(e)) DIR.poke(); });
+  cv.addEventListener('click', e => { if(!AVM && hit(e)) DIR.poke(); });
   cv.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') DIR.poke(); });
   new ResizeObserver(resize).observe(stage);
 }
@@ -1743,6 +1756,78 @@ const DIR = main ? (() => {
   stage.appendChild(fx);
   main.root.rotation.order = 'ZYX';
 
+
+  /* ---- avatar mode: small live profile that looks at the composer and works with a role prop ---- */
+  const Q = new URLSearchParams(location.search), AV_LOOK = Q.get('look') === 'diag' ? 'diag' : 'down';
+  let AV_ROLE = Q.get('role') || 'secretary';
+  const AVPOSE = {
+    secretary:t => ({y:0, rz:.17 + .03*Math.sin(t*1.7), yaw:.1*Math.sin(t*1.1), rx:.05 + .05*Math.sin(t*2.6), sq:0}),
+    finance:t => ({y:0, rz:.02*Math.sin(t*2), yaw:.05*Math.sin(t*1.3), rx:.34 + .05*Math.sin(t*4.5), sq:0}),
+    marketing:t => ({y:0, rz:.08*Math.sin(t*3.6), yaw:.25*Math.sin(t*1.9), rx:.04, sq:0}),
+    legal:t => ({y:0, rz:0, yaw:-.12, rx:.1 + .1*Math.pow(Math.max(0, Math.sin(t*3)), 2), sq:0}),
+    market:t => ({y:0, rz:.05*Math.sin(t*1.6), yaw:.5*Math.sin(t*1.6), rx:.08, sq:0}),
+    daily:t => ({y:0, rz:.05*Math.sin(t*1.3), yaw:.05, rx:.06 + .18*(.5 + .5*Math.sin(t*1.3)), sq:0}),
+    ops:t => ({y:.01*Math.abs(Math.sin(t*3)), rz:.03*Math.sin(t*3), yaw:0, rx:.24, sq:0}),
+    support:t => ({y:0, rz:.1*Math.sin(t*2), yaw:.16*Math.sin(t*1.2), rx:.06, sq:0}),
+    analyst:t => ({y:0, rz:0, yaw:.28*Math.sin(t*1.1) + .2, rx:.25, sq:0})
+  };
+  function buildProp(role){
+    const g = new THREE.Group(); g.visible = false; g.position.y = -.152; main.root.add(g);
+    const M = (c, o = {}) => new THREE.MeshStandardMaterial(Object.assign({color:c, roughness:.5, metalness:.05}, o));
+    const add = (geo, mat, x = 0, y = 0, z = 0, parent = g) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); parent.add(m); return m; };
+    let upd = () => {};
+    if(role === 'secretary'){
+      const k = M(0x101014, {roughness:.22, metalness:.35});
+      const bar = add(new THREE.CapsuleGeometry(.034, .2, 6, 12), k, -.42, .5, .06);
+      const ear = add(new THREE.SphereGeometry(.072, 16, 12), k, -.38, .68, .06);
+      add(new THREE.SphereGeometry(.066, 16, 12), k, -.37, .33, .1);
+      for(let i = 0; i < 4; i++){ const c = add(new THREE.TorusGeometry(.045, .011, 6, 16), k, -.44 - i*.03, .24 - i*.055, .1); c.rotation.x = Math.PI/2; }
+      upd = t => { bar.scale.y = 1 + .035*Math.sin(t*10); ear.position.y = .68 + .006*Math.sin(t*10); };
+    } else if(role === 'finance'){
+      const bills = [0, 1, 2].map(i => { const b = add(new THREE.BoxGeometry(.25, .012, .13), M([0x58b368, 0x6cc47a, 0x4ea35e][i]), (i - 1)*.03, .2, .44); b.rotation.y = (i - 1)*.18; return b; });
+      upd = t => bills.forEach((b, i) => { const p = ((t*2.6 + i*2.1) % (Math.PI*2))/(Math.PI*2); b.position.y = .2 + .13*Math.sin(p*Math.PI); b.rotation.x = -.9*Math.sin(p*Math.PI); });
+    } else if(role === 'marketing'){
+      const mg = new THREE.Group(); mg.position.set(.42, .46, .16); mg.rotation.z = -1.15; g.add(mg);
+      add(new THREE.CylinderGeometry(.095, .035, .2, 20), M(0xff7aa8), 0, .1, 0, mg);
+      add(new THREE.CylinderGeometry(.04, .04, .09, 14), M(0x2a2a33), 0, -.04, 0, mg);
+      upd = t => { mg.scale.setScalar(1 + .07*Math.sin(t*8)); };
+    } else if(role === 'legal'){
+      const gv = new THREE.Group(); gv.position.set(.42, .22, .18); g.add(gv);
+      add(new THREE.CylinderGeometry(.02, .02, .26, 10), M(0xc9a36b), 0, .13, 0, gv);
+      const head = add(new THREE.CylinderGeometry(.055, .055, .16, 16), M(0x7a4a26), 0, .27, 0, gv); head.rotation.z = Math.PI/2;
+      upd = t => { gv.rotation.z = -.2 - .75*Math.pow(Math.max(0, Math.sin(t*3)), 2); };
+    } else if(role === 'market'){
+      const mg = new THREE.Group(); mg.position.set(.38, .46, .22); g.add(mg);
+      add(new THREE.TorusGeometry(.09, .017, 10, 28), M(0xdedee6, {metalness:.6, roughness:.25}), 0, 0, 0, mg);
+      add(new THREE.CircleGeometry(.085, 24), M(0xbfe6ff, {transparent:true, opacity:.4}), 0, 0, 0, mg);
+      const h = add(new THREE.CylinderGeometry(.014, .014, .15, 8), M(0x3a3a46), .075, -.1, 0, mg); h.rotation.z = .6;
+      upd = t => { mg.position.x = .34 + .1*Math.sin(t*1.6); mg.rotation.z = .18*Math.sin(t*1.6); };
+    } else if(role === 'daily'){
+      const mg = new THREE.Group(); mg.position.set(.42, .26, .2); g.add(mg);
+      add(new THREE.CylinderGeometry(.058, .05, .095, 18), M(0xf6f2ee), 0, 0, 0, mg);
+      add(new THREE.CircleGeometry(.05, 18), M(0x3b2417), 0, .048, 0, mg).rotation.x = -Math.PI/2;
+      add(new THREE.TorusGeometry(.034, .011, 8, 14), M(0xf6f2ee), .075, 0, 0, mg);
+      upd = t => { const s = .5 + .5*Math.sin(t*1.3); mg.position.y = .26 + .16*s; mg.position.x = .42 - .1*s; mg.rotation.z = .35*s; };
+    } else if(role === 'ops'){
+      const bx = add(new THREE.BoxGeometry(.3, .22, .22), M(0xc99a5b), 0, .2, .44);
+      add(new THREE.BoxGeometry(.07, .225, .225), M(0xe6c78f), 0, 0, 0, bx);
+      upd = t => { bx.position.y = .2 + .018*Math.sin(t*4); bx.rotation.z = .03*Math.sin(t*3); };
+    } else if(role === 'support'){
+      const k = M(0x2c2c3a, {roughness:.4});
+      const band = add(new THREE.TorusGeometry(.36, .02, 8, 36, Math.PI), k, 0, .5, 0);
+      for(const sx of [-1, 1]){ const c = add(new THREE.CylinderGeometry(.08, .08, .055, 18), M(0xff6fae), sx*.37, .5, 0); c.rotation.z = Math.PI/2; }
+      const boom = add(new THREE.CylinderGeometry(.01, .01, .3, 8), k, -.28, .38, .17); boom.rotation.z = .5; boom.rotation.x = .9;
+      add(new THREE.SphereGeometry(.03, 10, 8), k, -.19, .27, .3);
+      upd = t => { band.rotation.z = .02*Math.sin(t*2); };
+    } else {
+      const cols = [0xb6d80b, 0xffffff, 0x00b1ff];
+      const bars = cols.map((c, i) => { const geo = new THREE.BoxGeometry(.07, .1, .07); geo.translate(0, .05, 0); return add(geo, M(c), .34 + i*.095, .12, .24); });
+      upd = t => bars.forEach((b, i) => { b.scale.y = .8 + 1.4*(.5 + .5*Math.sin(t*2 + i*1.4)); });
+    }
+    return {g, update(t, k){ g.visible = k > .12; if(g.visible){ g.scale.setScalar((.55 + .45*Math.min(1, k))*1.38); upd(t, k); } }};
+  }
+  let PROP = AVM ? buildProp(AV_ROLE) : null;
+
   const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
   const sm = (a, b, x) => { const t = clamp((x - a)/(b - a)); return t*t*(3 - 2*t); };
   const TAU = Math.PI*2;
@@ -1754,6 +1839,21 @@ const DIR = main ? (() => {
       return {y:.24*h, rz:0, yaw:TAU*sm(0, 1, u), sq:t < .2 ? .12*sm(0, .2, t) : 0}; }}
   };
   const order = ['hop', 'hop', 'twirl', 'hop'];
+  const CHAT = new URLSearchParams(location.search).get('chat') === '1';
+  let ext = 'idle', extRole = 'secretary', look = 0, joy = 0;
+  const hopS = (t, f) => Math.abs(Math.sin(t*f));
+  // cheerful "thinking" dance, one per profession
+  const JOY = {
+    secretary:t => ({y:.07*hopS(t, 6), rz:.05*Math.sin(t*3), yaw:.25*Math.sin(t*2), rx:.22*Math.sin(t*6), sq:.05*(1 - hopS(t, 6))}),
+    finance:t => ({y:.11*hopS(t, 9), rz:0, yaw:.1*Math.sin(t*3), rx:.16*Math.sin(t*9), sq:.07*(1 - hopS(t, 9))}),
+    marketing:t => ({y:.12*hopS(t, 4), rz:.08*Math.sin(t*4), yaw:t*5.5, rx:0, sq:.05*(1 - hopS(t, 4))}),
+    legal:t => ({y:.05*hopS(t, 2.2), rz:.18*Math.sin(t*2.2), yaw:.12*Math.sin(t*1.1), rx:.14 + .1*Math.sin(t*2.2), sq:0}),
+    market:t => ({y:.03*hopS(t, 5), rz:.08*Math.sin(t*5.2), yaw:.8*Math.sin(t*2.6), rx:.05, sq:0}),
+    daily:t => ({y:.18*hopS(t, 5), rz:.12*Math.sin(t*5), yaw:.2*Math.sin(t*2.5), rx:0, sq:.08*(1 - hopS(t, 5))}),
+    ops:t => ({y:.08*hopS(t, 8), rz:.22*Math.sin(t*8), yaw:.28*Math.sin(t*4), rx:.1, sq:.04*(1 - hopS(t, 8))}),
+    support:t => ({y:.1*hopS(t, 3), rz:.2*Math.sin(t*3), yaw:.22*Math.sin(t*1.5), rx:.05, sq:.05*(1 - hopS(t, 3))}),
+    analyst:t => ({y:.07*hopS(t, 7), rz:.05*Math.sin(t*3.5), yaw:.28*Math.sin(t*1.7), rx:.2*Math.sin(t*3.5), sq:.08*Math.sin(t*7)})
+  };
   let mode = 'idle', gest = 'hop', gt = 0, wait = .3, idx = 0, tt = 0, amp = 0;
   const STEPS = [['ow', .28], ['fall', .85], ['lie', 1.2], ['rise', 1.0], ['rage', 3.8], ['offer', 1.0], ['visit', .9], ['inspect', .9], ['take', .6], ['back', 1.1]];
   const INTRO = [['hops', 1.6], ['settle', .3], ['wave', 2.2]];
@@ -1796,6 +1896,7 @@ const DIR = main ? (() => {
     busy: true,
     poke(){ if(mode === 'prank') return; mode = 'prank'; si = 0; st = 0; reset(); },
     intro(){ mode = 'intro'; si = 0; st = 0; reset(); },
+    setState(s, role){ ext = s === 'typing' || s === 'think' ? s : 'idle'; if(role && JOY[role]) extRole = role; },
     update(dt, s){
       const o = out;
       if(api.freeze){ reset(); o.pulse = 1; const fz = api.freeze; if(G[fz[0]]){ const r = G[fz[0]].f(fz[1]); o.y = r.y; o.rz = r.rz; o.yaw = r.yaw; o.sq = r.sq; } else if(INTRO.some(x => x[0] === fz[0])) intro(fz[0], fz[1], fz[1]*(fz[2]||1)); else prank(fz[0], fz[1], fz[1]*(fz[2]||1)); }
@@ -1808,10 +1909,20 @@ const DIR = main ? (() => {
         if(st >= dur){ st = 0; si++; if(si >= STEPS.length){ mode = 'idle'; wait = 1.4; gt = 0; gest = 'hop'; idx = 0; amp = 0; reset(); } }
       } else {
         amp = Math.min(1, amp + dt*1.6); tt += dt;
-        const wv = .55 + .45*Math.sin(tt*.8); o.rz = (.15 + .14*Math.sin(tt*4.4))*wv*amp; o.yaw = Math.sin(tt*1.25)*.38*amp; o.y = .014*(1 + Math.sin(tt*4.4))*amp; o.eye = 1; o.heat = 0; o.mx = 0; o.ab = 0; o.x = 0; o.hs = 0; o.hr = 0; o.pulse = 1; o.sq = 0;
+        const wv = .55 + .45*Math.sin(tt*.8); o.rz = (.15 + .14*Math.sin(tt*4.4))*wv*amp; o.yaw = Math.sin(tt*1.25)*.38*amp; o.y = .014*(1 + Math.sin(tt*4.4))*amp; o.eye = 1; o.heat = 0; o.mx = 0; o.ab = 0; o.x = 0; o.hs = 0; o.hr = 0; o.pulse = 1; o.sq = 0; o.rx = 0;
+        look += ((ext === 'typing' ? 1 : 0) - look)*Math.min(1, dt*6); joy += ((ext === 'think' ? 1 : 0) - joy)*Math.min(1, dt*6);
+        const busyK = Math.max(look, joy);
         if(wait > 0){ wait -= dt; if(wait <= 0) gt = 0; }
-        else { gt += dt; const g = G[gest], r = g.f(Math.min(gt, g.dur)); o.y += r.y; o.rz += r.rz; o.yaw += r.yaw; o.sq = r.sq;
+        else if(busyK < .15 && !AVM){ gt += dt; const g = G[gest], r = g.f(Math.min(gt, g.dur)); o.y += r.y; o.rz += r.rz; o.yaw += r.yaw; o.sq = r.sq;
           if(gt >= g.dur){ idx = (idx + 1) % order.length; gest = order[idx]; wait = 1 + Math.random()*2; gt = 0; } }
+        if(AVM){ o.y = 0; o.rz *= .3; o.yaw *= .25; }
+        if(busyK > .001){
+          const tr = AVM ? (joy >= look ? (AVPOSE[AV_ROLE] || AVPOSE.secretary)(tt) : (AV_LOOK === 'diag' ? {y:.004*(1 + Math.sin(tt*4)), rz:.04*Math.sin(tt*2.6), yaw:.62 + .05*Math.sin(tt*1.3), rx:.34, sq:0} : {y:.004*(1 + Math.sin(tt*4)), rz:.035*Math.sin(tt*2.6), yaw:.05*Math.sin(tt*1.3), rx:.5, sq:0}))
+            : joy >= look ? (JOY[extRole] || JOY.secretary)(tt) : {y:.012*(1 + Math.sin(tt*5)), rz:Math.sin(tt*3.2)*.05, yaw:Math.sin(tt*1.3)*.07, rx:.4, sq:0};
+          o.y = o.y*(1 - busyK) + tr.y*busyK; o.rz = o.rz*(1 - busyK) + tr.rz*busyK; o.yaw = o.yaw*(1 - busyK) + tr.yaw*busyK;
+          o.rx = tr.rx*busyK; o.sq = o.sq*(1 - busyK) + tr.sq*busyK; o.eye = 1 - .25*joy;
+        }
+        if(PROP) PROP.update(tt, joy);
       }
       // apply
       const r = main.root;
@@ -1823,7 +1934,16 @@ const DIR = main ? (() => {
       stage.style.setProperty('--hs', o.hs.toFixed(3)); stage.style.setProperty('--hr', o.hr.toFixed(3) + 'rad');
     }
   };
-  api.intro();
+  window.addEventListener('message', e => { const d = e.data; if(d && d.type === 'ant:state') api.setState(d.state, d.role); });
+  if(!CHAT && !AVM) api.intro();
+  if(AVM){ if(main.contact) main.contact.visible = false; if(main.ground) main.ground.visible = false; }
+  window.addEventListener('message', e => { const d = e.data; if(!d || d.type !== 'ant:config') return;
+    if(d.style && STYLE_IDS.includes(d.style)) state.style = d.style;
+    const hx = normHex(d.color); if(hx) state.color = hx;
+    state.gender = 'male'; rebuildMain();
+    if(AVM){ if(PROP) main.root.remove(PROP.g); AV_ROLE = d.role || AV_ROLE; PROP = buildProp(AV_ROLE); }
+    try{ parent.postMessage({type:'ant:configured', key:d.key}, '*'); }catch(err){} });
+  setTimeout(() => { try{ parent.postMessage({type:'ant:built'}, '*'); }catch(err){} }, 60);
   if(new URLSearchParams(location.search).get('debug')) { window.__DIR = api; api.out = out; }
   return api;
 })() : {busy:false, poke(){}, update(){}};
@@ -1859,7 +1979,7 @@ function loop(now){
     if(main) DIR.update(dt, s);
     const active = DIR.busy || drag.on || Math.abs(drag.vel) > .001 || popT < 1 || resetT >= 0 || !isSettled();
     if(dirty && (active || now - lastDraw > 15.5)){ lastDraw = now;
-      main.coatMat.uniforms.uTime.value = T0; main.place(FRAME); main.render(); announceReady(); dirty = DIR.busy || live > 0 || resetT >= 0 || popT < 1 || Math.abs(drag.vel) > .001 || !isSettled(); }
+      main.coatMat.uniforms.uTime.value = T0; main.place(FRAME); main.render(); announceReady(); if(!window.__shownSent){ window.__shownSent = 1; try{ parent.postMessage({type:'ant:shown'}, '*'); }catch(e){} } dirty = DIR.busy || live > 0 || resetT >= 0 || popT < 1 || Math.abs(drag.vel) > .001 || !isSettled(); }
   }
 }
 function isSettled(){ if(!main.view) return true; const {c} = main.fit; return main.view.c.distanceTo(c) < 1e-3; }
@@ -1872,7 +1992,7 @@ function thumbCfg(kind, id){
   return {shape:state.shape, color:state.color, material:state.material, style:id, gender:state.gender};
 }
 function scheduleThumbs(){
-  if(!thumb) return; jobs = [];
+  if(!thumb || SNAP) return; jobs = [];
   document.querySelectorAll('#card canvas[data-kind]').forEach(cv => { const c = thumbCfg(cv.dataset.kind, cv.dataset.id), key = [c.shape,c.color,c.material,c.style,c.gender].join('|');
     if(cv.dataset.key !== key){ jobs.push({cv, c, key}); } });
   // selected option first, then in reading order

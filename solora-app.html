@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Solora Workspace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:oklch(0.17 0.008 350);
+  --side:oklch(0.145 0.008 350);
+  --surf:oklch(0.225 0.01 350);
+  --surf-2:oklch(0.27 0.012 350);
+  --line:oklch(0.3 0.012 350);
+  --text:oklch(0.96 0.004 350);
+  --text-2:oklch(0.76 0.012 350);
+  --text-3:oklch(0.62 0.014 350);
+  --accent:oklch(0.8 0.12 358);
+  --accent-ink:oklch(0.22 0.04 352);
+  --danger:oklch(0.7 0.17 25);
+  --ease:cubic-bezier(.16,1,.3,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Anuphan','Noto Sans Thai',system-ui,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+::selection{background:var(--accent);color:var(--accent-ink)}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px;border:3px solid transparent;background-clip:content-box}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.app{position:relative;height:100dvh;display:grid;grid-template-columns:340px minmax(0,1fr)}
+.live-av{position:absolute;z-index:6;border-radius:50%;overflow:hidden;pointer-events:none;background:transparent}
+.live-av.ready{background:var(--surf-2)}
+.live-av[hidden]{display:none}
+.live-av iframe{position:absolute;left:0;top:0;border:0;background:transparent;color-scheme:light;transform-origin:0 0;opacity:0;transition:opacity .25s}
+.live-av.ready iframe{opacity:1}
+.live-av::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 2px var(--c)}
+
+/* sidebar */
+.side{background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.side-top{display:flex;align-items:center;gap:10px;padding:14px 16px 8px}
+.ws-brand{display:flex;align-items:center;gap:9px;margin-right:auto;font-weight:700;font-size:18px;color:var(--text);text-decoration:none;padding:4px 6px;border-radius:10px}
+.ws-brand:hover{background:var(--surf)}
+.icon-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--surf);color:var(--text);transition:background .2s,transform .2s var(--ease)}
+.icon-btn:hover{background:var(--surf-2)}
+.icon-btn:active{transform:scale(.94)}
+.search{padding:0 16px 8px;display:none}
+.search.on{display:block}
+.search input{width:100%;height:42px;border-radius:999px;border:1px solid var(--line);background:var(--bg);padding:0 16px;outline:none}
+.search input:focus{border-color:var(--accent)}
+.groups{flex:1;overflow:auto;padding:4px 10px 12px}
+.group-head{display:flex;align-items:center;gap:6px;padding:10px 8px 6px;color:var(--text-3);font-size:13px;font-weight:600}
+.group-head .gname{flex:1;min-width:0;display:flex;align-items:center;gap:6px;text-align:left;color:inherit;font-weight:600}
+.group-head .gname:hover{color:var(--text-2)}
+.group-head svg.i{width:16px;height:16px;transition:transform .25s var(--ease)}
+.group.closed .group-head .caret{transform:rotate(-90deg)}
+.group.closed .bots{display:none}
+.group-head .mini{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:var(--text-3);opacity:0;transition:opacity .2s,background .2s}
+.group-head:hover .mini,.group-head:focus-within .mini{opacity:1}
+.group-head .mini:hover{background:var(--surf);color:var(--text)}
+.group-head input{flex:1;min-width:0;height:30px;border-radius:8px;border:1px solid var(--accent);background:var(--bg);padding:0 8px;outline:none;font-weight:600}
+.bot{width:100%;display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;align-items:center;text-align:left;padding:9px 10px;border-radius:16px;transition:background .2s}
+.bot:hover{background:var(--surf)}
+.bot[aria-current="true"]{background:var(--surf-2)}
+.bot .nm{display:flex;align-items:center;gap:8px;min-width:0}
+.bot .nm b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip{flex:none;font-size:11.5px;line-height:1;padding:4px 8px;border-radius:999px;background:var(--surf-2);color:var(--text-2);font-weight:500}
+.chip.sec{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.bot[aria-current="true"] .chip:not(.sec){background:var(--bg)}
+.bot .pv{color:var(--text-3);font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.empty{padding:24px 14px;color:var(--text-3);font-size:14px}
+.new-team{margin:6px 8px 0;display:flex;align-items:center;gap:8px;color:var(--text-3);font-size:13.5px;padding:8px;border-radius:10px;width:calc(100% - 16px);text-align:left}
+.new-team:hover{background:var(--surf);color:var(--text)}
+.new-team svg.i{width:16px;height:16px}
+.side-foot{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line)}
+.me{width:40px;height:40px;border-radius:50%;background:var(--surf-2);display:grid;place-items:center;font-weight:600;font-size:13px}
+.ws-plan{font-size:13.5px;color:var(--text-2);flex:1}
+.ws-plan b{display:block;color:var(--text);font-weight:600;line-height:1.3}
+.home{font-size:13.5px;color:var(--text-2);padding:8px 12px;border-radius:999px;background:var(--surf)}
+.home:hover{background:var(--surf-2);color:var(--text)}
+
+/* avatar: a snapshot of the 3D ant, ringed in the employee's colour */
+.av{position:relative;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--surf-2);box-shadow:inset 0 0 0 2px var(--c);flex:none;overflow:hidden}
+.av img{position:absolute;inset:-6% -6% -2% -6%;width:112%;height:108%;object-fit:contain;display:none}
+.av.has-img img{display:block}
+.av svg{width:56%;height:56%}
+.av.has-img svg{display:none}
+.av.lg{width:32px;height:32px}
+.av.xl{width:84px;height:84px}
+
+/* chat */
+.chat{display:flex;flex-direction:column;min-width:0;min-height:0;position:relative}
+.chat-top{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:3;display:flex;align-items:center;gap:8px}
+.pill{display:flex;align-items:center;gap:10px;height:48px;padding:0 18px 0 8px;border-radius:999px;background:var(--surf);border:1px solid var(--line);font-weight:600;box-shadow:0 6px 24px -10px oklch(0 0 0 / .6);transition:background .2s}
+.pill:hover{background:var(--surf-2)}
+.chat-top .more{width:48px;height:48px;border-radius:50%;background:var(--surf);border:1px solid var(--line);display:grid;place-items:center;position:relative}
+.menu{position:absolute;top:calc(100% + 8px);right:0;min-width:210px;background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:0 18px 40px -16px oklch(0 0 0 / .7);display:none;z-index:5}
+.menu.on{display:block}
+.menu button{width:100%;text-align:left;padding:10px 12px;border-radius:10px;display:flex;gap:10px;align-items:center;font-size:14px}
+.menu button:hover{background:var(--surf-2)}
+.menu .del{color:var(--danger)}
+.back{display:none}
+.scroll{flex:1;overflow:auto;padding:88px 24px 20px}
+.thread{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.stamp{align-self:center;color:var(--text-3);font-size:12.5px;margin:10px 0 2px}
+.row{display:flex;flex-direction:column;gap:8px;align-items:flex-start;max-width:min(620px,86%)}
+.row.me{align-self:flex-end;align-items:flex-end}
+.msg{padding:14px 18px;border-radius:20px;background:var(--surf);white-space:pre-wrap;overflow-wrap:anywhere;animation:in .35s var(--ease)}
+.row.me .msg{background:var(--surf-2)}
+.handoff{display:inline-flex;align-items:center;gap:10px;padding:6px 16px 6px 6px;border-radius:999px;background:var(--surf-2);border:1px solid var(--line);font-size:14px;font-weight:600;transition:border-color .2s}
+.handoff:hover{border-color:var(--accent)}
+.typing{display:inline-flex;gap:5px;padding:18px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--text-3);animation:blink 1s infinite ease-in-out}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.composer-wrap{padding:0 24px 14px}
+.composer{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:8px;padding:8px;border-radius:999px;background:var(--surf);border:1px solid var(--line);position:relative}
+.composer:focus-within{border-color:var(--accent)}
+.composer textarea{flex:1;min-width:0;background:none;border:0;outline:none;resize:none;height:44px;max-height:140px;padding:10px 4px;line-height:1.5}
+.composer textarea::placeholder{color:var(--text-3)}
+.send{width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;transition:opacity .2s,transform .2s var(--ease)}
+.send:disabled{opacity:.35;cursor:default}
+.send:not(:disabled):active{transform:scale(.94)}
+.quick{position:absolute;left:8px;bottom:calc(100% + 10px);min-width:260px;max-width:min(420px,calc(100vw - 48px));background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:6px;display:none;box-shadow:0 18px 40px -16px oklch(0 0 0 / .7)}
+.quick.on{display:block}
+.quick h4{margin:6px 10px 4px;font-size:12.5px;color:var(--text-3);font-weight:600}
+.quick button{width:100%;text-align:left;padding:10px 12px;border-radius:10px;font-size:14px}
+.quick button:hover{background:var(--surf-2)}
+.ws-note{max-width:760px;margin:8px auto 0;text-align:center;font-size:12px;color:var(--text-3)}
+.blank{flex:1;display:grid;place-items:center;color:var(--text-3);text-align:center;padding:24px}
+
+/* dialogs */
+dialog{border:1px solid var(--line);border-radius:24px;background:var(--surf);color:var(--text);padding:0;width:min(480px,calc(100vw - 32px));max-height:calc(100dvh - 32px)}
+dialog::backdrop{background:oklch(0 0 0 / .6)}
+.dlg{padding:24px;display:flex;flex-direction:column;gap:16px}
+.dlg h3{margin:0;font-size:20px}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:13.5px;color:var(--text-2)}
+.fld input[type=text],.fld select{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;color:var(--text);outline:none}
+.fld input:focus,.fld select:focus{border-color:var(--accent)}
+.role-box{display:grid;grid-template-columns:84px minmax(0,1fr);gap:14px;align-items:center;padding:12px;border-radius:16px;background:var(--bg);border:1px solid var(--line)}
+.role-box .pat{font-size:13.5px;color:var(--text-2);line-height:1.55}
+.role-box .pat b{display:block;color:var(--text);font-size:13px;margin-bottom:2px}
+.swatches{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.swatches label{cursor:pointer;position:relative}
+.swatches input[type=radio]{position:absolute;opacity:0}
+.swatches span.sw{display:block;width:30px;height:30px;border-radius:50%;background:var(--c);box-shadow:0 0 0 2px var(--surf),0 0 0 3px transparent}
+.swatches input:checked + span.sw{box-shadow:0 0 0 2px var(--surf),0 0 0 4px var(--text)}
+.swatches input:focus-visible + span.sw{outline:2px solid var(--accent);outline-offset:4px}
+.swatches .custom-c{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-2);margin-left:4px}
+.swatches .custom-c input{width:34px;height:34px;padding:0;border:0;background:none;border-radius:50%;cursor:pointer}
+.dlg-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:4px}
+.ws-btn{height:44px;padding:0 20px;border-radius:999px;font-weight:600;background:var(--surf-2)}
+.ws-btn.primary{background:var(--accent);color:var(--accent-ink)}
+.ws-btn:hover{filter:brightness(1.08)}
+.err{color:var(--danger);font-size:13px;min-height:1em}
+
+/* 3D profile */
+.pf-3d{position:relative;aspect-ratio:1/1;max-height:360px;width:100%;background:radial-gradient(circle at 50% 62%,oklch(0.3 0.03 350),oklch(0.2 0.01 350) 70%)}
+.pf-3d iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;color-scheme:light}
+.pf-body{padding:20px 24px 24px;display:flex;flex-direction:column;gap:14px}
+.pf-body h3{margin:0;font-size:22px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pf-pat{font-size:14px;color:var(--text-2);line-height:1.6;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.pf-pat b{display:block;color:var(--text);font-size:13px;margin-bottom:2px}
+.pf-sec{font-size:13px;color:var(--text-3);font-weight:600}
+
+@media (max-width:820px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side,.chat{grid-area:1/1}
+  .app[data-view="chat"] .side{display:none}
+  .app[data-view="list"] .chat{display:none}
+  .back{display:grid}
+  .chat-top{left:14px;transform:none;right:14px;justify-content:space-between}
+  .scroll{padding:84px 14px 16px}
+  .composer-wrap{padding:0 12px 10px}
+  .row{max-width:92%}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app" data-view="list">
+  <aside class="side" aria-label="รายชื่อพนักงาน AI">
+    <div class="side-top">
+      <a class="ws-brand" href="solora-landing.html" aria-label="กลับไปหน้าแรก Solora">
+        <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="11" r="7" fill="oklch(0.8 0.12 358)"/><rect x="2" y="17" width="22" height="2.5" fill="oklch(0.96 0.004 350)"/><rect x="6" y="21.5" width="14" height="2.5" fill="oklch(0.96 0.004 350)"/></svg>
+        <span>Solora</span>
+      </a>
+      <button class="icon-btn" id="btn-search" aria-label="ค้นหา" aria-expanded="false"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <button class="icon-btn" id="btn-new" aria-label="เพิ่มพนักงาน AI"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+    </div>
+    <div class="search" id="search"><input id="q" type="search" placeholder="ค้นหา" aria-label="ค้นหา"></div>
+    <div class="groups" id="groups"></div>
+    <div class="side-foot">
+      <div class="me" aria-hidden="true">SR</div>
+      <div class="ws-plan"><b>Plan Demo</b>ทดลองใช้งาน</div>
+      <a class="home" href="solora-landing.html">หน้าแรก</a>
+    </div>
+  </aside>
+
+  <main class="chat" id="chat" aria-label="แชต"></main>
+  <div class="live-av" id="live-side" hidden aria-hidden="true"><iframe title="" tabindex="-1"></iframe></div>
+  <div class="live-av" id="live-head" hidden aria-hidden="true"><iframe title="" tabindex="-1"></iframe></div>
+</div>
+
+<dialog id="dlg">
+  <form class="dlg" id="form" method="dialog">
+    <h3>เพิ่มพนักงาน AI</h3>
+    <label class="fld">หน้าที่
+      <select id="f-role"></select>
+    </label>
+    <div class="role-box">
+      <span class="av xl" id="f-prev"></span>
+      <div class="pat" id="f-pat"></div>
+    </div>
+    <label class="fld">ชื่อ (ไม่ใส่ก็ได้)<input type="text" id="f-name" maxlength="40" placeholder="ใช้ชื่อตามหน้าที่" autocomplete="off"></label>
+    <div class="fld">สี
+      <div class="swatches" id="f-colors"></div>
+    </div>
+    <label class="fld">ทีม<select id="f-team"></select></label>
+    <div class="err" id="f-err" role="alert"></div>
+    <div class="dlg-actions">
+      <button class="ws-btn" type="button" id="f-cancel">ยกเลิก</button>
+      <button class="ws-btn primary" type="submit">เพิ่มพนักงาน</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="pf">
+  <div class="pf-3d"><iframe id="pf-frame" title="โมเดล 3D ของพนักงาน AI"></iframe></div>
+  <div class="pf-body">
+    <h3 id="pf-name"></h3>
+    <div class="pf-pat" id="pf-pat"></div>
+    <div class="fld"><span class="pf-sec">สีประจำตัว</span>
+      <div class="swatches" id="pf-colors"></div>
+    </div>
+    <div class="dlg-actions"><button class="ws-btn primary" type="button" id="pf-close">ปิด</button></div>
+  </div>
+</dialog>
+
+<iframe id="avsvc" src="ant-mascot.html?snap=1" title="" aria-hidden="true" tabindex="-1" style="position:absolute;width:1px;height:1px;border:0;opacity:0;pointer-events:none;left:-9px;top:-9px"></iframe>
+
+<script>
+(() => {
+  const SWATCHES = ['#E2513F', '#FA70AB', '#DD6ADC', '#A25BFF', '#4778FF', '#00B1FF', '#04BB9F', '#B6D80B', '#FFCC38', '#FF8066'];
+  const KEY = 'solora.workspace.v2', AVKEY = 'solora.avatars.v1';
+  const $ = s => document.querySelector(s);
+  const uid = () => Math.random().toString(36).slice(2, 9);
+  const stamp = () => 'วันนี้ ' + new Date().toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit', hour12:false});
+
+  /* Each role = one look on the ant model (accessory style + default colour) and its own way of opening a conversation. */
+  const ROLES = {
+    secretary:{label:'Secretary', name:'Secretary', chip:'Secretary', style:'gentleman', color:'#E2513F', fixed:true,
+      pattern:'ถามก่อนว่าวันนี้ต้องการอะไร แล้วเลือกและส่งต่อให้ Agent ที่เหมาะสมในทีม คุณไม่ต้องเลือกเอง',
+      hello:['สวัสดีครับ ผมเป็น Secretary ประจำทีมนี้ ทุกเรื่องบอกผมได้เลย ผมจะเลือกและส่งต่อให้ Agent ที่เหมาะสมให้\n\nวันนี้อยากให้ช่วยเรื่องอะไรครับ?'],
+      quick:['สรุปว่าวันนี้มีอะไรต้องทำ', 'อยากรู้กำไรสัปดาห์นี้', 'ช่วยร่างแคปชันสินค้าใหม่']},
+    finance:{label:'การเงิน', name:'Finance Agent', chip:'การเงิน', style:'royal', color:'#FFCC38',
+      pattern:'เริ่มจากตัวเลข ถามช่วงเวลาและขอบเขตก่อน แล้วตอบเป็นข้อสั้นๆ',
+      hello:['สวัสดีครับ ผมดูแลตัวเลขการเงินของร้านคุณ\n\nขอถามก่อนเพื่อให้ตัวเลขตรงครับ: อยากดูช่วงไหน (สัปดาห์นี้ / เดือนนี้ / ไตรมาส) และเน้นเรื่องอะไร (กำไร / ค่าโฆษณา / กระแสเงินสด)?'],
+      quick:['สรุปรายรับรายจ่ายสัปดาห์นี้', 'ต้นทุนโฆษณาสูงผิดปกติไหม', 'เตรียมเอกสารภาษีรายเดือน'],
+      replies:['รับทราบครับ ผมจะสรุปเป็น 3 ข้อ: 1) รายรับ 2) รายจ่าย 3) กำไรสุทธิ\n\nตอนนี้เป็นโหมดเดโม ยังไม่มีตัวเลขจริง เมื่อเชื่อมร้านค้าแล้วผมจะใส่ให้ครับ', 'ได้ครับ ขอยืนยันช่วงเวลาอีกครั้งว่าเป็นสัปดาห์นี้ใช่ไหม ถ้าใช่ผมจะเทียบกับสัปดาห์ก่อนให้ด้วยครับ']},
+    marketing:{label:'การตลาด', name:'Marketing Agent', chip:'การตลาด', style:'artist', color:'#FA70AB',
+      pattern:'ถามเป้าหมายและกลุ่มลูกค้าก่อน แล้วเสนอทางเลือก 2–3 แบบให้เลือก',
+      hello:['สวัสดีครับ ผมช่วยคิดแคมเปญและคอนเทนต์\n\nเริ่มจากเป้าหมายก่อนนะครับ: อยากเพิ่มยอดขาย เพิ่มคนรู้จัก หรือดึงลูกค้าเก่ากลับมา และขายให้ใครเป็นหลัก?'],
+      quick:['ร่างแคปชันสินค้าใหม่', 'วางแผนแคมเปญ 11.11', 'วิเคราะห์ผลโฆษณาล่าสุด'],
+      replies:['เข้าใจแล้วครับ ผมมี 3 ทางให้เลือก: A) โปรโมชันลดราคา B) เล่าเรื่องแบรนด์ C) รีวิวจากลูกค้า อยากไปทางไหนก่อนครับ?\n\n(โหมดเดโม ยังไม่ใช้ข้อมูลร้านจริง)', 'ได้ครับ ขอกลุ่มลูกค้าหลักอีกนิดครับ แล้วผมจะร่างเวอร์ชันแรกให้เลือก 2 แบบ']},
+    legal:{label:'กฎหมาย', name:'Legal Agent', chip:'กฎหมาย', style:'scholar', color:'#4778FF',
+      pattern:'ระมัดระวัง ขอข้อความหรือเอกสารต้นฉบับก่อน และแจ้งข้อจำกัดให้ชัดเจน',
+      hello:['สวัสดีครับ ผมช่วยตรวจความเสี่ยงด้านกฎหมายเบื้องต้นให้ร้านค้า\n\nส่งข้อความโฆษณา นโยบาย หรือเอกสารที่อยากให้ตรวจมาได้เลยครับ ผมจะชี้จุดเสี่ยงและแนะนำวิธีแก้ ทั้งนี้เป็นข้อมูลเบื้องต้น ไม่ใช่คำปรึกษากฎหมายอย่างเป็นทางการ'],
+      quick:['ตรวจคำโฆษณาก่อนโพสต์', 'ร่างนโยบายคืนสินค้า', 'สรุปสิ่งที่ PDPA กำหนดกับร้านค้า'],
+      replies:['รับทราบครับ ผมต้องเห็นข้อความต้นฉบับเต็มก่อนจึงจะชี้จุดเสี่ยงได้ถูกต้อง ส่งมาได้เลยครับ\n\n(โหมดเดโม และเป็นข้อมูลเบื้องต้นเท่านั้น)', 'ได้ครับ ผมจะแยกเป็น: จุดที่เสี่ยง ระดับความเสี่ยง และวิธีแก้ที่แนะนำ']},
+    market:{label:'ตลาดและอุตสาหกรรม', name:'Market & Industry Update', chip:'ตลาด', style:'detective', color:'#04BB9F',
+      pattern:'ถามหมวดสินค้าและคู่แข่งก่อน แล้วสรุปพร้อมแหล่งข้อมูลและระดับความมั่นใจ',
+      hello:['สวัสดีครับ ผมติดตามตลาด คู่แข่ง และเทรนด์ให้\n\nบอกผมหน่อยครับ ร้านคุณขายสินค้าหมวดไหน และมีคู่แข่งรายไหนที่อยากให้จับตาเป็นพิเศษ?'],
+      quick:['คู่แข่งลดราคาอะไรบ้าง', 'เทรนด์ที่เริ่มมาแรงในหมวดของฉัน', 'คาดการณ์ความต้องการ 30 วันข้างหน้า'],
+      replies:['รับทราบครับ ผมจะสรุปเป็น: สิ่งที่เปลี่ยน แหล่งข้อมูล และระดับความมั่นใจ\n\n(โหมดเดโม ยังไม่ได้ดึงข้อมูลตลาดจริง)', 'ได้ครับ ขอหมวดสินค้ากับรายชื่อคู่แข่งหลักอีกนิด แล้วผมจะตั้งให้เฝ้าติดตามทุกวัน']},
+    daily:{label:'สรุปรายวัน', name:'Daily Update', chip:'สรุปรายวัน', style:'cool', color:'#00B1FF',
+      pattern:'สั้น เป็นข้อ เรียงตามสิ่งที่ต้องตัดสินใจก่อน',
+      hello:['อรุณสวัสดิ์ครับ ผมสรุปงานของทุก Agent ให้เป็นข้อสั้นๆ ทุกเช้า\n\nอยากรับสรุปเวลาไหน และทางช่องทางไหนครับ (อีเมล / แอปแชต)?'],
+      quick:['สรุปของเมื่อวาน', 'มีอะไรต้องตัดสินใจวันนี้', 'เปลี่ยนเวลารับสรุปเป็น 08:00'],
+      replies:['ตั้งไว้ให้แล้วครับ ทุกเช้าผมจะส่ง 3 ส่วน: ผลงานเมื่อวาน สิ่งที่ต้องตัดสินใจ และเรื่องที่ควรจับตา\n\n(โหมดเดโม)', 'ได้ครับ ขอเวลาที่ต้องการรับสรุปอีกครั้งครับ']},
+    ops:{label:'ปฏิบัติการ', name:'Operations Agent', chip:'ปฏิบัติการ', style:'athlete', color:'#FF8066',
+      pattern:'ถามเลขออเดอร์หรือรหัสสินค้า แล้วรายงานสถานะตรงๆ',
+      hello:['สวัสดีครับ ผมดูแลสต็อกและการจัดส่ง\n\nมีเลขออเดอร์หรือรหัสสินค้า (SKU) ที่อยากให้เช็กไหมครับ หรืออยากดูภาพรวมของที่ใกล้หมด?'],
+      quick:['สินค้าอะไรใกล้หมด', 'ออเดอร์ที่ส่งล่าช้า', 'สถานะพัสดุของลูกค้า'],
+      replies:['รับทราบครับ ขอเลขออเดอร์หรือ SKU เพื่อเช็กสถานะให้ตรงครับ\n\n(โหมดเดโม ยังไม่ได้เชื่อมระบบสต็อก)', 'ได้ครับ ผมจะรายงานเป็น: สถานะปัจจุบัน ที่ติดขัด และสิ่งที่ควรทำต่อ']},
+    support:{label:'ดูแลลูกค้า', name:'Customer Support Agent', chip:'ดูแลลูกค้า', style:'playful', color:'#A25BFF',
+      pattern:'ฟังปัญหาของลูกค้าก่อน ใช้น้ำเสียงอ่อนโยน แล้วค่อยเสนอทางแก้',
+      hello:['สวัสดีครับ ผมช่วยดูแลลูกค้าของร้านคุณ\n\nเล่าให้ฟังหน่อยครับว่าลูกค้ากำลังเจอปัญหาอะไร ผมจะช่วยร่างคำตอบที่สุภาพและตรงจุดให้'],
+      quick:['ร่างคำตอบลูกค้าที่ไม่พอใจ', 'ตอบเรื่องขอคืนสินค้า', 'สรุปคำถามที่ลูกค้าถามบ่อย'],
+      replies:['เข้าใจเลยครับ ผมจะเริ่มจากขอโทษและรับฟังก่อน แล้วค่อยเสนอทางแก้ 2 ข้อ\n\n(โหมดเดโม)', 'ได้ครับ ขอรายละเอียดคำสั่งซื้อของลูกค้าอีกนิด เพื่อให้คำตอบตรงที่สุด']},
+    analyst:{label:'วิเคราะห์ข้อมูล', name:'Data Analyst Agent', chip:'วิเคราะห์', style:'futuristic', color:'#B6D80B',
+      pattern:'ถามคำถามที่อยากรู้และแหล่งข้อมูลก่อน แล้วตอบเป็นข้อค้นพบพร้อมตัวเลข',
+      hello:['สวัสดีครับ ผมช่วยวิเคราะห์ข้อมูลร้านค้า\n\nมีคำถามอะไรที่อยากรู้จากข้อมูลครับ เช่น สินค้าไหนทำกำไรสุด และข้อมูลอยู่ที่ไหน (CSV / Google Sheets / แพลตฟอร์มร้านค้า)?'],
+      quick:['สินค้าไหนทำกำไรสุด', 'ลูกค้ากลุ่มไหนกลับมาซื้อซ้ำ', 'ยอดขายแยกตามช่องทาง'],
+      replies:['รับทราบครับ ผมจะตอบเป็น: ข้อค้นพบหลัก ตัวเลขประกอบ และข้อควรระวัง\n\n(โหมดเดโม ยังไม่มีข้อมูลจริง)', 'ได้ครับ ขอแหล่งข้อมูลและช่วงเวลาที่ต้องการวิเคราะห์ครับ']}
+  };
+  const PICKABLE = Object.keys(ROLES).filter(k => !ROLES[k].fixed);
+  const ROUTE = [
+    ['finance', /เงิน|กำไร|รายรับ|รายจ่าย|ภาษี|ต้นทุน|บัญชี/],
+    ['marketing', /โฆษณา|แคปชัน|แคมเปญ|คอนเทนต์|โปรโมชัน|การตลาด/],
+    ['legal', /กฎหมาย|pdpa|นโยบาย|สัญญา|ข้อกำหนด|คืนสินค้า/i],
+    ['market', /คู่แข่ง|เทรนด์|ตลาด|ราคา|อุตสาหกรรม/],
+    ['ops', /สต็อก|ออเดอร์|พัสดุ|จัดส่ง|สินค้าหมด/],
+    ['support', /ลูกค้า|ร้องเรียน|ไม่พอใจ|ตอบแชต/],
+    ['analyst', /วิเคราะห์|ข้อมูล|สถิติ|ซื้อซ้ำ/],
+    ['daily', /สรุป|วันนี้|เมื่อวาน|รายงาน/]
+  ];
+
+  /* ---------- state ---------- */
+  const mkBot = (team, role, color) => {
+    const R = ROLES[role];
+    return {id: uid(), name: R.name, role, color: color || R.color, team,
+      msgs: R.hello.map((t, i) => ({r:'bot', t, s: i === 0 ? stamp() : ''}))};
+  };
+  const mkSeed = () => {
+    const team = {id: uid(), name: 'ทีม 1', closed: false};
+    const bots = [mkBot(team.id, 'secretary'), ...PICKABLE.slice(0, 6).map(r => mkBot(team.id, r))];
+    return {teams:[team], bots, active: bots[0].id};
+  };
+  let S;
+  try { S = JSON.parse(localStorage.getItem(KEY)); } catch { S = null; }
+  const valid = s => s && Array.isArray(s.teams) && Array.isArray(s.bots) && s.bots.length && s.bots.every(b => ROLES[b.role] && typeof b.color === 'string');
+  if(!valid(S)) S = mkSeed();
+  // every team must have its Secretary
+  for(const t of S.teams) if(!S.bots.some(b => b.team === t.id && b.role === 'secretary')) S.bots.unshift(mkBot(t.id, 'secretary'));
+  if(!S.bots.some(b => b.id === S.active)) S.active = S.bots[0].id;
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} };
+
+  /* ---------- 3D avatar service (snapshots of the ant, rendered in a hidden iframe) ---------- */
+  const AV = {ready:false, busy:null, queue:[], cache:{}};
+  try { AV.cache = JSON.parse(localStorage.getItem(AVKEY)) || {}; } catch {}
+  const avKey = (style, color) => style + '|' + color.toUpperCase();
+  const avSave = () => { try { const ks = Object.keys(AV.cache); if(ks.length > 40) ks.slice(0, ks.length - 40).forEach(k => delete AV.cache[k]); localStorage.setItem(AVKEY, JSON.stringify(AV.cache)); } catch {} };
+  function avPump(){
+    if(!AV.ready || AV.busy || !AV.queue.length) return;
+    const k = AV.queue.shift(); if(AV.cache[k]) return avPump();
+    AV.busy = k; const i = k.indexOf('|'), style = k.slice(0, i), color = k.slice(i + 1);
+    const f = $('#avsvc'); if(f && f.contentWindow) f.contentWindow.postMessage({type:'ant:render', id:k, style, color}, '*');
+    setTimeout(() => { if(AV.busy === k){ AV.busy = null; avPump(); } }, 6000);
+  }
+  function avRequest(k){ if(!AV.cache[k] && AV.busy !== k && !AV.queue.includes(k)){ AV.queue.push(k); avPump(); } }
+  function avApply(k){
+    const url = AV.cache[k]; if(!url) return;
+    document.querySelectorAll('.av').forEach(el => { if(el.dataset.k !== k) return; const img = el.querySelector('img'); if(img){ img.src = url; el.classList.add('has-img'); } });
+  }
+  window.addEventListener('message', e => {
+    const f = $('#avsvc'); if(!f || e.source !== f.contentWindow || !e.data) return;
+    if(e.data.type === 'ant:ready'){ AV.ready = true; avPump(); }
+    if(e.data.type === 'ant:rendered' && typeof e.data.url === 'string'){ AV.cache[e.data.id] = e.data.url; avSave(); if(AV.busy === e.data.id) AV.busy = null; avApply(e.data.id); avPump(); }
+  });
+  const faceSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="8.5" cy="11" rx="1.6" ry="2.1" fill="#fff"/><ellipse cx="15.5" cy="11" rx="1.6" ry="2.1" fill="#fff"/><path d="M10 15.2c.8.8 3.2.8 4 0" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>';
+  function avatar(b, cls = '', id = ''){
+    const k = avKey(ROLES[b.role].style, b.color); const has = !!AV.cache[k];
+    if(!has) avRequest(k);
+    return `<span ${id ? `id="${id}" ` : ''}class="av ${cls}${has ? ' has-img' : ''}" data-k="${k}" style="--c:${b.color}"><img alt="" ${has ? `src="${AV.cache[k]}"` : ''}>${faceSvg}</span>`;
+  }
+
+  const ico = {
+    chev:'<svg class="i caret" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>',
+    plus:'<svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
+    pen:'<svg class="i" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
+    trash:'<svg class="i" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>',
+    send:'<svg class="i" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',
+    back:'<svg class="i" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>',
+    dots:'<svg class="i" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg>',
+    user:'<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>'
+  };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const active = () => S.bots.find(b => b.id === S.active) || null;
+  const lastText = b => { const m = b.msgs[b.msgs.length - 1]; return m ? m.t.replace(/\s+/g, ' ') : ''; };
+  const chipHTML = b => `<span class="chip${b.role === 'secretary' ? ' sec' : ''}">${esc(ROLES[b.role].chip)}</span>`;
+  const teamBots = tid => S.bots.filter(b => b.team === tid);
+
+  /* ---------- sidebar ---------- */
+  let filter = '';
+  function renderSide(){
+    const q = filter.trim().toLowerCase();
+    const el = $('#groups'); el.innerHTML = '';
+    let shown = 0;
+    for(const g of S.teams){
+      const bots = teamBots(g.id).filter(b => !q || (b.name + ' ' + ROLES[b.role].chip).toLowerCase().includes(q))
+        .sort((a, b) => (b.role === 'secretary') - (a.role === 'secretary'));
+      if(q && !bots.length) continue;
+      shown += bots.length;
+      const wrap = document.createElement('section');
+      wrap.className = 'group' + (g.closed && !q ? ' closed' : '');
+      wrap.innerHTML = `<div class="group-head">
+        <button class="gname" aria-expanded="${!g.closed}">${ico.chev}<span>${esc(g.name)}</span><span style="font-weight:400">· ${bots.length}</span></button>
+        <button class="mini" data-act="rename" aria-label="เปลี่ยนชื่อทีม ${esc(g.name)}">${ico.pen}</button>
+        <button class="mini" data-act="add" aria-label="เพิ่มพนักงานในทีม ${esc(g.name)}">${ico.plus}</button>
+      </div><div class="bots"></div>`;
+      const list = wrap.querySelector('.bots');
+      for(const b of bots){
+        const btn = document.createElement('button');
+        btn.className = 'bot'; btn.setAttribute('aria-current', String(b.id === S.active));
+        btn.innerHTML = `${avatar(b)}<span style="min-width:0"><span class="nm"><b>${esc(b.name)}</b>${chipHTML(b)}</span><span class="pv" style="display:block">${esc(lastText(b))}</span></span>`;
+        btn.onclick = () => { S.active = b.id; save(); renderSide(); renderChat(); $('#app').dataset.view = 'chat'; };
+        list.appendChild(btn);
+      }
+      wrap.querySelector('.gname').onclick = () => { g.closed = !g.closed; save(); renderSide(); };
+      wrap.querySelector('[data-act="add"]').onclick = () => openDialog(g.id);
+      wrap.querySelector('[data-act="rename"]').onclick = () => {
+        const head = wrap.querySelector('.group-head');
+        const inp = document.createElement('input'); inp.value = g.name; inp.maxLength = 30; inp.setAttribute('aria-label', 'ชื่อทีม');
+        head.replaceChildren(inp); inp.focus(); inp.select();
+        let done = false;
+        const fin = ok => { if(done) return; done = true; if(ok && inp.value.trim()) g.name = inp.value.trim(); save(); renderSide(); };
+        inp.onkeydown = e => { if(e.key === 'Enter') fin(true); if(e.key === 'Escape') fin(false); };
+        inp.onblur = () => fin(true);
+      };
+      el.appendChild(wrap);
+    }
+    if(!shown && q){ const d = document.createElement('div'); d.className = 'empty'; d.textContent = 'ไม่พบรายการที่ตรงกับคำค้น'; el.appendChild(d); }
+    const nt = document.createElement('button'); nt.className = 'new-team';
+    nt.innerHTML = `${ico.plus}<span>สร้างทีมใหม่ (มี Secretary ให้อัตโนมัติ)</span>`;
+    nt.onclick = () => {
+      const g = {id: uid(), name: 'ทีม ' + (S.teams.length + 1), closed: false};
+      S.teams.push(g); S.bots.push(mkBot(g.id, 'secretary')); save(); renderSide();
+    };
+    el.appendChild(nt);
+    placeLive();
+  }
+
+  /* ---------- live 3D profile: the active employee's avatar (header + sidebar) watches the composer and works ----------
+     The frames are created once (warmed during boot) and switched with a message, so picking someone never reloads a model.
+     Until the live model confirms, the cached snapshot underneath stays visible. */
+  let liveState = 'idle';
+  const LIVE = {head:{el:$('#live-head'), key:'', built:false}, side:{el:$('#live-side'), key:'', built:false}};
+  const PF = {key:'', built:false};
+  const frameOf = L => L.el.querySelector('iframe');
+  const liveUrl = (b, look) => 'ant-mascot.html?av=1&look=' + look + '&role=' + encodeURIComponent(b.role) + '&style=' + encodeURIComponent(ROLES[b.role].style) + '&color=' + encodeURIComponent(b.color);
+  function livePost(){
+    const b = active(); if(!b) return;
+    for(const k of ['head', 'side']){
+      const f = frameOf(LIVE[k]);
+      if(f && f.contentWindow && LIVE[k].built) try { f.contentWindow.postMessage({type:'ant:state', state: liveState, role: b.role}, '*'); } catch {}
+    }
+  }
+  function applyLive(L, b, look){
+    const key = [ROLES[b.role].style, b.color.toUpperCase(), b.role].join('|');
+    if(L.key === key) return;
+    const f = frameOf(L); L.el.classList.remove('ready');
+    if(!L.key || !L.built){ L.built = false; f.src = liveUrl(b, look); }
+    else f.contentWindow.postMessage({type:'ant:config', style: ROLES[b.role].style, color: b.color, role: b.role, key}, '*');
+    L.key = key;
+  }
+  function warmLive(){
+    const b = active(); if(!b) return;
+    applyLive(LIVE.head, b, 'down'); applyLive(LIVE.side, b, 'diag');
+    const f = $('#pf-frame');
+    if(!PF.key){ PF.key = ROLES[b.role].style + '|' + b.color.toUpperCase(); f.src = 'ant-mascot.html?style=' + encodeURIComponent(ROLES[b.role].style) + '&color=' + encodeURIComponent(b.color); }
+  }
+  window.addEventListener('message', e => {
+    const d = e.data; if(!d) return;
+    for(const k of ['head', 'side']){
+      const L = LIVE[k], f = frameOf(L);
+      if(!f || e.source !== f.contentWindow) continue;
+      if(d.type === 'ant:built' && !L.built){ L.built = true; L.el.classList.add('ready'); const b = active(); if(b){ const key = [ROLES[b.role].style, b.color.toUpperCase(), b.role].join('|'); if(key !== L.key){ L.key = ''; applyLive(L, b, k === 'head' ? 'down' : 'diag'); } } livePost(); }
+      if(d.type === 'ant:configured' && d.key === L.key){ L.el.classList.add('ready'); livePost(); }
+    }
+    const pf = $('#pf-frame');
+    if(pf && e.source === pf.contentWindow && d.type === 'ant:built') PF.built = true;
+  });
+  function placeLive(){
+    const b = active(), ar = $('#app').getBoundingClientRect(), gl = $('#groups').getBoundingClientRect();
+    const put = (L, target, look, clip) => {
+      const el = L.el, r = target ? target.getBoundingClientRect() : null;
+      let ok = !!(b && r && r.width > 8 && r.height > 8);
+      if(ok && clip) ok = r.top >= clip.top - 1 && r.bottom <= clip.bottom + 1;
+      if(b) applyLive(L, b, look);
+      if(!ok){ el.hidden = true; return; }
+      el.hidden = false;
+      el.style.left = (r.left - ar.left) + 'px'; el.style.top = (r.top - ar.top) + 'px';
+      el.style.width = r.width + 'px'; el.style.height = r.height + 'px'; el.style.setProperty('--c', b.color);
+      const f = frameOf(L), px = Math.round(r.width*2);
+      f.style.width = px + 'px'; f.style.height = px + 'px'; f.style.transform = 'scale(.5)';
+    };
+    put(LIVE.head, document.querySelector('#chat .pill .av'), 'down', null);
+    put(LIVE.side, document.querySelector('.bot[aria-current="true"] .av'), 'diag', gl);
+  }
+  const syncDock = placeLive;
+  function setDock(st){ liveState = st; livePost(); }
+  addEventListener('resize', placeLive);
+  $('#groups').addEventListener('scroll', placeLive, {passive:true});
+
+  /* ---------- chat ---------- */
+  let typingFor = null;
+  function renderChat(){
+    const c = $('#chat'); const b = active();
+    const hadFocus = !!(document.activeElement && document.activeElement.id === 'msg');
+    if(!b){ c.innerHTML = '<div class="blank">เลือกพนักงานจากรายการทางซ้าย หรือเพิ่มพนักงานใหม่</div>'; return; }
+    const R = ROLES[b.role];
+    c.innerHTML = `
+      <div class="chat-top">
+        <button class="icon-btn back" id="btn-back" aria-label="กลับไปรายชื่อ" style="background:var(--surf);border:1px solid var(--line)">${ico.back}</button>
+        <button class="pill" id="btn-prof" aria-label="เปิดโปรไฟล์ ${esc(b.name)}">${avatar(b, 'lg')}<span>${esc(b.name)}</span></button>
+        <div style="position:relative">
+          <button class="more" id="btn-more" aria-label="ตัวเลือก" aria-expanded="false">${ico.dots}</button>
+          <div class="menu" id="menu">
+            <button id="m-prof">${ico.user}<span>โปรไฟล์และสี</span></button>
+            <button id="m-rename">${ico.pen}<span>เปลี่ยนชื่อ</span></button>
+            <button id="m-clear">${ico.trash}<span>ล้างบทสนทนา</span></button>
+            ${b.role === 'secretary' ? '' : `<button id="m-del" class="del">${ico.trash}<span>ลบพนักงานนี้</span></button>`}
+          </div>
+        </div>
+      </div>
+      <div class="scroll" id="scroll"><div class="thread" id="thread"></div></div>
+      <div class="composer-wrap">
+        <div class="composer">
+          <div class="quick" id="quick"><h4>คำสั่งด่วน</h4></div>
+          <button class="icon-btn" id="btn-quick" aria-label="คำสั่งด่วน" aria-expanded="false" style="background:var(--surf-2)">${ico.plus}</button>
+          <textarea id="msg" rows="1" placeholder="ส่งข้อความถึง ${esc(b.name)}" aria-label="ข้อความ"></textarea>
+          <button class="send" id="send" aria-label="ส่ง" disabled>${ico.send}</button>
+        </div>
+        <div class="ws-note">โหมดเดโม คำตอบเป็นตัวอย่างและยังไม่ได้เชื่อมข้อมูลร้านค้า</div>
+      </div>`;
+    const th = $('#thread');
+    let lastStamp = '';
+    for(const m of b.msgs){
+      if(m.s && m.s !== lastStamp){ const s = document.createElement('div'); s.className = 'stamp'; s.textContent = m.s; th.appendChild(s); lastStamp = m.s; }
+      const row = document.createElement('div'); row.className = 'row' + (m.r === 'me' ? ' me' : '');
+      const d = document.createElement('div'); d.className = 'msg'; d.textContent = m.t; row.appendChild(d);
+      if(m.link){
+        const tb = S.bots.find(x => x.id === m.link);
+        if(tb){ const h = document.createElement('button'); h.className = 'handoff'; h.innerHTML = avatar(tb, 'lg') + '<span>เปิดแชตกับ ' + esc(tb.name) + '</span>';
+          h.onclick = () => { S.active = tb.id; save(); renderSide(); renderChat(); }; row.appendChild(h); }
+      }
+      th.appendChild(row);
+    }
+    if(typingFor === b.id) addTyping();
+    const sc = $('#scroll'); sc.scrollTop = sc.scrollHeight;
+
+    $('#btn-back').onclick = () => { $('#app').dataset.view = 'list'; };
+    $('#btn-prof').onclick = () => openProfile(b.id);
+    const menu = $('#menu'), more = $('#btn-more');
+    more.onclick = e => { e.stopPropagation(); const on = menu.classList.toggle('on'); more.setAttribute('aria-expanded', on); };
+    $('#m-prof').onclick = () => openProfile(b.id);
+    $('#m-rename').onclick = () => { const n = prompt('ชื่อพนักงาน', b.name); if(n && n.trim()){ b.name = n.trim(); save(); renderSide(); renderChat(); } };
+    $('#m-clear').onclick = () => { b.msgs = b.msgs.slice(0, 1); save(); renderSide(); renderChat(); };
+    const del = $('#m-del');
+    if(del) del.onclick = () => {
+      if(!confirm('ลบ ' + b.name + ' ?')) return;
+      S.bots = S.bots.filter(x => x.id !== b.id); S.active = (teamBots(b.team)[0] || S.bots[0]).id; save(); renderSide(); renderChat();
+    };
+    const q = $('#quick'), qb = $('#btn-quick');
+    for(const t of R.quick){
+      const x = document.createElement('button'); x.textContent = t; x.onclick = () => { q.classList.remove('on'); qb.setAttribute('aria-expanded', 'false'); send(t); }; q.appendChild(x);
+    }
+    qb.onclick = e => { e.stopPropagation(); const on = q.classList.toggle('on'); qb.setAttribute('aria-expanded', on); };
+    const ta = $('#msg'), sb = $('#send');
+    const fit = () => { ta.style.height = '44px'; ta.style.height = Math.min(140, ta.scrollHeight) + 'px'; sb.disabled = !ta.value.trim(); };
+    ta.oninput = fit;
+    ta.onkeydown = e => { if(e.key === 'Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); if(ta.value.trim()) send(ta.value); } };
+    sb.onclick = () => { if(ta.value.trim()) send(ta.value); };
+    ta.addEventListener('focus', () => { if(typingFor !== b.id) setDock('typing'); });
+    ta.addEventListener('input', () => { if(typingFor !== b.id) setDock('typing'); });
+    ta.addEventListener('blur', () => { setTimeout(() => { if(document.activeElement !== $('#msg') && typingFor !== active()?.id) setDock('idle'); }, 120); });
+    if(hadFocus) ta.focus();
+    syncDock();
+    setDock(typingFor === b.id ? 'think' : (hadFocus ? 'typing' : 'idle'));
+  }
+  function addTyping(){ const t = document.createElement('div'); t.className = 'msg typing'; t.innerHTML = '<i></i><i></i><i></i>'; $('#thread').appendChild(t); }
+  function composeReply(b, text){
+    if(b.role === 'secretary'){
+      for(const [role, re] of ROUTE){
+        if(!re.test(text)) continue;
+        const target = teamBots(b.team).find(x => x.role === role);
+        if(target) return {t: `เรื่องนี้เหมาะกับ ${target.name} ครับ ผมส่งต่อให้แล้ว กดปุ่มด้านล่างเพื่อไปคุยต่อได้เลย`, link: target.id};
+        return {t: `เรื่องนี้เป็นงานของ ${ROLES[role].name} ซึ่งทีมนี้ยังไม่มี กด + เพื่อเพิ่มพนักงานด้านนี้เข้าทีมได้เลยครับ`};
+      }
+      return {t: 'รับเรื่องไว้แล้วครับ ขอรายละเอียดเพิ่มอีกนิดว่าเกี่ยวกับการเงิน การตลาด กฎหมาย ตลาด หรือสต็อก ผมจะได้เลือก Agent ที่เหมาะสมให้'};
+    }
+    const rs = ROLES[b.role].replies || [];
+    return {t: rs[b.msgs.length % Math.max(1, rs.length)] || 'รับทราบครับ'};
+  }
+  function send(text){
+    const b = active(); if(!b || typingFor) return;
+    b.msgs.push({r:'me', t: text.trim(), s: stamp()}); typingFor = b.id; save(); renderSide(); renderChat(); setDock('think');
+    const rep = composeReply(b, text);
+    setTimeout(() => {
+      b.msgs.push({r:'bot', t: rep.t, link: rep.link, s: stamp()}); typingFor = null; save(); renderSide();
+      if(active() && active().id === b.id) renderChat();
+      else setDock('idle');
+    }, 1900 + Math.random() * 600);
+  }
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.menu.on,.quick.on').forEach(x => x.classList.remove('on'));
+  });
+
+  /* ---------- search ---------- */
+  $('#btn-search').onclick = () => {
+    const s = $('#search'), on = s.classList.toggle('on');
+    $('#btn-search').setAttribute('aria-expanded', on);
+    if(on) $('#q').focus(); else { $('#q').value = ''; filter = ''; renderSide(); }
+  };
+  $('#q').oninput = e => { filter = e.target.value; renderSide(); };
+
+  /* ---------- colour picker (shared by create + profile) ---------- */
+  function colorPicker(root, current, onPick, group){
+    root.innerHTML = '';
+    const cur = current.toUpperCase();
+    SWATCHES.forEach((c, i) => {
+      const l = document.createElement('label');
+      l.innerHTML = `<input type="radio" name="${group}" value="${c}" ${c === cur ? 'checked' : ''} aria-label="สี ${i + 1}"><span class="sw" style="--c:${c}"></span>`;
+      l.querySelector('input').onchange = () => onPick(c);
+      root.appendChild(l);
+    });
+    const cc = document.createElement('label'); cc.className = 'custom-c';
+    cc.innerHTML = `<input type="color" value="${cur.length === 7 ? cur : '#E2513F'}" aria-label="เลือกสีเอง"><span>เลือกเอง</span>`;
+    let t; cc.querySelector('input').oninput = e => { clearTimeout(t); const v = e.target.value; t = setTimeout(() => { root.querySelectorAll('input[type=radio]').forEach(r => r.checked = false); onPick(v.toUpperCase()); }, 250); };
+    root.appendChild(cc);
+  }
+
+  /* ---------- add employee: the role is a fixed choice, each with its own conversation pattern ---------- */
+  const dlg = $('#dlg');
+  let draft = null;
+  function drawPreview(){
+    const R = ROLES[draft.role];
+    $('#f-prev').outerHTML = avatar({role: draft.role, color: draft.color}, 'xl', 'f-prev');
+    $('#f-pat').innerHTML = `<b>${esc(R.name)}</b>${esc(R.pattern)}`;
+    $('#f-name').placeholder = R.name;
+  }
+  function openDialog(teamId){
+    const first = PICKABLE[0];
+    draft = {role: first, color: ROLES[first].color};
+    $('#f-err').textContent = ''; $('#f-name').value = '';
+    $('#f-role').innerHTML = PICKABLE.map(k => `<option value="${k}">${esc(ROLES[k].name)} · ${esc(ROLES[k].label)}</option>`).join('');
+    $('#f-team').innerHTML = S.teams.map(g => `<option value="${g.id}">${esc(g.name)}</option>`).join('');
+    $('#f-team').value = teamId || S.teams[0].id;
+    const paint = () => colorPicker($('#f-colors'), draft.color, c => { draft.color = c; drawPreview(); }, 'newcolor');
+    $('#f-role').onchange = e => { draft.role = e.target.value; draft.color = ROLES[draft.role].color; paint(); drawPreview(); };
+    paint(); drawPreview();
+    dlg.showModal();
+  }
+  $('#btn-new').onclick = () => openDialog();
+  $('#f-cancel').onclick = () => dlg.close();
+  $('#form').addEventListener('submit', () => {
+    const b = mkBot($('#f-team').value, draft.role, draft.color);
+    const nm = $('#f-name').value.trim(); if(nm) b.name = nm;
+    S.bots.push(b); S.active = b.id; save(); renderSide(); renderChat(); $('#app').dataset.view = 'chat';
+  });
+
+  /* ---------- 3D profile (live ant model; colour changes apply to the model and every avatar) ---------- */
+  const pf = $('#pf');
+  function loadPfFrame(b){
+    const f = $('#pf-frame'), key = ROLES[b.role].style + '|' + b.color.toUpperCase();
+    if(!PF.key){ PF.key = key; PF.built = false; f.src = 'ant-mascot.html?style=' + encodeURIComponent(ROLES[b.role].style) + '&color=' + encodeURIComponent(b.color); }
+    else if(PF.key !== key){
+      PF.key = key;
+      if(PF.built && f.contentWindow) f.contentWindow.postMessage({type:'ant:config', style: ROLES[b.role].style, color: b.color, role: b.role, key}, '*');
+      else { PF.built = false; f.src = 'ant-mascot.html?style=' + encodeURIComponent(ROLES[b.role].style) + '&color=' + encodeURIComponent(b.color); }
+    }
+  }
+  function openProfile(id){
+    const b = S.bots.find(x => x.id === id); if(!b) return;
+    const R = ROLES[b.role];
+    $('#pf-name').innerHTML = `<span>${esc(b.name)}</span>${chipHTML(b)}`;
+    $('#pf-pat').innerHTML = `<b>รูปแบบการเริ่มคุย</b>${esc(R.pattern)}`;
+    colorPicker($('#pf-colors'), b.color, c => { b.color = c; save(); loadPfFrame(b); renderSide(); renderChat(); }, 'pfcolor');
+    loadPfFrame(b);
+    pf.showModal();
+  }
+  $('#pf-close').onclick = () => pf.close();
+  pf.addEventListener('click', e => { if(e.target === pf) pf.close(); });
+
+  /* preload hooks used by the landing page's boot loader */
+  window.SoloraWS = {
+    start(){ const f = $('#avsvc'); if(f && !f.getAttribute('src') && f.dataset.src) f.src = f.dataset.src; warmLive(); },
+    progress(){
+      const keys = new Set(S.bots.map(b => avKey(ROLES[b.role].style, b.color)));
+      let done = 0; keys.forEach(k => { if(AV.cache[k]) done++; });
+      done += (LIVE.head.built ? 1 : 0) + (LIVE.side.built ? 1 : 0) + (PF.built ? 1 : 0);
+      return {done, total: keys.size + 3};
+    }
+  };
+
+  renderSide(); renderChat();
+  if(!$('#avsvc').dataset.src) warmLive();
+  if(matchMedia('(min-width:821px)').matches) $('#app').dataset.view = 'chat';
+})();
+</script>
+</body>
+</html>
