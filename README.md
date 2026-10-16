@@ -10,11 +10,9 @@ front-end prototype built for the U-Hackathon:
 3. **Ant engine** (`ant-mascot.html`) — the Three.js ant renderer reused for the hero mascot, avatar snapshots,
    live avatars with role props, and the 3D profile view.
 
-> Everything is static HTML/JS. There is **no backend**: agent replies in the Workspace are canned demo text.
+> The pages are static HTML/JS served by `server.py`, which also holds the API keys and proxies Gemini (AI) and
+> ElevenLabs (voice). Without keys the Workspace falls back to local rules and browser voices.
 > The UI language is **Thai** (brand terms stay English: Agent, AI, Token, Secretary, Plan Demo).
-
-Read `docs/CONVERSATION_SUMMARY.md` for the full history of what the product owner asked for and why
-(also zipped in `docs/solora-handoff.zip`).
 
 ---
 
@@ -58,8 +56,6 @@ and browser voices.
 | `tools/make_ant.py` | Builds `ant-mascot.html` from `source/ant-studio.html` (all mascot behaviour lives here). |
 | `tools/boot.gif` | 18-frame GIF of the Secretary ant hopping, used by the boot loader. |
 | `tools/mkgif.py`, `tools/gifsrv.py` | Helpers used to regenerate the GIF (see §7). |
-| `docs/CONVERSATION_SUMMARY.md` | Full requirements/decision history. |
-| `docs/solora-handoff.zip` | Zip with the summary + this README. |
 
 ## 3. Rebuilding
 
