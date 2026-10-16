@@ -34,7 +34,8 @@ def load_env(path):
                 k, v = line.split("=", 1)
                 env[k.strip()] = v.strip().strip('"').strip("'")
     # real environment variables win over the file
-    for k in list(env) + ["GEMINI_API_KEY", "ELEVENLABS_API_KEY", "ACCESS_PASSWORD"]:
+    for k in list(env) + ["GEMINI_API_KEY", "ELEVENLABS_API_KEY", "ACCESS_PASSWORD", "HOST", "PORT", "GEMINI_MODEL_LITE", "GEMINI_MODEL_THINK",
+                          "ELEVENLABS_MODEL", "ELEVENLABS_VOICE_ID", "DAILY_CALL_LIMIT"]:
         if os.environ.get(k):
             env[k] = os.environ[k]
     return env
@@ -44,8 +45,10 @@ CFG = load_env(KEYS_FILE)
 GEMINI_KEY = CFG.get("GEMINI_API_KEY", "")
 ELEVEN_KEY = CFG.get("ELEVENLABS_API_KEY", "")
 ACCESS_PASSWORD = CFG.get("ACCESS_PASSWORD", "")
-HOST = CFG.get("HOST", "127.0.0.1")
+# on a host like Railway the platform sets PORT and the server must listen on all interfaces
+HOST = CFG.get("HOST") or ("0.0.0.0" if os.environ.get("PORT") else "127.0.0.1")
 PORT = int(CFG.get("PORT", "8765"))
+DAILY_LIMIT = int(CFG.get("DAILY_CALL_LIMIT", "3000"))   # hard cap on proxied API calls per day for the whole site (protects the keys)
 MODEL_LITE = CFG.get("GEMINI_MODEL_LITE", "gemini-3.5-flash-lite")
 MODEL_THINK = CFG.get("GEMINI_MODEL_THINK", "gemini-3.8-flash")
 ELEVEN_MODEL = CFG.get("ELEVENLABS_MODEL", "eleven_v3")
@@ -60,6 +63,18 @@ RATE_LIMIT = (120, 600)       # at most 120 API calls per client per 10 minutes
 
 _hits = defaultdict(deque)
 _lock = threading.Lock()
+_day = {"d": "", "n": 0}
+
+
+def day_ok():
+    today = time.strftime("%Y-%m-%d")
+    with _lock:
+        if _day["d"] != today:
+            _day["d"], _day["n"] = today, 0
+        if _day["n"] >= DAILY_LIMIT:
+            return False
+        _day["n"] += 1
+        return True
 
 
 def rate_ok(ip):
@@ -139,8 +154,11 @@ class Handler(SimpleHTTPRequestHandler):
             return self.reply_json(403, {"error": {"message": "forbidden origin"}}) or False
         if ACCESS_PASSWORD and self.headers.get("X-Antistant-Pass", "") != ACCESS_PASSWORD:
             return self.reply_json(401, {"error": {"message": "password required"}}) or False
-        if not rate_ok(self.client_address[0]):
+        fwd = (self.headers.get("X-Forwarded-For") or "").split(",")[0].strip()   # real client IP behind a proxy such as Railway
+        if not rate_ok(fwd or self.client_address[0]):
             return self.reply_json(429, {"error": {"message": "too many requests, try again later"}}) or False
+        if not day_ok():
+            return self.reply_json(429, {"error": {"message": "daily limit reached, try again tomorrow"}}) or False
         return True
 
     def read_body(self):
