@@ -327,6 +327,110 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
 .srch li small{color:var(--text-3)}
 @keyframes srcIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
+
+/* Grok-style composer: chips, mic, voice button */
+.composer{align-items:flex-end;border-radius:28px}
+.cmp-mid{flex:1;min-width:0;display:flex;flex-direction:column}
+.cmp-chips{display:flex;flex-wrap:wrap;gap:6px;padding:6px 4px 0}
+.cmp-chips:empty{display:none}
+.cchip{display:inline-flex;align-items:center;gap:6px;max-width:260px;padding:3px 4px 3px 8px;border-radius:999px;background:var(--surf-2);border:1px solid var(--line);font-size:12.5px;color:var(--text-2)}
+.cchip.tool{border-color:color-mix(in oklab,var(--accent) 55%,var(--line));background:color-mix(in oklab,var(--accent) 14%,var(--surf-2));color:var(--text)}
+.cchip > span:not(.av){overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cchip small{color:var(--text-3);flex:none}
+.cchip .av.lg{width:20px;height:20px}
+.cchip svg.i{width:14px;height:14px;flex:none}
+.cchip button{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:var(--text-3);flex:none}
+.cchip button:hover{background:var(--surf);color:var(--text)}
+.composer #btn-quick{background:var(--surf-2)}
+.composer .mic{width:44px;height:44px;background:transparent;color:var(--text-2)}
+.composer .mic:hover{background:var(--surf-2);color:var(--text)}
+.composer .mic:disabled{opacity:.35;cursor:not-allowed}
+.composer .mic[aria-pressed="true"]{background:var(--danger);color:#fff;animation:recpulse 1.3s infinite}
+.send.rec{background:var(--danger);color:#fff;animation:recpulse 1.3s infinite}
+@keyframes recpulse{0%{box-shadow:0 0 0 0 rgba(255,90,90,.55)}70%{box-shadow:0 0 0 12px rgba(255,90,90,0)}100%{box-shadow:0 0 0 0 rgba(255,90,90,0)}}
+.composer.listening{border-color:var(--danger)}
+.composer.listening textarea::placeholder{color:var(--danger)}
+.quick{max-height:min(60dvh,460px);overflow:auto}
+.quick .q-ico,.quick .q-agent{display:flex;align-items:center;gap:10px}
+.quick .q-agent .av.lg{width:28px;height:28px}
+.quick .q-agent[aria-pressed="true"]{background:color-mix(in oklab,var(--accent) 14%,var(--surf-2))}
+.quick .q-agent small{margin-left:auto;color:var(--accent);font-weight:600;font-size:12px}
+/* attachments on sent messages */
+.att{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.att span{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:12px;background:var(--surf-2);border:1px solid var(--line);font-size:12.5px;color:var(--text-2)}
+.att svg.i{width:14px;height:14px}
+/* hover actions under AI messages (Gemini-style) */
+.acts{display:flex;gap:2px;margin-top:-4px;opacity:0;transition:opacity .15s}
+.row:hover .acts,.row:focus-within .acts{opacity:1}
+@media (hover:none){.acts{opacity:1}}
+.acts button{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;color:var(--text-3)}
+.acts button:hover{background:var(--surf);color:var(--text)}
+.acts button[aria-pressed="true"],.acts button.playing{color:var(--accent)}
+.acts button.playing{background:color-mix(in oklab,var(--accent) 14%,transparent)}
+.acts svg.i{width:17px;height:17px}
+.ws-toast{position:absolute;left:50%;bottom:96px;transform:translate(-50%,10px);z-index:20;max-width:min(520px,calc(100% - 32px));padding:10px 16px;border-radius:14px;background:var(--surf-2);border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.35);font-size:13.5px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.ws-toast.on{opacity:1;transform:translate(-50%,0)}
+/* gear + settings */
+.side-foot .gear{width:40px;height:40px;background:var(--surf)}
+#settings{width:min(640px,calc(100vw - 24px))}
+.set-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 8px}
+.set-head h3{margin:0;font-size:20px}
+.set-body{padding:6px 20px 8px;max-height:calc(100dvh - 190px);overflow:auto;display:flex;flex-direction:column;gap:14px}
+.set-sec{border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.set-sec h4{margin:0;font-size:14.5px}
+.set-sec .hint{margin:0;font-size:12.5px;color:var(--text-3);line-height:1.55}
+.set-row{display:flex;align-items:center;gap:10px 14px;justify-content:space-between;flex-wrap:wrap}
+.set-row > label,.set-sub > label{font-size:13.5px;color:var(--text-2)}
+.set-sec input[type=text],.set-sec input[type=password],.set-sec select{background:var(--bg);border:1px solid var(--line);border-radius:10px;height:38px;padding:0 10px;color:var(--text);min-width:0;flex:1 1 240px;max-width:100%}
+.set-sec input[type=range]{flex:1 1 200px;accent-color:var(--accent)}
+.set-sec input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent)}
+.set-seg{display:flex;gap:6px;flex-wrap:wrap}
+.set-seg button{padding:7px 12px;border-radius:999px;border:1px solid var(--line);font-size:13px}
+.set-seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.set-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:var(--surf-2);border:1px solid var(--line);font-size:13px;font-weight:600}
+.set-btn:hover{border-color:var(--accent)}
+.set-btn.danger{color:var(--danger)}
+.set-btn svg.i{width:16px;height:16px}
+.set-status{font-size:13px;color:var(--text-3)}
+.set-sub{display:flex;flex-direction:column;gap:8px}
+.voice-rows{display:flex;flex-direction:column;gap:8px}
+.voice-row{display:flex;align-items:center;gap:10px}
+.voice-row .av.lg{width:28px;height:28px}
+.voice-row > span:not(.av){flex:0 0 150px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.voice-row select{flex:1 1 auto}
+.set-foot{display:flex;justify-content:flex-end;padding:10px 20px 18px}
+@media (max-width:560px){.voice-row > span:not(.av){flex-basis:96px}.composer .mic{width:38px;height:38px}}
+
+
+/* locked Agents, guide, real-data dashboard bits */
+.bot.locked{cursor:not-allowed}
+.bot.locked:hover{background:transparent}
+.bot.locked .av{filter:grayscale(.7) brightness(.8)}
+.bot.locked .nm b,.bot.locked .pv{color:var(--text-3)}
+.bot .lock{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--text-3)}
+.bot .lock svg.i{width:16px;height:16px}
+.quick .q-agent.locked{opacity:.5;cursor:not-allowed}
+.quick .q-agent.locked small{color:var(--text-3)}
+.trow.thead{padding-top:10px;padding-bottom:10px;font-size:12px;color:var(--text-3);letter-spacing:.02em}
+.trow.thead span{white-space:nowrap}
+.trow.empty-row{grid-template-columns:1fr;color:var(--text-3)}
+.trow button.st{cursor:pointer;border:0}
+.trow button.st:hover{filter:brightness(1.15)}
+.tok-break{display:flex;flex-wrap:wrap;gap:12px 26px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--text-3)}
+.tok-break b{display:block;color:var(--text);font-size:17px}
+.tok-note{margin:12px 0 0;font-size:13px;color:var(--accent)}
+#guide{width:min(560px,calc(100vw - 24px))}
+.guide{padding:24px 24px 20px;display:flex;flex-direction:column;gap:16px;max-height:calc(100dvh - 40px);overflow:auto}
+.guide h3{margin:0;font-size:21px;display:flex;align-items:center;gap:10px}
+.guide h3 img{height:34px;width:auto}
+.guide .note{color:var(--text);display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:14px;background:color-mix(in oklab,var(--accent) 12%,var(--surf));border:1px solid color-mix(in oklab,var(--accent) 40%,var(--line));font-size:14px;line-height:1.6}
+.guide .note svg.i{color:var(--accent);flex:none;margin-top:2px}
+.guide ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;counter-reset:g}
+.guide li{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:14px;line-height:1.6;color:var(--text-2);counter-increment:g}
+.guide li::before{content:counter(g);width:28px;height:28px;border-radius:9px;background:var(--surf-2);border:1px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:13px;color:var(--text)}
+.guide li b{color:var(--text)}
+.guide .go{align-self:flex-end;padding:11px 22px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700}
+
 /* ---- responsive tuning: phone / tablet / laptop / 27" ---- */
 .page > *{max-width:1180px;margin-left:auto;margin-right:auto}
 @media (min-width:1700px){
@@ -430,13 +534,13 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     <nav class="snav" id="snav" aria-label="เมนูหลัก">
       <button data-page="overview"><svg class="i" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg><span>ภาพรวม</span></button>
       <button data-page="tasks"><svg class="i" viewBox="0 0 24 24"><path d="m3.5 6 1.7 1.7L8 4.8M3.5 12.5l1.7 1.7L8 11.3M3.5 19l1.7 1.7L8 17.8"/><path d="M12.5 6.5h8M12.5 13h8M12.5 19.5h8"/></svg><span>งานทั้งหมด</span></button>
-      <button data-page="tokens"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v9M9.5 9.8c0-1 1-1.6 2.5-1.6s2.5.6 2.5 1.6-1 1.4-2.5 1.8-2.5.8-2.5 1.8 1 1.6 2.5 1.6 2.5-.6 2.5-1.6"/></svg><span>Token</span><span class="bal">2,140</span></button>
+      <button data-page="tokens"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v9M9.5 9.8c0-1 1-1.6 2.5-1.6s2.5.6 2.5 1.6-1 1.4-2.5 1.8-2.5.8-2.5 1.8 1 1.6 2.5 1.6 2.5-.6 2.5-1.6"/></svg><span>Token</span><span class="bal" id="nav-bal">0</span></button>
     </nav>
     <div class="groups" id="groups"></div>
     <div class="side-foot">
       <div class="me-av" aria-hidden="true">SR</div>
       <div class="ws-plan"><b>Plan Demo</b>ทดลองใช้งาน</div>
-      <a class="home" href="solora-landing.html">หน้าแรก</a>
+      <button class="icon-btn gear" id="btn-settings" aria-label="การตั้งค่า" title="การตั้งค่า"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
     </div>
   </aside>
 
@@ -467,6 +571,28 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
       <button class="ws-btn primary" type="submit">เพิ่มพนักงาน</button>
     </div>
   </form>
+</dialog>
+
+<dialog id="guide" aria-labelledby="guide-title">
+  <div class="guide">
+    <h3 id="guide-title">วิธีใช้ Antistant</h3>
+    <div class="note"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>ตอนนี้เปิดให้ใช้งาน 2 ตัว คือ <b>Secretary</b> และ <b>Legal Agent</b> ส่วน Agent ตัวอื่นติดกุญแจไว้ กำลังพัฒนาและจะเปิดเร็วๆ นี้</span></div>
+    <ol>
+      <li><span><b>Secretary</b> จะทักทายแล้วถามเรื่องร้านทีละข้อ กดเลือกคำตอบในการ์ด หรือพิมพ์/พูดตอบเองก็ได้</span></li>
+      <li><span><b>Legal Agent</b> จะเข้ามาร่วมคุยเรื่องกฎหมายในแชตเดียวกัน แล้วสรุปสิ่งที่ร้านต้องทำไว้ในแชตของตัวเอง</span></li>
+      <li><span>ปุ่ม <b>+</b> ใช้แนบไฟล์ หรือเลือก Agent มาช่วยตอบในแชตที่เปิดอยู่</span></li>
+      <li><span><b>ไมค์</b> พูดแทนการพิมพ์ ส่วน<b>ปุ่มคลื่นเสียง</b> คุยด้วยเสียงแล้วให้ AI อ่านคำตอบให้ฟัง</span></li>
+      <li><span>เอาเมาส์ชี้ข้อความของ AI เพื่อกด <b>ดี / ไม่ดี / คัดลอก / ฟังเสียง</b></span></li>
+      <li><span>รูปเฟือง <b>⚙ การตั้งค่า</b> มุมซ้ายล่าง ใช้เลือกเสียงที่ AI ใช้อ่าน ความเร็ว ภาษาไมค์ และงบ Token ส่วนงาน Token และภาพรวมดูได้จากเมนูด้านบน</span></li>
+    </ol>
+    <button type="button" class="go" id="guide-go">เข้าใจแล้ว เริ่มใช้งาน</button>
+  </div>
+</dialog>
+
+<dialog id="settings" aria-labelledby="set-title">
+  <div class="set-head"><h3 id="set-title">การตั้งค่า</h3><button class="icon-btn" id="set-close" aria-label="ปิด"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="set-body" id="set-body"></div>
+  <div class="set-foot"><a class="home" href="solora-landing.html">กลับหน้าแรก</a></div>
 </dialog>
 
 <dialog id="pf">
@@ -699,7 +825,7 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     const el = $('#groups'); el.innerHTML = '';
     let shown = 0;
     for(const g of S.teams){
-      const bots = teamBots(g.id).filter(b => !q || (b.name + ' ' + ROLES[b.role].chip).toLowerCase().includes(q));
+      const bots = teamBots(g.id).filter(b => !q || (b.name + ' ' + ROLES[b.role].chip).toLowerCase().includes(q)).sort((x, y) => roleRank(x) - roleRank(y));
       if(q && !bots.length) continue;
       shown += bots.length;
       const tu = teamBots(g.id).reduce((a, x) => a + (x.unread || 0), 0);
@@ -713,12 +839,13 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
       const list = wrap.querySelector('.bots');
       for(const b of bots){
         const btn = document.createElement('button');
-        btn.className = 'bot'; btn.dataset.id = b.id; btn.setAttribute('aria-current', String(b.id === S.active));
+        const lk = isLocked(b);
+        btn.className = 'bot' + (lk ? ' locked' : ''); btn.dataset.id = b.id; btn.setAttribute('aria-current', String(!lk && b.id === S.active));
+        if(lk){ btn.setAttribute('aria-disabled', 'true'); btn.innerHTML = `${avatar(b)}<span style="min-width:0"><span class="nm"><b>${esc(b.name)}</b>${chipHTML(b)}</span><span class="pv" style="display:block">ยังไม่เปิดใช้งาน</span></span><span class="lock" title="ยังไม่เปิดใช้งาน">${ico.lock}</span>`; btn.onclick = () => toast(b.name + ' ยังไม่เปิดใช้งาน ตอนนี้ใช้ได้แค่ Secretary และ Legal Agent'); list.appendChild(btn); continue; }
         btn.innerHTML = `${avatar(b)}<span style="min-width:0"><span class="nm"><b>${esc(b.name)}</b>${chipHTML(b)}</span><span class="pv" style="display:block">${esc(lastText(b))}</span></span>${b.unread ? `<span class="ub" aria-label="ข้อความใหม่ ${b.unread} ข้อความ">${b.unread > 99 ? '99+' : b.unread}</span>` : ''}`;
         btn.onclick = () => { if(PAGE) leavePage(); S.active = b.id; save(); renderSide(); renderChat(); $('#app').dataset.view = 'chat'; };
         list.appendChild(btn);
       }
-      if(!q) enableReorder(list, g.id);
       wrap.querySelector('.gname').onclick = () => { g.closed = !g.closed; save(); renderSide(); };
       wrap.querySelector('[data-act="add"]').onclick = () => openDialog(g.id);
       wrap.querySelector('[data-act="rename"]').onclick = () => {
@@ -826,7 +953,7 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
             <button id="m-prof">${ico.user}<span>โปรไฟล์และสี</span></button>
             <button id="m-rename">${ico.pen}<span>เปลี่ยนชื่อ</span></button>
             <button id="m-clear">${ico.trash}<span>ล้างบทสนทนา</span></button>
-            ${b.role === 'secretary' ? `<button id="m-ob">${ico.pen}<span>ตั้งค่าร้านใหม่ (ตอบคำถามอีกครั้ง)</span></button><button id="m-ai">${ico.user}<span>ตั้งค่า AI (API key)</span></button>` : ''}
+            ${b.role === 'secretary' ? `<button id="m-ob">${ico.pen}<span>ตั้งค่าร้านใหม่ (ตอบคำถามอีกครั้ง)</span></button><button id="m-ai">${ico.gear}<span>การตั้งค่า (AI และเสียง)</span></button>` : ''}
             ${b.role === 'secretary' ? '' : `<button id="m-del" class="del">${ico.trash}<span>ลบพนักงานนี้</span></button>`}
           </div>
         </div>
@@ -834,10 +961,12 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
       <div class="scroll" id="scroll"><div class="thread" id="thread"></div></div>
       <div class="composer-wrap">
         <div class="composer">
-          <div class="quick" id="quick"><h4>คำสั่งด่วน</h4></div>
-          <button class="icon-btn" id="btn-quick" aria-label="คำสั่งด่วน" aria-expanded="false" style="background:var(--surf-2)">${ico.plus}</button>
-          <textarea id="msg" rows="1" placeholder="ส่งข้อความถึง ${esc(b.name)}" aria-label="ข้อความ"></textarea>
-          <button class="send" id="send" aria-label="ส่ง" disabled>${ico.send}</button>
+          <div class="quick" id="quick"></div>
+          <button class="icon-btn" id="btn-quick" aria-label="แนบไฟล์และเลือก Agent" title="แนบไฟล์และเลือก Agent" aria-expanded="false">${ico.plus}</button>
+          <div class="cmp-mid"><div class="cmp-chips" id="cmp-chips"></div><textarea id="msg" rows="1" placeholder="${esc(composerPlaceholder(b))}" aria-label="ข้อความ"></textarea></div>
+          <button class="icon-btn mic" id="btn-mic" aria-label="พูดเพื่อพิมพ์" aria-pressed="false">${ico.mic}</button>
+          <button class="send voice" id="send" aria-label="คุยด้วยเสียง">${ico.wave}</button>
+          <input type="file" id="file-in" multiple hidden>
         </div>
         <div class="ws-note">โหมดเดโม คำตอบเป็นตัวอย่างและยังไม่ได้เชื่อมข้อมูลร้านค้า</div>
       </div>`;
@@ -863,7 +992,9 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
         row.appendChild(box);
       }
       if(m.src && m.src.length) row.appendChild(srcBlock(m.src, true, 'แหล่งอ้างอิง'));
+      if(m.files && m.files.length){ const at = document.createElement('div'); at.className = 'att'; at.innerHTML = m.files.map(f => `<span>${ico.clip}${esc(f.name)}</span>`).join(''); row.appendChild(at); }
       if(liveCard) row.appendChild(cardFor(b, m));
+      if(m.r === 'bot' && m.t && !liveCard) row.appendChild(actsFor(b, m));
       if(m.skip && m === b.msgs[b.msgs.length - 1] && !typingFor) row.appendChild(skipFor());
       th.appendChild(row);
     }
@@ -879,22 +1010,14 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     $('#m-rename').onclick = () => { const n = prompt('ชื่อพนักงาน', b.name); if(n && n.trim()){ b.name = n.trim(); save(); renderSide(); renderChat(); } };
     $('#m-clear').onclick = () => { b.msgs = b.msgs.slice(0, 1); save(); renderSide(); renderChat(); };
     const mob = $('#m-ob'); if(mob) mob.onclick = () => { if(confirm('เริ่มตอบคำถามเกี่ยวกับร้านใหม่ทั้งหมดไหม?')) startOnboarding(true); };
-    const mai = $('#m-ai'); if(mai) mai.onclick = setupAI;
+    const mai = $('#m-ai'); if(mai) mai.onclick = openSettings;
     const del = $('#m-del');
     if(del) del.onclick = () => {
       if(!confirm('ลบ ' + b.name + ' ?')) return;
       S.bots = S.bots.filter(x => x.id !== b.id); S.active = (teamBots(b.team)[0] || S.bots[0]).id; save(); renderSide(); renderChat();
     };
-    const q = $('#quick'), qb = $('#btn-quick');
-    for(const t of R.quick){
-      const x = document.createElement('button'); x.textContent = t; x.onclick = () => { q.classList.remove('on'); qb.setAttribute('aria-expanded', 'false'); send(t); }; q.appendChild(x);
-    }
-    qb.onclick = e => { e.stopPropagation(); const on = q.classList.toggle('on'); qb.setAttribute('aria-expanded', on); };
-    const ta = $('#msg'), sb = $('#send');
-    const fit = () => { ta.style.height = '44px'; ta.style.height = Math.min(140, ta.scrollHeight) + 'px'; sb.disabled = !ta.value.trim(); };
-    ta.oninput = fit;
-    ta.onkeydown = e => { if(e.key === 'Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); if(ta.value.trim()) send(ta.value); } };
-    sb.onclick = () => { if(ta.value.trim()) send(ta.value); };
+    setupComposer(b);
+    const ta = $('#msg');
     ta.addEventListener('focus', () => { if(typingFor !== b.id) setDock('typing'); });
     ta.addEventListener('input', () => { if(typingFor !== b.id) setDock('typing'); });
     ta.addEventListener('blur', () => { setTimeout(() => { if(document.activeElement !== $('#msg') && typingFor !== active()?.id) setDock('idle'); }, 120); });
@@ -909,27 +1032,48 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
       for(const [role, re] of ROUTE){
         if(!re.test(text)) continue;
         const target = teamBots(b.team).find(x => x.role === role);
+        if(target && isLocked(target)) return {t: `เรื่องนี้เป็นงานของ ${target.name} ซึ่งยังไม่เปิดใช้งานครับ ตอนนี้ใช้ได้แค่ Secretary และ Legal Agent`, fallback: true, note: true};
         if(target) return {t: `เรื่องนี้เหมาะกับ ${target.name} ครับ ผมส่งต่อให้แล้ว กดปุ่มด้านล่างเพื่อไปคุยต่อได้เลย`, link: target.id};
         return {t: `เรื่องนี้เป็นงานของ ${ROLES[role].name} ซึ่งทีมนี้ยังไม่มี กด + เพื่อเพิ่มพนักงานด้านนี้เข้าทีมได้เลยครับ`};
       }
-      return {t: 'รับเรื่องไว้แล้วครับ ขอรายละเอียดเพิ่มอีกนิดว่าเกี่ยวกับการเงิน การตลาด กฎหมาย ตลาด หรือสต็อก ผมจะได้เลือก Agent ที่เหมาะสมให้'};
+      return {t: 'รับเรื่องไว้แล้วครับ ขอรายละเอียดเพิ่มอีกนิดว่าเกี่ยวกับการเงิน การตลาด กฎหมาย ตลาด หรือสต็อก ผมจะได้เลือก Agent ที่เหมาะสมให้', fallback: true};
     }
     const rs = ROLES[b.role].replies || [];
     return {t: rs[b.msgs.length % Math.max(1, rs.length)] || 'รับทราบครับ'};
   }
-  function send(text){
+  // Secretary answers with Gemini when it isn't simply handing the job to an open Agent
+  async function smartReply(b, text){
+    const base = composeReply(b, text);
+    if(b.role !== 'secretary' || !base.fallback || !aiOn()) return base;
+    try {
+      const prof = S.ob ? Object.assign({}, S.ob.ans, S.ob.prof) : {};
+      const sys = 'คุณคือ ' + b.name + ' เลขาของ Antistant ทีม AI ดูแลร้านขายอุปกรณ์คอมพิวเตอร์ออนไลน์ในไทย ตอบภาษาไทย สุภาพ กระชับ เป็นกันเอง ใช้ข้อมูลร้านที่ให้มา ตอนนี้ทีมที่ใช้งานได้มีแค่คุณและ Legal Agent ถ้าเป็นเรื่องกฎหมายให้แนะนำให้กด + แล้วเลือก Legal Agent หรือเปิดแชต Legal Agent ห้ามแต่งตัวเลขหรือข้อมูลที่ไม่มี';
+      const recent = b.msgs.filter(m => m.r !== 'sys').slice(-8).map(m => (m.r === 'me' ? 'เจ้าของร้าน: ' : 'Secretary: ') + (m.t || '')).join('\n');
+      const t = await aiCall(sys, JSON.stringify({shop_profile: prof, legal_checklist: S.legal ? S.legal.items.map(x => x.t) : [], recent_chat: recent, message: text}), 'think');
+      if(t.trim()) return {t: (base.note ? base.t + '\n\n' : '') + t.trim()};
+    } catch(e){ toast('Gemini ตอบไม่ได้: ' + e.message); }
+    return base;
+  }
+  function send(text, opt){
     const b = active(); if(!b || typingFor) return;
-    if(S.ob && typeof S.ob.step === 'number' && b.id === S.ob.bot) return obAnswer(b, text);
-    b.msgs.push({r:'me', t: text.trim(), s: stamp()}); typingFor = b.id; save(); renderSide(); renderChat(); setDock('think');
+    if(!(opt && opt.voice)) autoReadNext = false;
+    stopSpeak();
+    const cs = cmpOf(b.id), files = cs.files.splice(0), tool = cs.tool ? S.bots.find(x => x.id === cs.tool) : null;
+    if(!tool && !files.length && S.ob && typeof S.ob.step === 'number' && b.id === S.ob.bot) return obAnswer(b, text);
+    b.msgs.push(Object.assign({r:'me', t: text.trim(), s: stamp()}, files.length ? {files} : {})); typingFor = b.id; save(); renderSide(); renderChat(); setDock('think');
+    const task = taskStart(tool || b, text.trim() || (files.length ? 'ส่งไฟล์ ' + files.map(f => f.name).join(', ') : 'งานใหม่'));
+    if(tool){ toolReply(b, tool, text.trim(), files).then(rep => { typingFor = null; pushBot(b, rep); taskDone(task); if(!(active() && active().id === b.id)) setDock('idle'); }); return; }
     if(b.role === 'legal'){
-      legalReply(b, text).then(rep => { typingFor = null; pushBot(b, {t: rep.t, link: rep.link, src: rep.src}); if(!(active() && active().id === b.id)) setDock('idle'); });
+      legalReply(b, text).then(rep => { typingFor = null; pushBot(b, {t: (files.length ? fileNote(files) + '\n\n' : '') + rep.t, link: rep.link, src: rep.src}); taskDone(task); if(!(active() && active().id === b.id)) setDock('idle'); });
       return;
     }
-    const rep = composeReply(b, text);
-    setTimeout(() => {
-      typingFor = null; pushBot(b, {t: rep.t, link: rep.link});
+    const t0 = Date.now();
+    smartReply(b, text).then(async rep => {
+      await sleep(Math.max(0, 1500 - (Date.now() - t0)));
+      if(files.length) rep.t = fileNote(files) + '\n\n' + rep.t;
+      typingFor = null; pushBot(b, {t: rep.t, link: rep.link}); taskDone(task);
       if(!(active() && active().id === b.id)) setDock('idle');
-    }, 1900 + Math.random() * 600);
+    });
   }
   document.addEventListener('click', () => {
     document.querySelectorAll('.menu.on,.quick.on').forEach(x => x.classList.remove('on'));
@@ -1023,44 +1167,79 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
   };
 
 
-  /* ---------- dashboard pages: overview / all tasks / tokens (demo data) ---------- */
+  /* ---------- dashboard pages: overview / all tasks / tokens — real data only ----------
+     Tasks are created when the owner gives an Agent work (and from the legal checklist).
+     Token usage comes from the Gemini API's usageMetadata on every call; ElevenLabs is counted in characters. */
   let PAGE = '';
-  const TASKS = [
-    ['marketing', 'วางแคมเปญโปรโมชันสิ้นเดือนบน TikTok และ LINE OA', 'doing', 42],
-    ['ops', 'อัปเดตสต็อกสินค้าและแจ้งเตือนของใกล้หมด', 'doing', 96],
-    ['finance', 'สรุปรายรับ-รายจ่ายและกำไรสุทธิเดือนนี้', 'done', 115],
-    ['market', 'สรุปคู่แข่งในหมวดสินค้าเดียวกัน 8 ร้าน', 'done', 78],
-    ['legal', 'ตรวจเงื่อนไขการคืนสินค้าตามกฎหมายคุ้มครองผู้บริโภค', 'wait', 34],
-    ['secretary', 'จัดลำดับงานประจำวันและแจกให้แต่ละ Agent', 'done', 58],
-    ['daily', 'สรุปยอดขายและข่าวสำคัญประจำวัน', 'done', 27],
-    ['finance', 'คำนวณต้นทุนและราคาขายสินค้าใหม่ 5 รายการ', 'wait', 61],
-    ['ops', 'ประสานขนส่งและตรวจพัสดุที่ค้างจัดส่ง', 'doing', 49],
-    ['marketing', 'เขียนคอนเทนต์ 7 วัน พร้อมแคปชันและแฮชแท็ก', 'todo', '–'],
-    ['legal', 'ร่างข้อกำหนดการใช้งานและนโยบายความเป็นส่วนตัวของร้าน', 'todo', '–'],
-    ['market', 'คาดการณ์แนวโน้มสินค้ายอดนิยมไตรมาสหน้า', 'todo', '–']
-  ];
+  const OPEN_ROLES = ['secretary', 'legal'];                  // the only Agents switched on for now
+  const isLocked = b => !!b && !OPEN_ROLES.includes(b.role);
+  const roleRank = b => { const i = OPEN_ROLES.indexOf(b.role); return i < 0 ? 99 : i; };
+  const fmtN = n => Number(n || 0).toLocaleString('en-US');
+  const fmtK = n => n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e3 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : String(n || 0);
+  const fmtDur = ms => { if(!ms) return '–'; const s = Math.round(ms / 1000); return s < 60 ? s + ' วิ' : Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0') + ' นาที'; };
+  const dayKey = (d = new Date()) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  const monthKey = (d = new Date()) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+  function usageNow(){
+    const k = monthKey();
+    if(!S.usage || S.usage.cycle !== k) S.usage = {cycle: k, total: 0, calls: 0, byModel: {}, el: 0, days: (S.usage && S.usage.days) || {}};
+    return S.usage;
+  }
+  const usageTotal = () => S.usage && S.usage.cycle === monthKey() ? S.usage.total : 0;
+  function dayAdd(field, v){
+    const u = usageNow(), k = dayKey();
+    const d = u.days[k] || (u.days[k] = {tokens: 0, tasks: 0, ms: 0, n: 0});
+    d[field] = Math.max(0, (d[field] || 0) + v);
+    const keep = dayKey(new Date(Date.now() - 62 * 864e5)); Object.keys(u.days).forEach(x => { if(x < keep) delete u.days[x]; });
+  }
+  function recordUsage(model, um, chars){
+    const u = usageNow();
+    if(chars){ u.el = (u.el || 0) + chars; save(); return; }
+    const t = um ? (um.totalTokenCount || ((um.promptTokenCount || 0) + (um.candidatesTokenCount || 0) + (um.thoughtsTokenCount || 0))) : 0;
+    u.total += t; u.calls++; u.byModel[model] = (u.byModel[model] || 0) + t; dayAdd('tokens', t); save(); updateTab();
+    if(PAGE) refreshPage();
+  }
+  const findTask = id => (S.tasks || []).find(t => t.id === id);
+  function taskStart(bot, title){
+    S.tasks = S.tasks || [];
+    const t = {id: uid(), title: String(title || 'งานใหม่').replace(/\s+/g, ' ').trim().slice(0, 90), bot: bot.id, status: 'doing', created: Date.now(), tok0: usageTotal()};
+    S.tasks.unshift(t); if(S.tasks.length > 200) S.tasks.length = 200; save();
+    if(PAGE) refreshPage();
+    return t;
+  }
+  function taskDone(t){
+    if(!t || t.status === 'done') return;
+    t.status = 'done'; t.done = Date.now(); t.ms = t.done - t.created; t.tokens = Math.max(0, usageTotal() - (t.tok0 || 0)); delete t.tok0;
+    dayAdd('tasks', 1); dayAdd('ms', t.ms); dayAdd('n', 1); save();
+    if(PAGE) refreshPage();
+  }
   const ST = {doing:'กำลังทำ', done:'เสร็จแล้ว', wait:'รออนุมัติ', todo:'รอเริ่ม'};
-  const PACKS = [['500 Token', '500K tokens', 190], ['1,000 Token', '1M tokens', 350], ['5,000 Token', '5M tokens', 1590], ['20,000 Token', '20M tokens', 5900]];
-  const whoOf = role => { const b = S.bots.find(x => x.role === role); return {name: b ? b.name : ROLES[role].name, color: b ? b.color : ROLES[role].color}; };
-  const taskRow = t => { const w = whoOf(t[0]); return `<div class="trow"><span class="tt">${esc(t[1])}</span><span class="who" style="--c:${esc(w.color)}"><i></i><span>${esc(w.name)}</span></span><span class="st ${t[2]}">${ST[t[2]]}</span><span class="tk">${t[3]}</span></div>`; };
-  /* 30-day activity calendar: one square per day, labelled with its date, darker = more activity */
+  const taskRow = t => {
+    const w = S.bots.find(x => x.id === t.bot), name = w ? w.name : 'Agent', color = w ? w.color : '#888';
+    const st = t.kind === 'check' ? `<button type="button" class="st ${t.status}" data-tid="${t.id}" title="กดเพื่อเปลี่ยนสถานะ">${ST[t.status]}</button>` : `<span class="st ${t.status}">${ST[t.status]}</span>`;
+    const tk = t.kind !== 'check' && t.status === 'done' && t.tokens != null ? fmtN(t.tokens) : '–';
+    return `<div class="trow"><span class="tt" title="${esc(t.title)}">${esc(t.title)}</span><span class="who" style="--c:${esc(color)}"><i></i><span>${esc(name)}</span></span>${st}<span class="tk">${tk}</span></div>`;
+  };
+  const emptyRow = msg => `<div class="trow empty-row"><span class="tt">${msg}</span></div>`;
+
+  /* 30-day activity calendar from real daily counters */
   const DAYS = 30, DAY_MS = 864e5;
+  const doneWithin = days => (S.tasks || []).filter(t => t.status === 'done' && t.done && t.done >= Date.now() - days * DAY_MS).length;
+  const avgMs = () => { const xs = (S.tasks || []).filter(t => t.status === 'done' && t.ms && t.kind !== 'check'); return xs.length ? xs.reduce((a, t) => a + t.ms, 0) / xs.length : 0; };
   const METRICS = {
-    tasks:  {title: 'งานที่เสร็จ',        unit: 'งาน',   max: 8,  seed: 11, big: '28',   cap: 'งานที่เสร็จสัปดาห์นี้'},
-    tokens: {title: 'Token ที่ใช้',        unit: 'Token', max: 90, seed: 23, big: '860',  cap: 'Token ที่ใช้'},
-    time:   {title: 'เวลาเฉลี่ยต่องาน',   unit: 'นาที',  max: 12, seed: 37, big: '6:12', cap: 'เวลาเฉลี่ยต่องาน'}
+    tasks:  {title:'งานที่เสร็จ', unit:'งาน', cap:'งานที่เสร็จ 7 วันล่าสุด', big:() => fmtN(doneWithin(7)), val:d => d.tasks || 0},
+    tokens: {title:'Token ที่ใช้', unit:'Token', cap:'Token ที่ใช้รอบนี้', big:() => fmtN(usageTotal()), val:d => d.tokens || 0},
+    time:   {title:'เวลาเฉลี่ยต่องาน', unit:'วินาที', cap:'เวลาเฉลี่ยต่องาน', big:() => fmtDur(avgMs()), val:d => d.n ? Math.round(d.ms / d.n / 1000) : 0}
   };
   let METRIC = 'tasks';
   const WD = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'], WD_FULL = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'];
   function series(m){
-    let s = m.seed; const rnd = () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296;
+    const days = (S.usage && S.usage.days) || {};
     const today = new Date(); today.setHours(0, 0, 0, 0);
     const start = new Date(today.getTime() - (DAYS - 1) * DAY_MS);
-    return Array.from({length: DAYS}, (_, d) => {
-      const day = new Date(start.getTime() + d * DAY_MS), wk = day.getDay() === 0 || day.getDay() === 6;
-      const v = rnd() < (wk ? .45 : .12) ? 0 : Math.max(1, Math.round(m.max * Math.pow(rnd(), wk ? 1.7 : .9)));
-      return {day, v, lv: v === 0 ? 0 : Math.min(4, 1 + Math.floor(v / (m.max / 4 + .001))), today: d === DAYS - 1};
-    });
+    const out = Array.from({length: DAYS}, (_, d) => { const day = new Date(start.getTime() + d * DAY_MS); return {day, v: m.val(days[dayKey(day)] || {}), today: d === DAYS - 1}; });
+    const max = Math.max(1, ...out.map(x => x.v));
+    out.forEach(x => { x.lv = x.v ? Math.min(4, Math.max(1, Math.ceil(x.v / max * 4))) : 0; });
+    return out;
   }
   const fmtDay = d => WD_FULL[d.getDay()] + ' ' + d.toLocaleDateString('th-TH', {day: 'numeric', month: 'short'});
   function calHTML(key){
@@ -1074,46 +1253,60 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
       for(let r = 0; r < 7; r++){
         const i = c * 7 + r - lead, x = ser[i];
         if(!x){ grid += '<span class="hc e"></span>'; continue; }
-        grid += `<button class="hc${x.today ? ' today' : ''}" data-l="${x.lv}" data-i="${i}" aria-label="${fmtDay(x.day)}: ${x.v} ${m.unit}">${x.day.getDate()}${x.today ? '<span class="tag">วันนี้</span>' : ''}</button>`;
+        grid += `<button class="hc${x.today ? ' today' : ''}" data-l="${x.lv}" data-i="${i}" aria-label="${fmtDay(x.day)}: ${fmtN(x.v)} ${m.unit}">${x.day.getDate()}${x.today ? '<span class="tag">วันนี้</span>' : ''}</button>`;
       }
     }
-    const sumTxt = key === 'time' ? 'เฉลี่ย ' + (total / Math.max(1, active)).toFixed(1) + ' นาที/งาน' : total.toLocaleString('en-US') + ' ' + m.unit;
+    const sumTxt = key === 'time' ? (active ? 'เฉลี่ย ' + Math.round(total / active) + ' วินาที/งาน' : '–') : fmtN(total) + ' ' + m.unit;
     return `<div class="cal-h"><b>${m.title}</b><small>30 วันล่าสุด · 1 ช่อง = 1 วัน ตัวเลขในช่องคือวันที่ แต่ละคอลัมน์คือ 1 สัปดาห์</small></div>
-      <div class="cal-read" id="cal-read" aria-live="polite">วันนี้: <b>${ser[DAYS - 1].v} ${m.unit}</b></div>
+      <div class="cal-read" id="cal-read" aria-live="polite">${total ? `วันนี้: <b>${fmtN(ser[DAYS - 1].v)} ${m.unit}</b>` : 'ยังไม่มีข้อมูล เริ่มคุยกับ Secretary หรือ Legal Agent แล้วข้อมูลจริงจะขึ้นที่นี่'}</div>
       <div class="cal-grid" id="cal-grid" style="grid-template-columns:34px repeat(${cols},minmax(0,1fr))">${grid}</div>
       <div class="cal-legend"><span>น้อย</span><i></i><i data-l="1"></i><i data-l="2"></i><i data-l="3"></i><i data-l="4"></i><span>มาก</span></div>
-      <div class="cal-sum"><span><b>${sumTxt}</b>รวม/เฉลี่ย 30 วัน</span><span><b>${active} วัน</b>ที่มีการใช้งาน</span><span><b>${fmtDay(best.day)}</b>ใช้มากที่สุด (${best.v} ${m.unit})</span></div>`;
+      <div class="cal-sum"><span><b>${sumTxt}</b>รวม/เฉลี่ย 30 วัน</span><span><b>${active} วัน</b>ที่มีการใช้งาน</span><span><b>${best.v ? fmtDay(best.day) : '–'}</b>${best.v ? `ใช้มากที่สุด (${fmtN(best.v)} ${m.unit})` : 'ใช้มากที่สุด'}</span></div>`;
   }
   function bindCal(){
     const g = $('#cal-grid'); if(!g) return;
-    const ser = series(METRICS[METRIC]), m = METRICS[METRIC], rd = $('#cal-read');
-    const show = i => { const x = ser[i]; rd.innerHTML = `${fmtDay(x.day)}${x.today ? ' (วันนี้)' : ''}: <b>${x.v} ${m.unit}</b>`; };
+    const m = METRICS[METRIC], ser = series(m), rd = $('#cal-read');
+    const show = i => { const x = ser[i]; rd.innerHTML = `${fmtDay(x.day)}${x.today ? ' (วันนี้)' : ''}: <b>${fmtN(x.v)} ${m.unit}</b>`; };
     g.querySelectorAll('.hc[data-i]').forEach(c => { const i = +c.dataset.i; c.onmouseenter = c.onfocus = c.onclick = () => show(i); });
-    g.onmouseleave = () => show(DAYS - 1);
     document.querySelectorAll('.stat').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.m === METRIC)));
   }
-  const statCard = k => { const m = METRICS[k]; return `<button class="stat" data-m="${k}" aria-pressed="${k === METRIC}"><small>${m.cap}</small><b>${m.big}</b><span class="hint">ดูปฏิทิน 30 วัน ↓</span></button>`; };
+  const statCard = k => { const m = METRICS[k]; return `<button class="stat" data-m="${k}" aria-pressed="${k === METRIC}"><small>${m.cap}</small><b>${m.big()}</b><span class="hint">ดูปฏิทิน 30 วัน ↓</span></button>`; };
   function pageHTML(p){
     const head = (title, meta) => `<div class="pg-head"><button class="back" id="pg-back" aria-label="กลับไปรายชื่อ">${ico.back}</button><h2>${title}</h2>${meta ? `<span class="meta">${meta}</span>` : ''}</div>`;
-    if(p === 'overview') return head('ภาพรวม') + `
+    const tasks = S.tasks || [];
+    const thead = '<div class="trow thead"><span>งาน</span><span>ผู้รับผิดชอบ</span><span>สถานะ</span><span class="tk">Token</span></div>';
+    if(p === 'overview'){
+      const today = dayKey(), todays = tasks.filter(t => dayKey(new Date(t.created)) === today);
+      return head('ภาพรวม') + `
       <div class="stats">${Object.keys(METRICS).map(statCard).join('')}</div>
       <section class="pg-panel cal" id="cal">${calHTML(METRIC)}</section>
-      <section class="pg-panel"><div class="pg-panel-h">งานที่ Secretary แจกวันนี้<span>5 TASKS</span></div>${TASKS.slice(0, 5).map(taskRow).join('')}</section>`;
-    if(p === 'tasks') return head('งานทั้งหมดในรอบนี้', TASKS.length + ' TASKS') + `<section class="pg-panel">${TASKS.map(taskRow).join('')}</section>`;
+      <section class="pg-panel"><div class="pg-panel-h">งานวันนี้<span>${todays.length} TASKS</span></div>${todays.length ? thead + todays.map(taskRow).join('') : emptyRow('วันนี้ยังไม่มีงาน สั่งงาน Secretary หรือ Legal Agent ได้เลย')}</section>`;
+    }
+    if(p === 'tasks') return head('งานทั้งหมด', tasks.length + ' TASKS') + `<section class="pg-panel">${tasks.length ? thead + tasks.map(taskRow).join('') : emptyRow('ยังไม่มีงาน งานจะขึ้นที่นี่เมื่อคุณสั่งงาน Agent หรือเมื่อ Legal Agent สรุปเช็กลิสต์ให้')}</section>`;
+    const u = usageNow(), budget = Math.max(1, +SET.tokenBudget || 1000000), pct = Math.min(100, u.total / budget * 100);
+    const nd = new Date(); const next = new Date(nd.getFullYear(), nd.getMonth() + 1, 1);
+    const lite = SET.geminiLite || 'gemini-3.5-flash-lite', think = SET.geminiThink || 'gemini-3.8-flash';
+    const other = Object.entries(u.byModel).filter(([k]) => k !== lite && k !== think);
     return head('Token') + `
       <section class="tok-bal">
-        <small>Token คงเหลือรอบนี้</small>
-        <div class="big"><b>2,140</b><em>≈ 2,140,000 tokens</em></div>
-        <div class="meter" role="img" aria-label="ใช้ไปแล้ว 860 จาก 3,000"><i style="width:71%"></i></div>
-        <div class="pg-foot"><span>ใช้ไป 860 Token</span><span>รีเซ็ต 1 พ.ย.</span></div>
-      </section>
-      <div class="packs">${PACKS.map((k, i) => `<button class="pack" data-pack="${i}"><b>${k[0]}</b><small>${k[1]}</small><span class="pr">฿${k[2].toLocaleString('en-US')}</span></button>`).join('')}</div>
-      <p class="demo-note" id="demo-note" role="status"></p>`;
+        <small>Token ที่ใช้รอบนี้ (${nd.toLocaleDateString('th-TH', {month: 'long', year: 'numeric'})})</small>
+        <div class="big"><b>${fmtN(u.total)}</b><em>จากการเรียก AI ${fmtN(u.calls)} ครั้ง</em></div>
+        <div class="meter" role="img" aria-label="ใช้ไปแล้ว ${fmtN(u.total)} จากงบ ${fmtN(budget)} Token"><i style="width:${pct.toFixed(1)}%"></i></div>
+        <div class="pg-foot"><span>งบ ${fmtN(budget)} Token · เหลือ ${fmtN(Math.max(0, budget - u.total))}</span><span>รีเซ็ต ${next.toLocaleDateString('th-TH', {day: 'numeric', month: 'short'})}</span></div>
+        <div class="tok-break">
+          <span><b>${fmtN(u.byModel[lite] || 0)}</b>คัดกรองข้อความ · ${esc(lite)}</span>
+          <span><b>${fmtN(u.byModel[think] || 0)}</b>คิด คำนวณ และสรุป · ${esc(think)}</span>
+          ${other.map(([k, v]) => `<span><b>${fmtN(v)}</b>${esc(k)}</span>`).join('')}
+          <span><b>${fmtN(u.el || 0)}</b>ตัวอักษรที่ ElevenLabs อ่าน</span>
+        </div>
+        ${aiOn() ? '' : '<p class="tok-note">ยังไม่ได้เชื่อม Gemini จึงยังไม่มีการใช้ Token ใส่ key ในไฟล์ keys.env แล้วเปิดเว็บผ่าน server.py</p>'}
+      </section>`;
   }
   function leavePage(){
     PAGE = ''; $('#page').hidden = true; $('#chat').hidden = false;
     document.querySelectorAll('#snav button').forEach(b => b.removeAttribute('aria-current'));
   }
+  function refreshPage(){ if(!PAGE) return; const pg = $('#page'), st = pg.scrollTop; setPage(PAGE); pg.scrollTop = st; }
   function setPage(p){
     if(!p){ leavePage(); renderSide(); return; }
     PAGE = p;
@@ -1125,7 +1318,12 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     const back = $('#pg-back'); if(back) back.onclick = () => { $('#app').dataset.view = 'list'; };
     pg.querySelectorAll('.stat').forEach(b => b.onclick = () => { METRIC = b.dataset.m; $('#cal').innerHTML = calHTML(METRIC); bindCal(); });
     bindCal();
-    pg.querySelectorAll('.pack').forEach(btn => btn.onclick = () => { $('#demo-note').textContent = 'โหมดเดโม: ยังไม่เปิดให้ซื้อ Token จริง (' + PACKS[btn.dataset.pack][0] + ')'; });
+    pg.querySelectorAll('button.st[data-tid]').forEach(x => x.onclick = () => {
+      const t = findTask(x.dataset.tid); if(!t) return;
+      if(t.status === 'done'){ t.status = 'todo'; if(t.done && dayKey(new Date(t.done)) === dayKey()) dayAdd('tasks', -1); delete t.done; }
+      else { t.status = 'done'; t.done = Date.now(); dayAdd('tasks', 1); }
+      save(); refreshPage();
+    });
     renderSide();
   }
   document.querySelectorAll('#snav button').forEach(b => b.onclick = () => setPage(PAGE === b.dataset.page ? '' : b.dataset.page));
@@ -1141,6 +1339,7 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     if(!isViewing(b)) b.unread = (b.unread || 0) + 1;
     save(); renderSide();
     if(active() && active().id === b.id) renderChat();
+    maybeAutoRead(b, b.msgs[b.msgs.length - 1]);
   }
   function syncRead(){
     const b = active();
@@ -1149,7 +1348,8 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
   const LANDING_TITLE = document.title.replace(/^\(\d+\)\s*/, '');
   let tabKey = '';
   function updateTab(){
-    const n = S.bots.reduce((a, x) => a + (x.unread || 0), 0);
+    const nb = document.getElementById('nav-bal'); if(nb) nb.textContent = fmtK(usageTotal());
+    const n = typeof SET !== 'undefined' && SET && SET.tabBadge === false ? 0 : S.bots.reduce((a, x) => a + (x.unread || 0), 0);
     document.title = (n ? '(' + (n > 99 ? '99+' : n) + ') ' : '') + (location.hash === '#app' ? 'Antistant' : LANDING_TITLE);
     if(tabKey === String(n)) return; tabKey = String(n);
     const src = document.querySelector('.ws-brand img'); if(!src) return;
@@ -1170,6 +1370,349 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
   }
   document.addEventListener('visibilitychange', () => { syncRead(); updateTab(); });
   addEventListener('focus', syncRead);
+
+  /* ================= COMPOSER EXTRAS, VOICE, SETTINGS =================
+     - "+" menu: attach files, pick another Agent to answer inside this chat, quick commands
+     - Mic: speech-to-text (Web Speech API). Voice button (empty composer): talk, auto-send, replies are read aloud
+     - Hover actions on AI messages: like / dislike / copy / read aloud
+     - Read aloud: ElevenLabs (owner's own API key) or the browser's built-in voices as a free fallback
+     - Settings dialog behind the gear button */
+  Object.assign(ico, {
+    mic:'<svg class="i" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>',
+    wave:'<svg class="i" viewBox="0 0 24 24"><path d="M4 10v4M8 7v10M12 4v16M16 7v10M20 10v4"/></svg>',
+    clip:'<svg class="i" viewBox="0 0 24 24"><path d="m20 11.5-8.1 8.1a5 5 0 0 1-7.1-7.1l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.5 8.5a1.7 1.7 0 0 1-2.4-2.4l7.8-7.8"/></svg>',
+    gear:'<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+    up:'<svg class="i" viewBox="0 0 24 24"><path d="M7 10v11H4V10zM7 10l4-7a2.5 2.5 0 0 1 2.5 2.7L13 10h5.6a2 2 0 0 1 2 2.4l-1.5 7A2 2 0 0 1 17.1 21H7"/></svg>',
+    down:'<svg class="i" viewBox="0 0 24 24"><path d="M17 14V3h3v11zM17 14l-4 7a2.5 2.5 0 0 1-2.5-2.7L11 14H5.4a2 2 0 0 1-2-2.4l1.5-7A2 2 0 0 1 6.9 3H17"/></svg>',
+    copy:'<svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>',
+    vol:'<svg class="i" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5v14l-4.5-4.5H4z"/><path d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/></svg>',
+    stop:'<svg class="i" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2"/></svg>',
+    check:'<svg class="i" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg>',
+    x:'<svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+    lock:'<svg class="i" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>'
+  });
+
+  /* --- settings store (per browser) --- */
+  var SET = (() => {
+    const d = {tts:'browser', elModel:'eleven_v3', voice:{eleven:'', browser:''}, voices:{eleven:{}, browser:{}}, rate:1, autoRead:false, micLang:'th-TH', tabBadge:true};
+    try { const s = JSON.parse(localStorage.getItem('antistant.settings')); if(s) return Object.assign(d, s, {voice: Object.assign(d.voice, s.voice), voices: Object.assign(d.voices, s.voices)}); } catch {}
+    return d;
+  })();
+  const saveSet = () => { try { localStorage.setItem('antistant.settings', JSON.stringify(SET)); } catch {} };
+  const lsGet = k => { try { return localStorage.getItem(k) || ''; } catch { return ''; } };
+  const lsSet = (k, v) => { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch {} };
+
+  /* --- per-chat composer state (not saved): attached files + the Agent picked as a tool --- */
+  const CMP = {};
+  const cmpOf = id => CMP[id] || (CMP[id] = {tool: null, files: []});
+  const fmtSize = n => n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+  function setupComposer(b){
+    const cs = cmpOf(b.id), q = $('#quick'), qb = $('#btn-quick'), ta = $('#msg'), sb = $('#send'), mic = $('#btn-mic'), fin = $('#file-in');
+    if(cs.tool && !S.bots.some(x => x.id === cs.tool)) cs.tool = null;
+    const close = () => { q.classList.remove('on'); qb.setAttribute('aria-expanded', 'false'); };
+    q.innerHTML = '';
+    const item = (html, fn, cls) => { const x = document.createElement('button'); x.type = 'button'; if(cls) x.className = cls; x.innerHTML = html; x.onclick = e => { e.stopPropagation(); fn(x); }; q.appendChild(x); return x; };
+    item(`${ico.clip}<span>แนบไฟล์</span>`, () => { close(); fin.click(); }, 'q-ico');
+    const others = teamBots(b.team).filter(x => x.id !== b.id);
+    if(others.length){
+      const h = document.createElement('h4'); h.textContent = 'ใช้ Agent ในแชตนี้'; q.appendChild(h);
+      for(const o of others){
+        const on = cs.tool === o.id;
+        if(isLocked(o)){ const x = item(`${avatar(o, 'lg')}<span>${esc(o.name)}</span><small>${ico.lock}</small>`, () => toast(o.name + ' ยังไม่เปิดใช้งาน'), 'q-agent locked'); x.setAttribute('aria-disabled', 'true'); continue; }
+        const x = item(`${avatar(o, 'lg')}<span>${esc(o.name)}</span>${on ? '<small>กำลังใช้</small>' : ''}`, () => { cs.tool = on ? null : o.id; close(); renderChips(); ta.focus(); }, 'q-agent');
+        x.setAttribute('aria-pressed', String(on));
+      }
+    }
+    if(ROLES[b.role].quick && ROLES[b.role].quick.length){
+      const h = document.createElement('h4'); h.textContent = 'คำสั่งด่วน'; q.appendChild(h);
+      for(const t of ROLES[b.role].quick) item(esc(t), () => { close(); send(t); });
+    }
+    qb.onclick = e => { e.stopPropagation(); const on = q.classList.toggle('on'); qb.setAttribute('aria-expanded', on); };
+    fin.onchange = () => {
+      for(const f of fin.files){ if(cs.files.length >= 5) break; cs.files.push({name: f.name, size: f.size, type: f.type || ''}); }
+      fin.value = ''; renderChips(); ta.focus();
+    };
+    function renderChips(){
+      const box = $('#cmp-chips'); box.innerHTML = '';
+      const tool = cs.tool && S.bots.find(x => x.id === cs.tool);
+      if(tool){
+        const c = document.createElement('span'); c.className = 'cchip tool';
+        c.innerHTML = `${avatar(tool, 'lg')}<span>ใช้ ${esc(tool.name)}</span><button type="button" aria-label="เลิกใช้ ${esc(tool.name)}">${ico.x}</button>`;
+        c.querySelector('button').onclick = () => { cs.tool = null; renderChips(); setupComposer(b); };
+        box.appendChild(c);
+      }
+      cs.files.forEach((f, i) => {
+        const c = document.createElement('span'); c.className = 'cchip';
+        c.innerHTML = `${ico.clip}<span>${esc(f.name)}</span><small>${fmtSize(f.size)}</small><button type="button" aria-label="เอาไฟล์ ${esc(f.name)} ออก">${ico.x}</button>`;
+        c.querySelector('button').onclick = () => { cs.files.splice(i, 1); renderChips(); };
+        box.appendChild(c);
+      });
+      sendState();
+    }
+    function sendState(){
+      const has = !!ta.value.trim() || cs.files.length > 0;
+      sb.disabled = !!typingFor && has;
+      sb.classList.toggle('voice', !has);
+      sb.innerHTML = has ? ico.send : ico.wave;
+      sb.setAttribute('aria-label', has ? 'ส่ง' : 'คุยด้วยเสียง (พูดแล้วส่งอัตโนมัติ และอ่านคำตอบให้ฟัง)');
+      sb.title = sb.getAttribute('aria-label');
+    }
+    const fit = () => { ta.style.height = '44px'; ta.style.height = Math.min(140, ta.scrollHeight) + 'px'; sendState(); };
+    ta.oninput = fit;
+    const go = () => { if(ta.value.trim() || cs.files.length) send(ta.value); };
+    ta.onkeydown = e => { if(e.key === 'Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); go(); } };
+    sb.onclick = () => { if(ta.value.trim() || cs.files.length) go(); else dictate(true); };
+    mic.onclick = () => dictate(false);
+    if(!SR){ mic.disabled = true; mic.title = 'เบราว์เซอร์นี้ยังไม่รองรับการพิมพ์ด้วยเสียง ลองใช้ Chrome หรือ Edge'; }
+    else mic.title = 'พูดเพื่อพิมพ์';
+    setMicUI();
+    renderChips();
+  }
+
+  /* --- speech to text --- */
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let rec = null, recOn = false, recAuto = false, autoReadNext = false;
+  function setMicUI(){
+    const mic = $('#btn-mic'), sb = $('#send'), cmp = document.querySelector('.composer');
+    if(!mic || !sb || !cmp) return;
+    mic.setAttribute('aria-pressed', String(recOn && !recAuto));
+    sb.classList.toggle('rec', recOn && recAuto);
+    cmp.classList.toggle('listening', recOn);
+    const ta = $('#msg'); if(ta && recOn) ta.placeholder = 'กำลังฟัง… พูดได้เลย';
+  }
+  function dictate(auto){
+    if(!SR){ alert('เบราว์เซอร์นี้ยังไม่รองรับการพิมพ์ด้วยเสียง ลองใช้ Chrome หรือ Edge'); return; }
+    if(recOn){ rec.stop(); return; }
+    stopSpeak();
+    const base = ($('#msg').value || '').replace(/\s*$/, s => s ? ' ' : '');
+    rec = new SR(); rec.lang = SET.micLang || 'th-TH'; rec.interimResults = true; rec.continuous = !auto;
+    rec.onresult = e => {
+      let s = ''; for(let i = 0; i < e.results.length; i++) s += e.results[i][0].transcript;
+      const ta = $('#msg'); if(!ta) return; ta.value = base + s; ta.dispatchEvent(new Event('input'));
+    };
+    rec.onerror = e => { if(e.error === 'not-allowed' || e.error === 'service-not-allowed') alert('กรุณาอนุญาตให้เว็บนี้ใช้ไมโครโฟนก่อนครับ'); };
+    rec.onend = () => {
+      const wasAuto = recAuto; recOn = false; recAuto = false; setMicUI();
+      const ta = $('#msg'); if(ta) ta.placeholder = composerPlaceholder(active());
+      if(wasAuto && ta && ta.value.trim()){ autoReadNext = true; send(ta.value, {voice: true}); }
+    };
+    try { rec.start(); recOn = true; recAuto = auto; setMicUI(); } catch(e) { recOn = false; }
+  }
+  function composerPlaceholder(b){
+    if(!b) return '';
+    return S.ob && typeof S.ob.step === 'number' && b.id === S.ob.bot ? 'พิมพ์คำตอบ หรือคุยเรื่องอื่นก็ได้' : 'ส่งข้อความถึง ' + b.name;
+  }
+
+  /* --- read aloud (ElevenLabs or the browser's voices) --- */
+  const ELV = {voices: [], models: []};
+  try { const c = JSON.parse(localStorage.getItem('antistant.elCache')); if(c){ ELV.voices = c.voices || []; ELV.models = c.models || []; } } catch {}
+  const audioCache = new Map();
+  let audio = null, playingKey = '', speakChain = Promise.resolve();
+  const ttsText = t => String(t || '').replace(/https?:\/\/\S+/g, '').replace(/[•●▪︎]/g, '').replace(/\n{2,}/g, '\n').trim().slice(0, 2500);
+  function stopSpeak(){
+    if(audio){ audio.pause(); audio = null; }
+    try { speechSynthesis.cancel(); } catch {}
+    playingKey = ''; markPlaying();
+  }
+  function markPlaying(){ document.querySelectorAll('.acts [data-act="play"]').forEach(x => { const on = x.dataset.key === playingKey; x.classList.toggle('playing', on); x.innerHTML = on ? ico.stop : ico.vol; x.setAttribute('aria-label', on ? 'หยุดอ่าน' : 'อ่านออกเสียง'); }); }
+  function voiceFor(provider, botId){ return (SET.voices[provider] || {})[botId] || SET.voice[provider] || ''; }
+  async function speakEleven(text, botId){
+    if(!SRV.eleven) throw new Error('เซิร์ฟเวอร์ยังไม่มี ElevenLabs key (keys.env)');
+    let vid = voiceFor('eleven', botId) || SRV.eleven_voice;
+    if(!vid){ if(!ELV.voices.length) await loadEleven(); vid = (ELV.voices[0] || {}).id; }
+    if(!vid) throw new Error('ไม่พบเสียงในบัญชี ElevenLabs');
+    const ck = [vid, SET.elModel, SET.rate, text].join('|');
+    let url = audioCache.get(ck);
+    if(!url){
+      const body = {text, model_id: SET.elModel || SRV.eleven_model || 'eleven_v3'};
+      if(SET.rate !== 1) body.voice_settings = {speed: Math.min(1.2, Math.max(0.7, SET.rate))};
+      const res = await api(`/api/eleven/tts/${encodeURIComponent(vid)}`, {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(body)});
+      if(!res.ok){ let m = 'HTTP ' + res.status; try { const j = await res.json(); m = (j.detail && (j.detail.message || j.detail)) || (j.error && j.error.message) || m; } catch {} throw new Error(typeof m === 'string' ? m : JSON.stringify(m)); }
+      url = URL.createObjectURL(await res.blob()); audioCache.set(ck, url); recordUsage('elevenlabs', null, text.length);
+    }
+    return new Promise(res => { audio = new Audio(url); audio.onended = audio.onerror = () => { audio = null; res(); }; audio.play().catch(() => res()); });
+  }
+  function browserVoices(){ try { return speechSynthesis.getVoices(); } catch { return []; } }
+  function speakBrowser(text, botId){
+    return new Promise(res => {
+      if(!('speechSynthesis' in window)){ res(); return; }
+      const u = new SpeechSynthesisUtterance(text), want = voiceFor('browser', botId), vs = browserVoices();
+      u.voice = vs.find(v => v.name === want) || vs.find(v => /^th/i.test(v.lang)) || null;
+      u.lang = u.voice ? u.voice.lang : 'th-TH'; u.rate = SET.rate || 1;
+      u.onend = u.onerror = () => res();
+      speechSynthesis.speak(u);
+    });
+  }
+  async function speakNow(text, botId, key){
+    text = ttsText(text); if(!text) return;
+    playingKey = key || ''; markPlaying();
+    try {
+      if(SET.tts === 'eleven'){
+        try { await speakEleven(text, botId); }
+        catch(e){ toast('ElevenLabs ใช้ไม่ได้ (' + e.message + ') ใช้เสียงในเบราว์เซอร์แทน'); await speakBrowser(text, botId); }
+      } else await speakBrowser(text, botId);
+    } finally { if(playingKey === (key || '')){ playingKey = ''; markPlaying(); } }
+  }
+  function speakQueued(text, botId, key){ speakChain = speakChain.then(() => speakNow(text, botId, key)); return speakChain; }
+  function maybeAutoRead(b, m){
+    if(!m || m.r !== 'bot' || !m.t || !(SET.autoRead || autoReadNext) || !isViewing(b)) return;
+    speakQueued(m.t, m.from || b.id, b.id + ':' + b.msgs.indexOf(m));
+  }
+  function toast(msg){
+    let t = document.getElementById('ws-toast');
+    if(!t){ t = document.createElement('div'); t.id = 'ws-toast'; t.className = 'ws-toast'; t.setAttribute('role', 'status'); document.getElementById('app').appendChild(t); }
+    t.textContent = msg; t.classList.add('on'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('on'), 3200);
+  }
+
+  /* --- hover actions under AI messages --- */
+  function actsFor(b, m){
+    const mi = b.msgs.indexOf(m), key = b.id + ':' + mi;
+    const box = document.createElement('div'); box.className = 'acts';
+    box.innerHTML = `<button type="button" data-act="up" aria-label="คำตอบนี้ดี" title="ดี" aria-pressed="${m.fb === 'up'}">${ico.up}</button>` +
+      `<button type="button" data-act="down" aria-label="คำตอบนี้ไม่ดี" title="ไม่ดี" aria-pressed="${m.fb === 'down'}">${ico.down}</button>` +
+      `<button type="button" data-act="copy" aria-label="คัดลอก" title="คัดลอก">${ico.copy}</button>` +
+      `<button type="button" data-act="play" data-key="${key}" aria-label="อ่านออกเสียง" title="อ่านออกเสียง">${ico.vol}</button>`;
+    box.onclick = async e => {
+      const x = e.target.closest('button'); if(!x) return;
+      const act = x.dataset.act;
+      if(act === 'up' || act === 'down'){
+        m.fb = m.fb === act ? null : act; save();
+        box.querySelector('[data-act="up"]').setAttribute('aria-pressed', String(m.fb === 'up'));
+        box.querySelector('[data-act="down"]').setAttribute('aria-pressed', String(m.fb === 'down'));
+        if(m.fb) toast(m.fb === 'up' ? 'ขอบคุณครับ ทีมจะใช้คำตอบแบบนี้บ่อยขึ้น' : 'รับทราบครับ ทีมจะปรับคำตอบแบบนี้');
+      } else if(act === 'copy'){
+        try { await navigator.clipboard.writeText(m.t); } catch { const t = document.createElement('textarea'); t.value = m.t; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); } catch {} t.remove(); }
+        x.innerHTML = ico.check; setTimeout(() => { x.innerHTML = ico.copy; }, 1300);
+      } else if(act === 'play'){
+        if(playingKey === key){ stopSpeak(); return; }
+        stopSpeak(); speakChain = Promise.resolve(); speakQueued(m.t, m.from || b.id, key);
+      }
+    };
+    if(playingKey === key){ const p = box.querySelector('[data-act="play"]'); p.classList.add('playing'); p.innerHTML = ico.stop; }
+    return box;
+  }
+
+  /* --- an Agent picked from "+" answers inside the current chat --- */
+  async function toolReply(b, tool, text, files){
+    if(!b.msgs.some(m => m.r === 'sys' && m.kind === 'call' && m.who === tool.id)){
+      const c = pushSys(b, {kind:'call', who: tool.id, t:`กำลังเรียก ${tool.name} มาช่วยตอบ`});
+      await sleep(1100); c.done = true; c.t = `${tool.name} เข้าร่วมการสนทนาแล้ว`; save(); if(active() && active().id === b.id) renderChat();
+    }
+    let rep;
+    if(tool.role === 'legal') rep = await legalReply(b, text || 'สรุปเรื่องกฎหมายของร้าน', tool);
+    else { await sleep(900); rep = composeReply(tool, text); }
+    rep = Object.assign({}, rep, {from: tool.id});
+    if(files.length) rep.t = fileNote(files) + '\n\n' + rep.t;
+    return rep;
+  }
+  const fileNote = files => `ได้รับไฟล์ ${files.map(f => '"' + f.name + '"').join(', ')} แล้วครับ (โหมดเดโม ตอนนี้ยังอ่านเนื้อหาไฟล์ไม่ได้ แต่บันทึกชื่อไฟล์ไว้ให้ทีมแล้ว)`;
+
+  /* --- settings dialog --- */
+  async function loadEleven(){
+    if(!SRV.eleven) throw new Error('เซิร์ฟเวอร์ยังไม่มี ElevenLabs key (keys.env)');
+    const vr = await api('/api/eleven/voices');
+    if(!vr.ok) throw new Error('โหลดรายชื่อเสียงไม่ได้ (HTTP ' + vr.status + ')');
+    const vj = await vr.json();
+    ELV.voices = (vj.voices || []).map(v => ({id: v.voice_id, name: v.name, tag: [v.category, v.labels && (v.labels.accent || v.labels.language), v.labels && v.labels.gender].filter(Boolean).join(' · ')}));
+    try {
+      const mr = await api('/api/eleven/models');
+      if(mr.ok){ const mj = await mr.json(); ELV.models = (mj || []).filter(m => m.can_do_text_to_speech).map(m => ({id: m.model_id, name: m.name})); }
+    } catch {}
+    try { localStorage.setItem('antistant.elCache', JSON.stringify(ELV)); } catch {}
+  }
+  const ELEVEN_MODELS = [{id:'eleven_v3', name:'Eleven v3 (รองรับภาษาไทย แนะนำ)'}, {id:'eleven_multilingual_v2', name:'Eleven Multilingual v2'}, {id:'eleven_flash_v2_5', name:'Eleven Flash v2.5 (เร็ว)'}];
+  function renderSettings(){
+    const body = $('#set-body'), prof = S.ob ? S.ob.prof : null;
+    const voiceOpts = provider => provider === 'eleven'
+      ? ELV.voices.map(v => [v.id, v.name + (v.tag ? ' — ' + v.tag : '')])
+      : browserVoices().slice().sort((x, y) => (/^th/i.test(y.lang) ? 1 : 0) - (/^th/i.test(x.lang) ? 1 : 0)).map(v => [v.name, v.name + ' (' + v.lang + ')']);
+    const sel = (id, opts, cur, first) => `<select id="${id}">${first ? `<option value="">${esc(first)}</option>` : ''}${opts.map(([v, l]) => `<option value="${esc(v)}" ${v === cur ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
+    const prov = SET.tts;
+    const vlist = voiceOpts(prov);
+    body.innerHTML = `
+      <section class="set-sec"><h4>โปรไฟล์</h4>
+        ${prof ? `<div class="set-row"><label for="set-nick">ชื่อที่ให้ AI เรียก</label><input type="text" id="set-nick" value="${esc(prof.nickname || '')}" maxlength="30"></div>
+        <div class="set-row"><label for="set-shop">ชื่อร้าน</label><input type="text" id="set-shop" value="${esc(prof.shop || '')}" maxlength="60"></div>` : '<p class="hint">ยังไม่ได้ตั้งค่าร้าน กด "ตั้งค่าร้านใหม่" ด้านล่างเพื่อให้ Secretary ถามข้อมูลร้าน</p>'}
+      </section>
+      <section class="set-sec"><h4>เสียงอ่านข้อความ</h4>
+        <div class="set-row"><label>ผู้ให้บริการเสียง</label><div class="set-seg" role="group" aria-label="ผู้ให้บริการเสียง">
+          <button type="button" data-tts="browser" aria-pressed="${prov === 'browser'}">เสียงในเบราว์เซอร์ (ฟรี)</button><button type="button" data-tts="eleven" aria-pressed="${prov === 'eleven'}">ElevenLabs</button></div></div>
+        ${prov === 'eleven' ? `
+        <div class="set-row"><span class="set-status">${SRV.eleven ? '🔒 ElevenLabs key อยู่บนเซิร์ฟเวอร์ (ซ่อนไว้ ไม่ส่งมาที่เบราว์เซอร์)' : 'ยังไม่ได้เชื่อม ElevenLabs: ใส่ key ในไฟล์ keys.env แล้วเปิดเว็บผ่าน server.py'}</span></div>
+        <div class="set-row"><span class="set-status" id="el-status">${ELV.voices.length ? `เชื่อมต่อแล้ว · มี ${ELV.voices.length} เสียง` : 'ยังไม่ได้โหลดรายชื่อเสียง'}</span><button type="button" class="set-btn" id="el-load">เชื่อมต่อและโหลดเสียง</button></div>
+        <div class="set-row"><label for="set-model">โมเดล</label>${sel('set-model', (ELV.models.length ? ELV.models : ELEVEN_MODELS).map(m => [m.id, m.name]), SET.elModel)}</div>
+        <p class="hint">ถ้า ElevenLabs ใช้ไม่ได้ ระบบจะอ่านด้วยเสียงในเบราว์เซอร์แทน</p>` : '<p class="hint">ใช้เสียงที่ติดมากับเครื่องและเบราว์เซอร์ ฟรีและไม่ต้องตั้งค่า (เสียงภาษาไทยขึ้นกับเครื่องที่ใช้)</p>'}
+        <div class="set-row"><label for="set-voice">เสียงหลักของ AI</label>${sel('set-voice', vlist, SET.voice[prov], prov === 'eleven' && !vlist.length ? 'โหลดรายชื่อเสียงก่อน' : 'อัตโนมัติ')}</div>
+        <div class="set-sub"><label>เสียงแยกตาม Agent</label><div class="voice-rows">${S.bots.map(x => `<div class="voice-row">${avatar(x, 'lg')}<span>${esc(x.name)}</span>${sel('set-v-' + x.id, vlist, (SET.voices[prov] || {})[x.id] || '', 'ใช้เสียงหลัก')}</div>`).join('')}</div></div>
+        <div class="set-row"><label for="set-rate">ความเร็ว <b id="set-rate-v">${SET.rate.toFixed(2)}×</b></label><input type="range" id="set-rate" min="0.7" max="1.2" step="0.05" value="${SET.rate}"></div>
+        <div class="set-row"><label for="set-auto">อ่านคำตอบให้ฟังอัตโนมัติ</label><input type="checkbox" id="set-auto" ${SET.autoRead ? 'checked' : ''}></div>
+        <div class="set-row"><span class="set-status">ลองฟังเสียงที่เลือก</span><button type="button" class="set-btn" id="set-test">${ico.vol}<span>ทดลองฟัง</span></button></div>
+      </section>
+      <section class="set-sec"><h4>ไมโครโฟน</h4>
+        <div class="set-row"><label for="set-mic">ภาษาที่พูด</label>${sel('set-mic', [['th-TH', 'ภาษาไทย'], ['en-US', 'English']], SET.micLang)}</div>
+        ${SR ? '' : '<p class="hint">เบราว์เซอร์นี้ยังไม่รองรับการพิมพ์ด้วยเสียง ลองใช้ Chrome หรือ Edge</p>'}
+      </section>
+      <section class="set-sec"><h4>AI (Google Gemini)</h4>
+        <div class="set-row"><span class="set-status">${SRV.gemini ? '🔒 Gemini key อยู่บนเซิร์ฟเวอร์ (ซ่อนไว้ ไม่ส่งมาที่เบราว์เซอร์)' : 'ยังไม่ได้เชื่อม Gemini: ใส่ key ในไฟล์ keys.env แล้วเปิดเว็บผ่าน server.py'}</span></div>
+        <div class="set-row"><label for="set-glite">โมเดลคัดกรองข้อความ</label><input type="text" id="set-glite" list="gm-list" value="${esc(geminiModel('lite'))}"></div>
+        <div class="set-row"><label for="set-gthink">โมเดลคิด คำนวณ และสรุป</label><input type="text" id="set-gthink" list="gm-list" value="${esc(geminiModel('think'))}"></div>
+        <datalist id="gm-list">${(SET.gmodels || []).map(m => `<option value="${esc(m)}">`).join('')}</datalist>
+        <div class="set-row"><span class="set-status" id="g-status">${(SET.gmodels || []).length ? 'บัญชีนี้ใช้ได้ ' + SET.gmodels.length + ' โมเดล' : 'กดตรวจสอบเพื่อดูว่าโมเดลที่ตั้งไว้ใช้ได้ไหม'}</span><button type="button" class="set-btn" id="g-check">ตรวจสอบ key และโมเดล</button></div>
+        <div class="set-row"><label for="set-budget">งบ Token ต่อเดือน</label><input type="text" id="set-budget" inputmode="numeric" value="${fmtN(SET.tokenBudget || 1000000)}"></div>
+        <p class="hint">Flash-Lite ใช้อ่านและคัดแยกคำตอบที่พิมพ์เอง ส่วนโมเดลคิด/สรุปใช้ตอบคำถามและสรุปเรื่องกฎหมาย ทุกครั้งที่เรียกจะนับ Token จริงไว้ในหน้า Token</p>
+      </section>
+      <section class="set-sec"><h4>การแจ้งเตือน</h4>
+        <div class="set-row"><label for="set-badge">แสดงจำนวนข้อความใหม่บนแท็บเบราว์เซอร์</label><input type="checkbox" id="set-badge" ${SET.tabBadge !== false ? 'checked' : ''}></div>
+      </section>
+      <section class="set-sec"><h4>ข้อมูล</h4>
+        <div class="set-row"><span class="set-status">อ่านวิธีใช้งานอีกครั้ง</span><button type="button" class="set-btn" id="set-guide">วิธีใช้งาน</button></div>
+        <div class="set-row"><span class="set-status">ให้ Secretary ถามข้อมูลร้านใหม่ทั้งหมด</span><button type="button" class="set-btn" id="set-reob">ตั้งค่าร้านใหม่</button></div>
+        <div class="set-row"><span class="set-status">ลบบทสนทนาทั้งหมดในเครื่องนี้</span><button type="button" class="set-btn danger" id="set-wipe">ล้างแชตทั้งหมด</button></div>
+      </section>`;
+    const on = (id, ev, fn) => { const el = $('#' + id); if(el) el[ev] = fn; };
+    on('set-nick', 'onchange', e => { prof.nickname = e.target.value.trim(); save(); });
+    on('set-shop', 'onchange', e => { prof.shop = e.target.value.trim(); save(); });
+    body.querySelectorAll('[data-tts]').forEach(x => x.onclick = () => { SET.tts = x.dataset.tts; SET.ttsPicked = true; saveSet(); renderSettings(); });
+    on('el-load', 'onclick', async () => {
+      const st = $('#el-status');
+      st.textContent = 'กำลังเชื่อมต่อ…';
+      try { await loadEleven(); renderSettings(); } catch(e) { st.textContent = e.message; }
+    });
+    on('set-model', 'onchange', e => { SET.elModel = e.target.value; SET.elModelPicked = true; saveSet(); });
+    on('set-voice', 'onchange', e => { SET.voice[prov] = e.target.value; saveSet(); });
+    S.bots.forEach(x => on('set-v-' + x.id, 'onchange', e => { SET.voices[prov] = SET.voices[prov] || {}; if(e.target.value) SET.voices[prov][x.id] = e.target.value; else delete SET.voices[prov][x.id]; saveSet(); }));
+    on('set-rate', 'oninput', e => { SET.rate = +e.target.value; $('#set-rate-v').textContent = SET.rate.toFixed(2) + '×'; saveSet(); });
+    on('set-auto', 'onchange', e => { SET.autoRead = e.target.checked; saveSet(); });
+    on('set-test', 'onclick', () => { const sec = S.bots.find(x => x.role === 'secretary'); stopSpeak(); speakChain = Promise.resolve(); speakQueued(`สวัสดีครับ${prof && prof.nickname ? ' คุณ' + prof.nickname : ''} ผมคือ Secretary ของ Antistant นี่คือเสียงที่คุณเลือกไว้ครับ`, sec ? sec.id : ''); });
+    on('set-mic', 'onchange', e => { SET.micLang = e.target.value; saveSet(); });
+    on('set-glite', 'onchange', e => { SET.geminiLite = e.target.value.trim(); saveSet(); });
+    on('set-gthink', 'onchange', e => { SET.geminiThink = e.target.value.trim(); saveSet(); });
+    on('set-budget', 'onchange', e => { const n = parseInt(String(e.target.value).replace(/[^0-9]/g, ''), 10); SET.tokenBudget = n > 0 ? n : 1000000; e.target.value = fmtN(SET.tokenBudget); saveSet(); });
+    on('g-check', 'onclick', async () => {
+      const st = $('#g-status');
+      if(!aiOn()){ st.textContent = 'เซิร์ฟเวอร์ยังไม่มี Gemini key (keys.env)'; return; }
+      st.textContent = 'กำลังตรวจสอบ…';
+      try {
+        SET.gmodels = await listGeminiModels(); saveSet();
+        const miss = [geminiModel('lite'), geminiModel('think')].filter(m => !SET.gmodels.includes(m));
+        renderSettings();
+        $('#g-status').textContent = miss.length ? 'key ใช้ได้ แต่ไม่พบโมเดล: ' + miss.join(', ') + ' ลองเลือกชื่อจากรายการแทน' : 'key ใช้ได้ และพบโมเดลที่ตั้งไว้ครบ';
+      } catch(e){ st.textContent = 'ใช้ไม่ได้: ' + e.message; }
+    });
+    on('set-guide', 'onclick', () => { $('#settings').close(); showGuide(); });
+    on('set-badge', 'onchange', e => { SET.tabBadge = e.target.checked; saveSet(); tabKey = ''; updateTab(); });
+    on('set-reob', 'onclick', () => { if(confirm('เริ่มตอบคำถามเกี่ยวกับร้านใหม่ทั้งหมดไหม?')){ $('#settings').close(); startOnboarding(true); } });
+    on('set-wipe', 'onclick', () => {
+      if(!confirm('ล้างบทสนทนาของ AI ทุกตัวในเครื่องนี้? กู้คืนไม่ได้')) return;
+      S.bots.forEach(x => { x.msgs = ROLES[x.role].hello.map((t, i) => ({r:'bot', t, s: i === 0 ? stamp() : ''})); x.unread = 0; });
+      S.ob = null; S.legal = null; S.tasks = []; save(); $('#settings').close(); renderSide(); renderChat(); setTimeout(maybeStartOnboarding, 300);
+    });
+  }
+  function openSettings(){ renderSettings(); $('#settings').showModal(); }
+  $('#btn-settings').onclick = openSettings;
+  $('#set-close').onclick = () => $('#settings').close();
+  $('#settings').addEventListener('click', e => { if(e.target === $('#settings')) $('#settings').close(); });
+  try { speechSynthesis.onvoiceschanged = () => { if($('#settings').open && SET.tts === 'browser') renderSettings(); }; } catch {}
 
   /* ================= LEGAL KNOWLEDGE BASE =================
      Researched from public sources on 16 ต.ค. 2569 for online computer-equipment shops in Thailand.
@@ -1276,30 +1819,66 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     daily:(a, p) => `สวัสดีครับ ${whoName(p)} ผมได้รับข้อมูลร้านจาก Secretary แล้ว\n\nผมจะสรุปยอดและข่าวสำคัญของร้านให้เป็นประจำ ขอเวลาเก็บข้อมูลสักพัก แล้วจะส่งฉบับแรกให้ครับ`
   };
 
-  /* --- AI (Claude API) with local fallback --- */
-  const AI_MODEL = 'claude-haiku-5-5';
-  const aiOn = () => { try { return !!(localStorage.getItem('antistant.aiKey') || localStorage.getItem('antistant.aiEndpoint')); } catch { return false; } };
-  function setupAI(){
-    let cur = ''; try { cur = localStorage.getItem('antistant.aiKey') || ''; } catch {}
-    const v = prompt('วาง API key ของ Anthropic เพื่อให้ Secretary ใช้ AI จริงอ่านคำตอบ\n(เก็บไว้ในเบราว์เซอร์เครื่องนี้เท่านั้น เหมาะกับการทดลอง ถ้าใช้งานจริงควรผ่านเซิร์ฟเวอร์ของคุณ)\nเว้นว่างแล้วกด OK เพื่อลบ key', cur ? '(ตั้งไว้แล้ว – พิมพ์ใหม่เพื่อเปลี่ยน)' : '');
-    if(v === null) return;
-    try {
-      if(v.trim() === '') localStorage.removeItem('antistant.aiKey');
-      else if(!v.startsWith('(ตั้งไว้แล้ว')) localStorage.setItem('antistant.aiKey', v.trim());
-    } catch {}
-    alert(aiOn() ? 'เปิดใช้ AI แล้ว คำตอบที่พิมพ์เองจะถูกส่งให้ AI อ่าน' : 'ปิด AI แล้ว ใช้ตัวอ่านคำตอบแบบง่ายในเครื่องแทน');
+  /* --- AI: Gemini through this site's own server (server.py). The API keys live in keys.env on the server and are never sent to the browser.
+         Flash-Lite reads/sorts what the owner typed; the bigger Flash model thinks, calculates and summarises.
+         Every call records its token usage (usageMetadata). Without the server (or without a key) a local rule-based fallback is used. --- */
+  var SRV = {gemini: false, eleven: false, locked: false, models: {}, eleven_model: '', eleven_voice: ''};
+  const aiOn = () => !!SRV.gemini;
+  const geminiModel = tier => tier === 'think' ? (SET.geminiThink || SRV.models.think || 'gemini-3.8-flash') : (SET.geminiLite || SRV.models.lite || 'gemini-3.5-flash-lite');
+  // every /api call carries the lock header; if the server has a password, ask once per browser session
+  async function api(path, opts){
+    opts = opts || {};
+    const go = () => { let pass = ''; try { pass = sessionStorage.getItem('antistant.pass') || ''; } catch {}
+      return fetch(path, Object.assign({}, opts, {headers: Object.assign({'X-Antistant': '1'}, pass ? {'X-Antistant-Pass': pass} : {}, opts.headers || {})})); };
+    let res = await go();
+    if(res.status === 401){
+      const pw = prompt('ใส่รหัสผ่านเพื่อใช้งาน AI ของ Antistant');
+      if(pw){ try { sessionStorage.setItem('antistant.pass', pw); } catch {} res = await go(); }
+    }
+    return res;
   }
-  async function aiCall(system, user){
-    const key = localStorage.getItem('antistant.aiKey'), ep = localStorage.getItem('antistant.aiEndpoint');
-    const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 15000);
+  async function loadServerStatus(){
     try {
-      const res = await fetch(ep || 'https://api.anthropic.com/v1/messages', {method:'POST', signal: ctl.signal,
-        headers: ep ? {'content-type':'application/json'} : {'content-type':'application/json', 'x-api-key': key, 'anthropic-version':'2023-06-01', 'anthropic-dangerous-direct-browser-access':'true'},
-        body: JSON.stringify({model: AI_MODEL, max_tokens: 700, system, messages:[{role:'user', content: user}]})});
-      if(!res.ok) throw new Error('HTTP ' + res.status);
-      const j = await res.json();
-      return (j.content || []).map(c => c.text || '').join('');
+      const r = await fetch('/api/status', {cache: 'no-store'});
+      if(r.ok){ Object.assign(SRV, await r.json()); if(SRV.eleven && !SET.ttsPicked){ SET.tts = 'eleven'; } if(SRV.eleven_model && !SET.elModelPicked) SET.elModel = SRV.eleven_model; if(PAGE) refreshPage(); }
+    } catch {}
+  }
+  // remove keys that older versions kept in this browser
+  ['antistant.geminiKey', 'antistant.elKey', 'antistant.aiKey', 'antistant.aiEndpoint'].forEach(k => { try { localStorage.removeItem(k); } catch {} });
+  loadServerStatus();
+  async function geminiCall(model, system, user, json){
+    const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 30000);
+    try {
+      const res = await api(`/api/gemini/models/${encodeURIComponent(model)}:generateContent`, {method:'POST', signal: ctl.signal, headers: {'content-type':'application/json'},
+        body: JSON.stringify({systemInstruction: {parts: [{text: system}]}, contents: [{role: 'user', parts: [{text: user}]}], generationConfig: json ? {responseMimeType: 'application/json'} : {}})});
+      const j = await res.json().catch(() => ({}));
+      if(!res.ok){ const e = new Error((j.error && j.error.message) || 'HTTP ' + res.status); e.status = res.status; throw e; }
+      recordUsage(model, j.usageMetadata);
+      return ((j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts) || []).filter(p => !p.thought).map(p => p.text || '').join('');
     } finally { clearTimeout(to); }
+  }
+  async function aiCall(system, user, tier, json){
+    const busy = e => [429, 500, 503].includes(e.status);
+    const tryModel = async model => {
+      try { return await geminiCall(model, system, user, json); }
+      catch(e){ if(busy(e)){ await sleep(1200); return await geminiCall(model, system, user, json); } throw e; }   // one quick retry when Google is overloaded
+    };
+    const model = geminiModel(tier);
+    try { return await tryModel(model); }
+    catch(e){
+      // the "think" model can be missing or overloaded: answer with Flash-Lite instead of failing
+      if(tier === 'think' && (busy(e) || e.status === 404 || e.status === 400)){
+        toast(model + (busy(e) ? ' มีผู้ใช้หนาแน่น' : ' ใช้ไม่ได้') + ' ตอบด้วย ' + geminiModel('lite') + ' แทน');
+        return await tryModel(geminiModel('lite'));
+      }
+      throw e;
+    }
+  }
+  async function listGeminiModels(){
+    const res = await api('/api/gemini/models');
+    const j = await res.json().catch(() => ({}));
+    if(!res.ok) throw new Error((j.error && j.error.message) || 'HTTP ' + res.status);
+    return (j.models || []).filter(m => (m.supportedGenerationMethods || []).includes('generateContent')).map(m => m.name.replace(/^models\//, ''));
   }
   const STEP_RULES = {
     about:'ดึงข้อมูลจากคำตอบ: fields = {"shop": ชื่อร้าน, "age": อายุเป็นตัวเลข, "nickname": ชื่อที่ให้เรียก} (ไม่มีข้อมูลไหนให้เว้นเป็น "") ok เป็น true เสมอ reply ทักทายสั้นๆ เรียกชื่อที่ให้ไว้ เช่น "ยินดีที่ได้รู้จักครับ คุณ...."',
@@ -1313,7 +1892,7 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
   async function aiInterpret(st, text){
     const system = 'คุณคือ Secretary ของ Antistant (ทีม AI ช่วยดูแลร้านค้าออนไลน์) กำลังสัมภาษณ์เจ้าของร้านทีละข้อ ตอบเป็นภาษาไทยสุภาพ สั้น กระชับ ไม่เกิน 2 ประโยค ตอบกลับเป็น JSON เท่านั้น (ห้ามมีข้อความอื่น) รูปแบบ: {"ok": true|false, "value": string, "fields": object, "reply": string} reply ต้องจบด้วย <question> เสมอ (ระบบจะแทนที่ด้วยคำถามถัดไปหรือคำถามเดิมให้เอง) ห้ามถามคำถามใหม่เองในช่อง reply';
     const user = JSON.stringify({question: st.q(S.ob.ans, S.ob.prof), step: st.key, rules: STEP_RULES[st.key] || 'ok=true value = สรุปคำตอบสั้นๆ', profile: S.ob.ans, owner_answer: text});
-    const raw = await aiCall(system, user);
+    const raw = await aiCall(system, user, 'lite', true);
     const m = raw.match(/\{[\s\S]*\}/); if(!m) throw new Error('no json');
     const j = JSON.parse(m[0]);
     return {ok: j.ok !== false, value: String(j.value || text), fields: j.fields && typeof j.fields === 'object' ? j.fields : {}, reply: String(j.reply || '')};
@@ -1461,7 +2040,7 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     if(who === 'legal' && !again){
       const lg = ensureLegal(b.team);
       if(!S.ob.legalJoined){
-        S.ob.legalJoined = true; save();
+        S.ob.legalJoined = true; S.ob.ltask = taskStart(lg, 'ปรึกษาเรื่องกฎหมายของร้าน').id; save();
         const call = pushSys(b, {kind:'call', who: lg.id, t:`กำลังเรียก ${lg.name} มาปรึกษาร่วมด้วย`});
         await sleep(1500); call.done = true; call.t = `${lg.name} เข้าร่วมการสนทนาแล้ว`; save(); renderChat();
         const src = /นำเข้า|ทั้งสอง/.test(S.ob.ans.sourcing || '') ? ['imp'] : [];
@@ -1478,6 +2057,7 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     if(S.ob && !force) return;
     const sec = S.bots.find(x => x.role === 'secretary'); if(!sec) return;
     S.ob = {step: 0, ans: {}, prof: {}, bot: sec.id}; sec.msgs = []; sec.unread = 0;
+    S.ob.task = taskStart(sec, 'ตั้งค่าข้อมูลร้านกับ Secretary').id;
     if(force) S.legal = null;
     if(PAGE) leavePage();
     S.active = sec.id; $('#app').dataset.view = 'chat'; save(); renderSide(); renderChat();
@@ -1490,7 +2070,7 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     text = text.trim(); const i = S.ob.step, st = OB[i];
     b.msgs.push({r:'me', t: text, s: stamp()});
     if(i === 0 && text === 'ข้ามไปก่อน'){
-      S.ob.step = 'skipped'; save(); renderSide(); renderChat();
+      S.ob.step = 'skipped'; S.tasks = (S.tasks || []).filter(x => x.id !== S.ob.task); save(); renderSide(); renderChat();
       botSay(b, {t: 'ได้เลยครับ ตอนไหนพร้อมกลับมาตั้งค่าได้จากเมนู ⋯ มุมขวาบน เลือก "ตั้งค่าร้านใหม่" ระหว่างนี้สั่งงานผมได้ตามสบายครับ'}); return;
     }
     typingFor = b.id; save(); renderSide(); renderChat();
@@ -1517,18 +2097,20 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
       ['ทีมดูแลร้าน', a.team], ['งานที่อยากให้ช่วย', a.pain], [isNew(a) ? 'Vision และแผนเปิดร้าน' : 'เป้าหมายธุรกิจ', a.goal], ['ระดับที่ AI ทำเองได้', a.autonomy]]
       .filter(x => x[1]).map(x => `• ${x[0]}: ${x[1]}`).join('\n');
     await botSay(b, {t: `${ack ? ack + '\n\n' : ''}ขอบคุณครับ ผมได้ข้อมูลครบแล้ว สรุปร้านของคุณตามนี้\n${lines}`});
+    taskDone(findTask(S.ob.task));
+    if(!roles.includes('legal')) roles.unshift('legal');
+    const open = roles.filter(r => OPEN_ROLES.includes(r)), later = roles.filter(r => !OPEN_ROLES.includes(r));
     const created = [];
-    const members = roles.map(r => {
+    const members = open.map(r => {
       let m = S.bots.find(x => x.team === b.team && x.role === r);
       if(!m){ m = mkBot(b.team, r); m.msgs = []; S.bots.push(m); created.push(m); }
       return m;
     });
     save(); renderSide();
-    const duty = members.map(m => `• ${m.name}: ${DUTY[m.role]}`).join('\n');
-    await botSay(b, {t: `จากที่คุยกัน งานเหล่านี้ทีม AI จัดการให้ได้เลยครับ\n${duty}\n\n${created.length ? 'ผมเพิ่ม ' + created.map(m => m.name).join(', ') + ' เข้าทีมให้แล้ว\n' : ''}ผมแจ้งข้อมูลร้านให้แต่ละฝ่ายแล้ว ลองกดเปิดแชตของฝ่ายที่สนใจได้เลยครับ`, links: members.map(m => m.id)});
+    const duty = members.map(m => `• ${m.name}: ${DUTY[m.role]}`).join('\n') + (later.length ? '\n\nเปิดใช้เร็วๆ นี้ (ตอนนี้ยังล็อกไว้)\n' + later.map(r => `• ${ROLES[r].name}: ${DUTY[r]}`).join('\n') : '');
+    await botSay(b, {t: `จากที่คุยกัน งานเหล่านี้ทีม AI ช่วยได้ครับ\n${duty}\n\n${created.length ? 'ผมเพิ่ม ' + created.map(m => m.name).join(', ') + ' เข้าทีมให้แล้ว\n' : ''}ผมแจ้งข้อมูลร้านให้ฝ่ายที่เปิดใช้งานแล้ว กดเปิดแชตได้เลยครับ`, links: members.map(m => m.id)});
     members.forEach((m, i) => setTimeout(() => pushBot(m, {t: INTAKE[m.role](a, p)}), 900 + i * 1100));
   }
-
   /* --- legal wrap-up: checklist into the Legal Agent's own chat + memory for later conversations --- */
   function legalChecklist(a, p){
     const L = [];
@@ -1551,7 +2133,9 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     const items = legalChecklist(a, p);
     const now = items.filter(x => x.prio === 'now'), watch = items.filter(x => x.prio === 'watch');
     S.legal = {items, at: KB_CHECKED, ans: Object.fromEntries(['sourcing', 'age20', 'guardian', 'condition', 'wireless', 'power', 'registered', 'customer_data'].filter(k => a[k]).map(k => [k, a[k]]))};
-    S.ob.step = 'done'; save();
+    S.ob.step = 'done'; taskDone(findTask(S.ob.ltask));
+    items.slice().reverse().forEach(x => S.tasks.unshift({id: uid(), kind: 'check', title: x.t, bot: lg.id, status: 'todo', created: Date.now()}));
+    save();
     const shop = p.shop ? p.shop : 'ร้านของคุณ';
     pushBot(lg, {t: `สรุปเรื่องกฎหมายของ${shop.startsWith('ร้าน') ? '' : ' '}${shop} (ข้อมูลตรวจเมื่อ ${KB_CHECKED})\n\nต้องทำตอนนี้\n${now.map((x, i) => `${i + 1}. ${x.t}`).join('\n')}\n\nต้องคอยติดตาม\n${watch.map(x => '• ' + x.t).join('\n')}\n\n${LEGAL_DISCLAIMER}`,
       src: kbSources([...new Set(items.map(x => x.kb))])});
@@ -1559,15 +2143,16 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     await botSay(b, {t: 'ขอบคุณครับ ตอนนี้ทีมรู้จักร้านของคุณครบแล้ว มีอะไรสั่งงานผมได้เลยครับ'});
   }
   // Legal Agent replies later in its own chat: shows its search, then answers from the knowledge base + what the owner told us
-  async function legalReply(b, text){
+  async function legalReply(b, text, lgBot){
+    lgBot = lgBot || b;
     const hits = Object.keys(LEGAL_KB).filter(k => LEGAL_KB[k].kw.test(text));
     if(hits.length) await searchFor(b, hits);
     const memo = S.legal ? S.legal.items : [];
     if(aiOn()){
       try {
         const kb = Object.fromEntries(Object.entries(LEGAL_KB).map(([k, v]) => [k, {title: v.title, text: v.text, sources: v.src.map(s => s.u)}]));
-        const sys = 'คุณคือ ' + b.name + ' ฝ่ายกฎหมายของ Antistant ดูแลร้านขายอุปกรณ์คอมพิวเตอร์ออนไลน์ในไทย ตอบภาษาไทย สุภาพ กระชับ ใช้เฉพาะข้อมูลใน knowledge_base และข้อมูลร้าน ถ้าไม่แน่ใจให้บอกตรงๆ และแนะนำให้ยืนยันกับหน่วยงาน ห้ามแต่งกฎหมายหรือตัวเลขขึ้นเอง';
-        const t = await aiCall(sys, JSON.stringify({knowledge_base: kb, shop_profile: S.ob ? {...S.ob.ans, ...S.ob.prof} : {}, legal_checklist: memo.map(x => x.t), question: text}));
+        const sys = 'คุณคือ ' + lgBot.name + ' ฝ่ายกฎหมายของ Antistant ดูแลร้านขายอุปกรณ์คอมพิวเตอร์ออนไลน์ในไทย ตอบภาษาไทย สุภาพ กระชับ ใช้เฉพาะข้อมูลใน knowledge_base และข้อมูลร้าน ถ้าไม่แน่ใจให้บอกตรงๆ และแนะนำให้ยืนยันกับหน่วยงาน ห้ามแต่งกฎหมายหรือตัวเลขขึ้นเอง';
+        const t = await aiCall(sys, JSON.stringify({knowledge_base: kb, shop_profile: S.ob ? {...S.ob.ans, ...S.ob.prof} : {}, legal_checklist: memo.map(x => x.t), question: text}), 'think');
         if(t.trim()) return {t: t.trim(), src: kbSources(hits)};
       } catch(e) {}
     }
@@ -1579,10 +2164,19 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     if(memo.length) return {t: `จากที่คุยกันไว้ ร้านของ${name}ยังมีเรื่องที่ต้องทำตอนนี้\n${memo.filter(x => x.prio === 'now').map((x, i) => `${i + 1}. ${x.t}`).join('\n')}\n\nอยากให้ผมอธิบายข้อไหนเพิ่ม หรือถามเรื่องอื่น เช่น มอก. กสทช. PDPA ภาษีนำเข้า ได้เลยครับ`};
     return composeReply(b, text);
   }
+  function showGuide(then){
+    const g = $('#guide'); if(g.open) return;
+    $('#guide-go').onclick = () => { g.close(); };
+    g.onclose = () => { if(!S.guideSeen){ S.guideSeen = true; save(); } if(then) then(); };
+    g.showModal();
+  }
   function maybeStartOnboarding(){
     if(S.ob || !$('#app').getClientRects().length) return;
+    if(!S.guideSeen){ showGuide(() => { if(!S.ob) startOnboarding(); }); return; }
     startOnboarding();
   }
+  // a locked Agent can't stay open
+  if(isLocked(active())){ const sec = S.bots.find(x => x.role === 'secretary'); if(sec) S.active = sec.id; }
   addEventListener('hashchange', () => { updateTab(); setTimeout(() => { maybeStartOnboarding(); syncRead(); }, 700); });
   setTimeout(maybeStartOnboarding, 900);
 

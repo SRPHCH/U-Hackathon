@@ -21,10 +21,20 @@ Read `docs/CONVERSATION_SUMMARY.md` for the full history of what the product own
 ## 1. Quick start
 
 ```bash
-# from the repo root — any static server works; the pages load three.js from jsDelivr, so internet is required
-python -m http.server 8765
-# open http://127.0.0.1:8765/solora-landing.html   (press "เริ่มใช้งาน" to enter the Workspace)
+# 1) put your API keys on the server side (never in the page)
+cp keys.example.env keys.env        # then fill GEMINI_API_KEY / ELEVENLABS_API_KEY
+# 2) run the site + API proxy (Python 3.9+, standard library only)
+python server.py
+# 3) open http://127.0.0.1:8765/   (press "เริ่มใช้งาน" to enter the Workspace)
 ```
+
+**API keys are locked on the server.** `server.py` serves the pages and proxies `/api/gemini/...` and `/api/eleven/...`,
+adding the keys from `keys.env`. The browser never receives a key, `keys.env` is git-ignored and refused if requested over
+HTTP, and the proxy only accepts calls from this site's own pages (`X-Antistant` header + same Origin), validates model/voice ids,
+caps request size and rate (120 calls / 10 min per client), and can require `ACCESS_PASSWORD`. By default it listens on
+127.0.0.1 only. Anyone who receives the *files* (including `keys.env`) can still read the keys, so use restricted keys with
+spending limits and rotate them after the event. Without the server (or without keys) the app falls back to local rules
+and browser voices.
 
 - Open the files through `http://` (or directly from disk in a normal browser). Viewers that render local files as
   static snapshots (e.g. some IDE previews) cannot load the sibling `ant-mascot.html` iframes — the 3D parts will not appear.

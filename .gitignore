@@ -1,0 +1,6 @@
+# API keys — never commit
+keys.env
+*.env
+!keys.example.env
+__pycache__/
+tools/frames/
