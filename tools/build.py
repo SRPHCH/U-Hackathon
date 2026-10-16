@@ -39,6 +39,20 @@ sub("mBg: m.bg, mFg: m.fg, mSh: m.sh, yBg: y.bg, yFg: y.fg, ySh: y.sh,",
 sub("return { q, a, toggle: () => this.setState({ open: on ? -1 : i }), rows: on ? '1fr' : '0fr', rot: on ? '45deg' : '0deg', iconBg: on ? pink : 'oklch(0.96 0.02 358)', iconFg: on ? 'oklch(0.3 0.06 355)' : 'oklch(0.52 0.13 358)', border: on ? 'oklch(0.85 0.08 358)' : 'oklch(0.93 0.012 350)' };",
     "return { q, a, toggle: () => this.setState({ open: on ? -1 : i }), rows: on ? '1fr' : '0fr', on: on ? 'true' : 'false' };")
 # advisor points: drop A1/A2 labels not used in markup; fine to keep.
+# footer links: real targets where a section/page exists, plain "coming soon" text otherwise
+_f0 = script.index("      footCols: [")
+_f1 = script.index("      ]" + chr(10) + "    };", _f0) + len("      ]" + chr(10))
+_L = lambda t, h='': "{ t: %r, href: %r, on: %s, off: %s }" % (t, h, 'true' if h else 'false', 'false' if h else 'true')
+script = script[:_f0] + """      footCols: [
+        { h: 'ผลิตภัณฑ์', items: [%s, %s, %s, %s] },
+        { h: 'แหล่งข้อมูล', items: [%s, %s, %s, %s] },
+        { h: 'บริษัท', items: [%s, %s, %s] },
+        { h: 'กฎหมาย', items: [%s, %s, %s] }
+      ]
+""" % (_L('Agent ทั้งหมด', '#agents'), _L('Secretary', '#advisor'), _L('Market & Industry Update', '#oracle'), _L('การเชื่อมต่อ'),
+       _L('คู่มือเริ่มต้น'), _L('บทความ'), _L('ศูนย์ช่วยเหลือ', '#faq'), _L('สถานะระบบ'),
+       _L('เกี่ยวกับเรา'), _L('ร่วมงานกับเรา'), _L('ติดต่อเรา', 'mailto:XXX@gmail.com'),
+       _L('ข้อกำหนดการใช้งาน'), _L('นโยบายความเป็นส่วนตัว'), _L('ความปลอดภัย')) + script[_f1:]
 
 # ---- content pass: plans, faq, terminology ----
 _a = script.index("const base = [590, 1490, 3900];"); _b = script.index("const faqData = [")
@@ -50,7 +64,7 @@ script = script[:_a] + """const fmt = n => n.toLocaleString('en-US');
     """ + script[_b:]
 _a = script.index("const faqData = ["); _b = script.index("];", _a) + 2
 script = script[:_a] + """const faqData = [
-      ['ทำไมต้องเลือก Solora แทนการใช้แชตบอตเอไอทั่วไป?', 'แชตบอตทั่วไปตอบเมื่อคุณถาม แต่ Solora มีเอเจนท์หลายตัวที่รู้จักร้านของคุณ เชื่อมกับข้อมูลยอดขายจริง และทำงานต่อเนื่องเอง เช่น เฝ้าราคาคู่แข่งหรือตรวจคำโฆษณา จากนั้นสรุปมาให้คุณตัดสินใจ คุณไม่ต้องเขียนพรอมต์ใหม่ทุกครั้ง'],
+      ['ทำไมต้องเลือก Antistant แทนการใช้แชตบอตเอไอทั่วไป?', 'แชตบอตทั่วไปตอบเมื่อคุณถาม แต่ Antistant มีเอเจนท์หลายตัวที่รู้จักร้านของคุณ เชื่อมกับข้อมูลยอดขายจริง และทำงานต่อเนื่องเอง เช่น เฝ้าราคาคู่แข่งหรือตรวจคำโฆษณา จากนั้นสรุปมาให้คุณตัดสินใจ คุณไม่ต้องเขียนพรอมต์ใหม่ทุกครั้ง'],
       ['เอเจนท์ทำงานตลอดเวลาโดยไม่ต้องสั่งจริงหรือไม่?', 'จริง แต่ละเอเจนท์มีรอบการทำงานของตัวเอง เช่น Market & Industry Update ตรวจข่าวและราคาทุกชั่วโมง Daily Update ส่งสรุปทุกเช้า คุณยังสั่งงานเพิ่มหรือหยุดเอเจนท์ตัวไหนก็ได้ทุกเมื่อ'],
       ['Market & Industry Update ทำนายแม่นยำแค่ไหน?', 'Market & Industry Update ใช้ข้อมูลย้อนหลังของร้าน ข้อมูลตลาด และข่าวที่เกี่ยวข้องมาสร้างคาดการณ์ ทุกผลลัพธ์แสดงระดับความมั่นใจและแหล่งข้อมูลที่ใช้ ควรใช้เป็นข้อมูลประกอบการตัดสินใจ ไม่ใช่คำรับประกันผล'],
       ['ยกเลิกได้ตลอดเวลาหรือไม่?', 'ได้ ยกเลิกได้จากหน้าตั้งค่า ไม่มีสัญญาผูกมัด']
@@ -68,7 +82,7 @@ markup = _norm(markup); script = _norm(script)
 
 head = ('<!DOCTYPE html>\n<html lang="th"><head>\n<meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
-        '<title>Solora — ทีมเอไอสำหรับธุรกิจ E‑Commerce</title>\n'
+        '<title>Antistant — ทีมเอไอสำหรับธุรกิจ E‑Commerce</title>\n'
         '<script src="40a0a0f5-3946-470e-ba31-6bffefe3a835"></script>\n</head>\n<body>\n<x-dc>\n<helmet>\n'
         '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap">\n<style>' + fonts + '</style>\n<style>\n' + css + '\n</style>\n</helmet>\n')
 tpl = head + markup + "\n</x-dc>\n" + script + "\n</body></html>"
@@ -129,13 +143,13 @@ _router = """<script>
   var t0 = Date.now(), hero = false, ready = false;
   var WS = function(){ return window.SoloraWS || {progress:function(){return {done:0,total:1}}, start:function(){}}; };
   var inApp = function(){ return location.hash === '#app'; };
-  function startPreload(){ if(hero) return; hero = true; B.set(70); WS().start(); }
+  function startPreload(){ if(hero) return; hero = true; B.set(70); setTimeout(function(){ WS().start(); }, 7000); }
   addEventListener('message', function(e){
     if(!e.data || e.data.type !== 'ant:shown') return;
     var f = document.querySelector('.hero-ant iframe');
     if(f && e.source === f.contentWindow) startPreload();
   });
-  B.set(45, 'Loading Solora...');
+  B.set(45, 'Loading Antistant...');
   function tick(){
     var age = Date.now() - t0;
     if(!hero && age > 25000) startPreload();
@@ -151,9 +165,11 @@ _router = """<script>
   setInterval(tick, 250); tick();
 })();
 </script>"""
-_embed = "\n<style id=\"ws-css\">\n" + _scoped + "\n</style>\n<div id=\"ws\">" + _body + "</div>\n<script>\n" + _js + "\n</script>\n" + _router + "\n"
+_embed = "\n<style id=\"ws-css\">\n" + _scoped + "\n</style>\n<div id=\"ws\">" + _body + "</div>\n<script>\n" + _js + "\n</script>\n" + _router + "\n" + "<script>" + open(os.path.join(TOOLS, "debug_overlay.js"), encoding="utf8").read() + "</script>"
 tpl = tpl.replace("\n</body></html>", _embed + "</body></html>")
 tpl = tpl.replace('href="solora-app.html"', 'href="#app"')
+# brand rename: visible name Solora -> Antistant (identifiers like SoloraWS and storage keys stay)
+tpl = re.sub(r'Solora(?!WS)', 'Antistant', tpl).replace('solora.ai', 'antistant.ai')
 
 import html as _h
 _ant = open(os.path.join(ROOT, "ant-mascot.html"), encoding="utf8").read()
@@ -165,19 +181,23 @@ src = open(os.path.join(ROOT, "source", "solora-landing.orig.html"), encoding="u
 m = re.search(r'(<script type="__bundler/template">\s*)(.*?)(\s*</script>)', src, re.S)
 js = json.dumps(tpl, ensure_ascii=False).replace("</", "<\\/")
 
-_gif = base64.b64encode(open(os.path.join(TOOLS, "boot.gif"), "rb").read()).decode()
+_gif = base64.b64encode(open(os.path.join(TOOLS, "boot-ant.png"), "rb").read()).decode()
 _loader = """<div id="__bundler_thumbnail" role="status" aria-live="polite">
     <style>
       #__bundler_thumbnail{position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;background:#fff;transition:opacity .5s ease,visibility .5s}
       #__bundler_thumbnail.done{opacity:0;visibility:hidden;pointer-events:none}
-      #__bundler_thumbnail img{height:168px;width:auto;display:block}
+      #__bundler_thumbnail .bt-ant{position:relative;height:200px;display:flex;align-items:flex-end;justify-content:center}
+      #__bundler_thumbnail .bt-ant img{height:150px;width:auto;display:block;position:relative;z-index:1;transform-origin:50% 100%;will-change:transform;animation:bt-hop 1.1s cubic-bezier(.3,0,.3,1) infinite}
+      #__bundler_thumbnail .bt-ant b{position:absolute;bottom:-6px;left:50%;width:96px;height:14px;margin-left:-48px;border-radius:50%;background:rgba(60,30,30,.22);filter:blur(3px);will-change:transform,opacity;animation:bt-sh 1.1s cubic-bezier(.3,0,.3,1) infinite}
+      @keyframes bt-hop{0%,100%{transform:translateY(0) scale(1.08,.9)}12%{transform:translateY(0) scale(.96,1.05)}50%{transform:translateY(-34px) scale(1,1)}88%{transform:translateY(0) scale(.97,1.04)}}
+      @keyframes bt-sh{0%,100%{transform:scale(1.05);opacity:.9}50%{transform:scale(.7);opacity:.45}}
       #__bundler_thumbnail .bt-bar{width:min(260px,64vw);height:6px;border-radius:99px;background:#fbe3ec;overflow:hidden}
       #__bundler_thumbnail .bt-bar i{display:block;height:100%;width:8%;border-radius:99px;background:#f06c9b;transition:width .45s ease}
       #__bundler_thumbnail .bt-txt{font:500 14px/1.4 'Anuphan','IBM Plex Sans Thai','Noto Sans Thai',system-ui,sans-serif;color:#6a5560}
     </style>
-    <img alt="" src="data:image/gif;base64,""" + _gif + """">
+    <div class="bt-ant"><b></b><img alt="" src="data:image/png;base64,""" + _gif + """"></div>
     <div class="bt-bar"><i></i></div>
-    <div class="bt-txt">Loading Solora...</div>
+    <div class="bt-txt">Loading Antistant...</div>
   </div>
   <script>
     window.__boot = {pct: 0,

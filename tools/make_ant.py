@@ -284,4 +284,13 @@ SNAP_HOOK = """if(SNAP && thumb){
 }
 """
 rep("function resize(){ if(!main) return;", SNAP_HOOK + "function resize(){ if(!main) return;")
+# ---- performance (laptop jank): cheaper main render, throttle idle redraws, no always-on CSS filter ----
+rep("powerPreference:'high-performance'", "powerPreference: main ? 'high-performance' : 'low-power'")
+rep("r.setPixelRatio(main ? Math.min(devicePixelRatio||1, 2) : 1);", "r.setPixelRatio(main ? Math.min(devicePixelRatio||1, 1.5) : 1);")
+rep("r.shadowMap.type = THREE.PCFSoftShadowMap;", "r.shadowMap.type = THREE.PCFShadowMap;")
+rep("key.shadow.mapSize.set(2048,2048);", "key.shadow.mapSize.set(1024,1024);")
+rep("now - lastDraw > 15.5", "now - lastDraw > 30")
+rep("filter:saturate(calc(1 + var(--heat)*.55)) brightness(calc(1 - var(--heat)*.05)) hue-rotate(calc(var(--heat)*-6deg))}",
+    "}" + chr(10) + ".viewer .stage.hot canvas.gl{filter:saturate(calc(1 + var(--heat)*.55)) brightness(calc(1 - var(--heat)*.05)) hue-rotate(calc(var(--heat)*-6deg))}")
+rep("stage.style.setProperty('--heat', o.heat.toFixed(3));", "stage.classList.toggle('hot', o.heat > .01); stage.style.setProperty('--heat', o.heat.toFixed(3));")
 open(os.path.join(ROOT, "ant-mascot.html"), "w", encoding="utf8").write(s)

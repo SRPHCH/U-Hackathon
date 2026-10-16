@@ -322,7 +322,8 @@ dialog::backdrop{background:rgba(30,28,24,.36);backdrop-filter:blur(6px);-webkit
 html,body{background:transparent!important;overflow:hidden}
 .viewer .stage{background:transparent!important;box-shadow:none!important;--heat:0;--mx:0;--ab:0;--hs:0;--hr:0rad}
 .viewer .stage-tools,.viewer .stage-foot,.viewer .stage-tag,.viewer .hint,.viewer .toast,.viewer .busy{display:none!important}
-.viewer .stage canvas.gl{cursor:default;touch-action:manipulation;filter:saturate(calc(1 + var(--heat)*.55)) brightness(calc(1 - var(--heat)*.05)) hue-rotate(calc(var(--heat)*-6deg))}
+.viewer .stage canvas.gl{cursor:default;touch-action:manipulation;}
+.viewer .stage.hot canvas.gl{filter:saturate(calc(1 + var(--heat)*.55)) brightness(calc(1 - var(--heat)*.05)) hue-rotate(calc(var(--heat)*-6deg))}
 .viewer .stage.over canvas.gl{cursor:pointer}
 .fx{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden}
 .fx .glow{position:absolute;left:50%;bottom:6%;width:78%;aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,oklch(0.7 0.22 28 / .55) 0,oklch(0.7 0.2 28 / 0) 68%);opacity:calc(var(--heat)*.8)}
@@ -1493,17 +1494,17 @@ function toneHex(tone, body){
 class Studio {
   constructor(canvas, {main}){
     this.main = main;
-    const r = this.renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true, preserveDrawingBuffer:!main, powerPreference:'high-performance'});
-    r.setPixelRatio(main ? Math.min(devicePixelRatio||1, 2) : 1);
+    const r = this.renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true, preserveDrawingBuffer:!main, powerPreference: main ? 'high-performance' : 'low-power'});
+    r.setPixelRatio(main ? Math.min(devicePixelRatio||1, 1.5) : 1);
     r.toneMapping = THREE.NeutralToneMapping; r.toneMappingExposure = 1.02; r.outputColorSpace = THREE.SRGBColorSpace;
-    r.shadowMap.enabled = main; r.shadowMap.type = THREE.PCFSoftShadowMap;
+    r.shadowMap.enabled = main; r.shadowMap.type = THREE.PCFShadowMap;
     const sc = this.scene = new THREE.Scene(); sc.background = null; r.setClearColor(0x000000, 0);
     const pm = new THREE.PMREMGenerator(r); sc.environment = pm.fromScene(new RoomEnvironment(), .03).texture; sc.environmentIntensity = .95; pm.dispose();
     this.camera = new THREE.PerspectiveCamera(23, 1, .05, 30);
     const key = this.key = new THREE.DirectionalLight(0xfff6ec, 1.55); key.position.set(-1.6, 3.1, 2.5);
     const rim = new THREE.DirectionalLight(0xf2f5ff, .55); rim.position.set(1.9, 2.3, -2.6);
     sc.add(key, key.target, rim, new THREE.HemisphereLight(0xffffff, 0xe8e0d2, .18));
-    if(main){ key.castShadow = true; key.shadow.mapSize.set(2048,2048); const sc2 = key.shadow.camera; sc2.left=-1; sc2.right=1; sc2.top=1.4; sc2.bottom=-.6; sc2.near=.5; sc2.far=9; key.shadow.bias=-.0004; key.shadow.normalBias=.012; key.shadow.radius=6;
+    if(main){ key.castShadow = true; key.shadow.mapSize.set(1024,1024); const sc2 = key.shadow.camera; sc2.left=-1; sc2.right=1; sc2.top=1.4; sc2.bottom=-.6; sc2.near=.5; sc2.far=9; key.shadow.bias=-.0004; key.shadow.normalBias=.012; key.shadow.radius=6;
       const ground = new THREE.Mesh(new THREE.PlaneGeometry(8,8), new THREE.ShadowMaterial({opacity:.13})); ground.rotation.x = -PI/2; ground.receiveShadow = true; sc.add(ground); this.ground = ground; }
     this.contact = new THREE.Mesh(new THREE.PlaneGeometry(1,1), new THREE.MeshBasicMaterial({map:contactTexture(), transparent:true, depthWrite:false, toneMapped:false}));
     this.contact.rotation.x = -PI/2; this.contact.position.y = .002; sc.add(this.contact);
@@ -1930,7 +1931,7 @@ const DIR = main ? (() => {
       const pl = o.pulse || 1;
       main.puppet.scale.x *= (1 + o.sq*.7)*pl; main.puppet.scale.y *= (1 - o.sq)*pl; main.puppet.scale.z *= (1 + o.sq*.7)*pl;
       for(const e of main.eyes) e.scale.y = (blinkT < 0 ? e.userData.sy : e.scale.y)*o.eye;
-      stage.style.setProperty('--heat', o.heat.toFixed(3)); stage.style.setProperty('--mx', o.mx.toFixed(3)); stage.style.setProperty('--ab', o.ab.toFixed(3));
+      stage.classList.toggle('hot', o.heat > .01); stage.style.setProperty('--heat', o.heat.toFixed(3)); stage.style.setProperty('--mx', o.mx.toFixed(3)); stage.style.setProperty('--ab', o.ab.toFixed(3));
       stage.style.setProperty('--hs', o.hs.toFixed(3)); stage.style.setProperty('--hr', o.hr.toFixed(3) + 'rad');
     }
   };
@@ -1978,7 +1979,7 @@ function loop(now){
     if(blinkT >= 0){ blinkT += dt; const k = blinkT > .15 ? 1 : 1 - Math.sin(blinkT/.15*PI)*.9; for(const e of main.eyes) e.scale.y = e.userData.sy*k; if(blinkT > .15) blinkT = -1; }
     if(main) DIR.update(dt, s);
     const active = DIR.busy || drag.on || Math.abs(drag.vel) > .001 || popT < 1 || resetT >= 0 || !isSettled();
-    if(dirty && (active || now - lastDraw > 15.5)){ lastDraw = now;
+    if(dirty && (active || now - lastDraw > 30)){ lastDraw = now;
       main.coatMat.uniforms.uTime.value = T0; main.place(FRAME); main.render(); announceReady(); if(!window.__shownSent){ window.__shownSent = 1; try{ parent.postMessage({type:'ant:shown'}, '*'); }catch(e){} } dirty = DIR.busy || live > 0 || resetT >= 0 || popT < 1 || Math.abs(drag.vel) > .001 || !isSettled(); }
   }
 }

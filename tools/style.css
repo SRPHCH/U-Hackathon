@@ -275,3 +275,35 @@ h2{font-size:clamp(2rem,4.2vw,3.4rem);line-height:1.22;font-weight:700;letter-sp
 .faq-wrap .faqs{margin-top:44px}
 .faq-contact{margin-top:32px;text-align:center;font-size:16px;color:var(--ink-2)}
 @media (max-width:960px){.plans.plans-one{grid-template-columns:minmax(0,1fr)}}
+
+.foot-grid .soon{color:var(--ink-3);cursor:default}
+
+section[id]{scroll-margin-top:84px}
+
+/* ---- responsive tuning: short laptops, tablets, 27" ---- */
+.hero-ant{max-height:min(560px,64dvh)}
+h1{font-size:clamp(2.3rem,min(4.8vw,8dvh),4.4rem)}
+.sec{padding:clamp(64px,12dvh,104px) 0}
+@media (min-width:1700px){
+  html{font-size:112.5%}
+  .wrap{max-width:1360px}
+  .nav .wrap{max-width:1240px}
+}
+@media (min-width:2200px){
+  html{font-size:125%}
+  .wrap{max-width:1560px}
+  .nav .wrap{max-width:1400px}
+}
+@media (max-width:960px){
+  .hero-ant{max-height:min(420px,52dvh)}
+  .sec{padding:clamp(56px,9dvh,72px) 0}
+}
+@media (max-width:560px){
+  .wrap{padding:0 18px}
+  .hero-ant{max-height:min(340px,44dvh)}
+  .foot-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 18px}
+  .legal{flex-direction:column;align-items:flex-start;gap:6px}
+}
+
+/* never let anything push the page sideways */
+html,body{max-width:100%;overflow-x:clip}
