@@ -165,7 +165,7 @@ _router = """<script>
   setInterval(tick, 250); tick();
 })();
 </script>"""
-_embed = "\n<style id=\"ws-css\">\n" + _scoped + "\n</style>\n<div id=\"ws\">" + _body + "</div>\n<script>\n" + _js + "\n</script>\n" + _router + "\n" + "<script>" + open(os.path.join(TOOLS, "debug_overlay.js"), encoding="utf8").read() + "</script>"
+_embed = "\n<style id=\"ws-css\">\n" + _scoped + "\n</style>\n<div id=\"ws\">" + _body + "</div>\n<script>\n" + _js + "\n</script>\n" + _router + "\n"
 tpl = tpl.replace("\n</body></html>", _embed + "</body></html>")
 tpl = tpl.replace('href="solora-app.html"', 'href="#app"')
 # brand rename: visible name Solora -> Antistant (identifiers like SoloraWS and storage keys stay)
