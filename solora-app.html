@@ -84,7 +84,7 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stro
 .new-team:hover{background:var(--surf);color:var(--text)}
 .new-team svg.i{width:16px;height:16px}
 .side-foot{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line)}
-.me{width:40px;height:40px;border-radius:50%;background:var(--surf-2);display:grid;place-items:center;font-weight:600;font-size:13px}
+.me-av{width:40px;height:40px;border-radius:50%;background:var(--surf-2);display:grid;place-items:center;font-weight:600;font-size:13px}
 .ws-plan{font-size:13.5px;color:var(--text-2);flex:1}
 .ws-plan b{display:block;color:var(--text);font-weight:600;line-height:1.3}
 .home{font-size:13.5px;color:var(--text-2);padding:8px 12px;border-radius:999px;background:var(--surf)}
@@ -199,7 +199,7 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stro
 .stamp{align-self:center;color:var(--text-3);font-size:12.5px;margin:10px 0 2px}
 .row{display:flex;flex-direction:column;gap:8px;align-items:flex-start;max-width:min(620px,86%)}
 .row.me{align-self:flex-end;align-items:flex-end}
-.msg{padding:14px 18px;border-radius:20px;background:var(--surf);white-space:pre-wrap;overflow-wrap:anywhere;animation:in .35s var(--ease)}
+.msg{padding:14px 18px;border-radius:20px;background:var(--surf);white-space:pre-wrap;overflow-wrap:break-word;word-break:normal;animation:in .35s var(--ease)}
 .row.me .msg{background:var(--surf-2)}
 .handoff{display:inline-flex;align-items:center;gap:10px;padding:6px 16px 6px 6px;border-radius:999px;background:var(--surf-2);border:1px solid var(--line);font-size:14px;font-weight:600;transition:border-color .2s}
 .handoff:hover{border-color:var(--accent)}
@@ -271,6 +271,61 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
   .composer-wrap{padding:0 12px 10px}
   .row{max-width:92%}
 }
+
+
+/* unread badges + onboarding quick replies */
+.bot{position:relative}
+.ub{position:absolute;z-index:7;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:11.5px;font-weight:700;line-height:20px;text-align:center;box-shadow:0 0 0 2px var(--side);pointer-events:none}
+.bot .ub{left:44px;top:4px}
+.ub.ub-t{position:static;display:inline-block;margin-left:8px;height:18px;min-width:18px;line-height:18px;font-size:11px;box-shadow:none;vertical-align:1px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px;max-width:100%}
+.chip-q{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surf);color:var(--text);font-size:14px;line-height:1.35;text-align:left;transition:border-color .15s,background .15s}
+.chip-q:hover{border-color:var(--accent)}
+.chip-q[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.chip-q.go{background:var(--text);color:var(--bg);border-color:var(--text);font-weight:600}
+.chip-q.go[disabled]{opacity:.35;cursor:not-allowed}
+.chip-q.skip{color:var(--text-3);border-style:dashed}
+.handoffs{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+
+
+/* onboarding question card (Grok-style) */
+.qcard{width:min(560px,100%);background:var(--surf);border:1px solid var(--line);border-radius:24px;padding:20px 20px 12px;box-shadow:0 12px 34px rgba(0,0,0,.28);animation:in .35s var(--ease)}
+.q-title{font-weight:700;font-size:16px;line-height:1.5;margin:0 4px 10px}
+.q-opt{display:flex;align-items:center;gap:14px;width:100%;padding:9px 6px;border-radius:14px;text-align:left;color:var(--text);transition:background .15s}
+.q-opt:hover,.q-opt:focus-visible{background:var(--surf-2)}
+.q-key{flex:none;width:28px;height:28px;border-radius:8px;background:var(--surf-2);border:1px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:600;color:var(--text-2);transition:background .15s,color .15s}
+.q-opt:hover .q-key,.q-opt:focus-visible .q-key{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.q-opt[aria-pressed="true"] .q-key{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.q-lbl{display:flex;flex-direction:column;min-width:0}
+.q-lbl small{color:var(--text-3);font-size:12.5px;line-height:1.45;margin-top:2px}
+.q-edit{background:var(--surf-2);cursor:text}
+.q-in{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--text);font:inherit;padding:5px 0}
+.q-in::placeholder{color:var(--text-3)}
+.q-go{margin:6px 4px 8px;padding:9px 20px;border-radius:999px;background:var(--text);color:var(--bg);font-weight:600}
+.q-go[disabled]{opacity:.35;cursor:not-allowed}
+
+
+/* multi-agent chat: speaker header, "calling" pill, Searching... sources */
+.spk{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:-2px}
+.spk .av.lg{width:26px;height:26px}
+.sys-call{display:inline-flex;align-items:center;gap:10px;padding:6px 16px 6px 6px;border-radius:999px;background:color-mix(in oklab,var(--accent) 12%,var(--surf));border:1px solid color-mix(in oklab,var(--accent) 35%,var(--line));font-size:13.5px;color:var(--text-2);animation:in .35s var(--ease)}
+.sys-call b{color:var(--text);font-weight:600}
+.sys-call .dots i{font-style:normal;animation:blink 1.2s infinite}
+.sys-call .dots i:nth-child(2){animation-delay:.2s}.sys-call .dots i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,100%{opacity:.2}50%{opacity:1}}
+.srch{width:min(460px,100%);background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:12px 14px;font-size:13.5px;animation:in .35s var(--ease)}
+.srch-h{display:flex;align-items:center;gap:8px;color:var(--text-2);font-weight:600}
+.srch-h svg.i{width:16px;height:16px;color:var(--accent)}
+.spin{width:14px;height:14px;flex:none;border-radius:50%;border:2px solid var(--line);border-top-color:var(--accent);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.srch ul{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.srch li{display:flex;gap:8px;align-items:baseline;opacity:0;animation:srcIn .35s var(--ease) forwards;animation-delay:calc(var(--i) * .5s)}
+.srch.done li{opacity:1;animation:none}
+.srch .sdot{flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);transform:translateY(-2px)}
+.srch li a{color:var(--text);text-decoration:none}
+.srch li a:hover{text-decoration:underline}
+.srch li small{color:var(--text-3)}
+@keyframes srcIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
 /* ---- responsive tuning: phone / tablet / laptop / 27" ---- */
 .page > *{max-width:1180px;margin-left:auto;margin-right:auto}
@@ -357,6 +412,7 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
   .packs{grid-template-columns:minmax(0,1fr)}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (prefers-reduced-motion:reduce){.srch li{opacity:1}}
 </style>
 </head>
 <body>
@@ -378,7 +434,7 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     </nav>
     <div class="groups" id="groups"></div>
     <div class="side-foot">
-      <div class="me" aria-hidden="true">SR</div>
+      <div class="me-av" aria-hidden="true">SR</div>
       <div class="ws-plan"><b>Plan Demo</b>ทดลองใช้งาน</div>
       <a class="home" href="solora-landing.html">หน้าแรก</a>
     </div>
@@ -646,10 +702,11 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
       const bots = teamBots(g.id).filter(b => !q || (b.name + ' ' + ROLES[b.role].chip).toLowerCase().includes(q));
       if(q && !bots.length) continue;
       shown += bots.length;
+      const tu = teamBots(g.id).reduce((a, x) => a + (x.unread || 0), 0);
       const wrap = document.createElement('section');
       wrap.className = 'group' + (g.closed && !q ? ' closed' : '');
       wrap.innerHTML = `<div class="group-head">
-        <button class="gname" aria-expanded="${!g.closed}">${ico.chev}<span>${esc(g.name)}</span><span style="font-weight:400">· ${bots.length}</span></button>
+        <button class="gname" aria-expanded="${!g.closed}">${ico.chev}<span>${esc(g.name)}</span><span style="font-weight:400">· ${bots.length}</span>${tu ? `<span class="ub ub-t" aria-label="ข้อความใหม่ในทีม ${tu} ข้อความ">${tu > 99 ? '99+' : tu}</span>` : ''}</button>
         <button class="mini" data-act="rename" aria-label="เปลี่ยนชื่อทีม ${esc(g.name)}">${ico.pen}</button>
         <button class="mini" data-act="add" aria-label="เพิ่มพนักงานในทีม ${esc(g.name)}">${ico.plus}</button>
       </div><div class="bots"></div>`;
@@ -657,7 +714,7 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
       for(const b of bots){
         const btn = document.createElement('button');
         btn.className = 'bot'; btn.dataset.id = b.id; btn.setAttribute('aria-current', String(b.id === S.active));
-        btn.innerHTML = `${avatar(b)}<span style="min-width:0"><span class="nm"><b>${esc(b.name)}</b>${chipHTML(b)}</span><span class="pv" style="display:block">${esc(lastText(b))}</span></span>`;
+        btn.innerHTML = `${avatar(b)}<span style="min-width:0"><span class="nm"><b>${esc(b.name)}</b>${chipHTML(b)}</span><span class="pv" style="display:block">${esc(lastText(b))}</span></span>${b.unread ? `<span class="ub" aria-label="ข้อความใหม่ ${b.unread} ข้อความ">${b.unread > 99 ? '99+' : b.unread}</span>` : ''}`;
         btn.onclick = () => { if(PAGE) leavePage(); S.active = b.id; save(); renderSide(); renderChat(); $('#app').dataset.view = 'chat'; };
         list.appendChild(btn);
       }
@@ -684,6 +741,7 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     };
     el.appendChild(nt);
     placeLive();
+    updateTab();
   }
 
   /* ---------- live 3D profile: the active employee's avatar (header + sidebar) watches the composer and works ----------
@@ -768,6 +826,7 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
             <button id="m-prof">${ico.user}<span>โปรไฟล์และสี</span></button>
             <button id="m-rename">${ico.pen}<span>เปลี่ยนชื่อ</span></button>
             <button id="m-clear">${ico.trash}<span>ล้างบทสนทนา</span></button>
+            ${b.role === 'secretary' ? `<button id="m-ob">${ico.pen}<span>ตั้งค่าร้านใหม่ (ตอบคำถามอีกครั้ง)</span></button><button id="m-ai">${ico.user}<span>ตั้งค่า AI (API key)</span></button>` : ''}
             ${b.role === 'secretary' ? '' : `<button id="m-del" class="del">${ico.trash}<span>ลบพนักงานนี้</span></button>`}
           </div>
         </div>
@@ -786,17 +845,31 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     let lastStamp = '';
     for(const m of b.msgs){
       if(m.s && m.s !== lastStamp){ const s = document.createElement('div'); s.className = 'stamp'; s.textContent = m.s; th.appendChild(s); lastStamp = m.s; }
+      if(m.r === 'sys'){ th.appendChild(sysRow(m)); continue; }
       const row = document.createElement('div'); row.className = 'row' + (m.r === 'me' ? ' me' : '');
-      const d = document.createElement('div'); d.className = 'msg'; d.textContent = m.t; row.appendChild(d);
-      if(m.link){
-        const tb = S.bots.find(x => x.id === m.link);
-        if(tb){ const h = document.createElement('button'); h.className = 'handoff'; h.innerHTML = avatar(tb, 'lg') + '<span>เปิดแชตกับ ' + esc(tb.name) + '</span>';
-          h.onclick = () => { S.active = tb.id; save(); renderSide(); renderChat(); }; row.appendChild(h); }
+      if(m.from && m.from !== b.id){ const w = S.bots.find(x => x.id === m.from); if(w){ const h = document.createElement('div'); h.className = 'spk'; h.innerHTML = avatar(w, 'lg') + '<span>' + esc(w.name) + '</span>'; row.appendChild(h); } }
+      const liveCard = !!m.card && m === b.msgs[b.msgs.length - 1] && !typingFor;
+      const txt = m.card && !liveCard ? ((m.t ? m.t + '\n\n' : '') + m.card.title) : m.t;
+      if(txt){ const d = document.createElement('div'); d.className = 'msg'; d.textContent = txt; row.appendChild(d); }
+      const ls = m.links || (m.link ? [m.link] : []);
+      if(ls.length){
+        const box = document.createElement('div'); box.className = 'handoffs';
+        for(const id of ls){
+          const tb = S.bots.find(x => x.id === id); if(!tb) continue;
+          const h = document.createElement('button'); h.className = 'handoff'; h.innerHTML = avatar(tb, 'lg') + '<span>เปิดแชตกับ ' + esc(tb.name) + '</span>';
+          h.onclick = () => { if(PAGE) leavePage(); S.active = tb.id; save(); renderSide(); renderChat(); $('#app').dataset.view = 'chat'; };
+          box.appendChild(h);
+        }
+        row.appendChild(box);
       }
+      if(m.src && m.src.length) row.appendChild(srcBlock(m.src, true, 'แหล่งอ้างอิง'));
+      if(liveCard) row.appendChild(cardFor(b, m));
+      if(m.skip && m === b.msgs[b.msgs.length - 1] && !typingFor) row.appendChild(skipFor());
       th.appendChild(row);
     }
     if(typingFor === b.id) addTyping();
     const sc = $('#scroll'); sc.scrollTop = sc.scrollHeight;
+    if(b.msgs.length && b.msgs[b.msgs.length - 1].card) setTimeout(() => { sc.scrollTop = sc.scrollHeight; }, 380);   // card animates in: settle at the bottom
 
     $('#btn-back').onclick = () => { $('#app').dataset.view = 'list'; };
     $('#btn-prof').onclick = () => openProfile(b.id);
@@ -805,6 +878,8 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     $('#m-prof').onclick = () => openProfile(b.id);
     $('#m-rename').onclick = () => { const n = prompt('ชื่อพนักงาน', b.name); if(n && n.trim()){ b.name = n.trim(); save(); renderSide(); renderChat(); } };
     $('#m-clear').onclick = () => { b.msgs = b.msgs.slice(0, 1); save(); renderSide(); renderChat(); };
+    const mob = $('#m-ob'); if(mob) mob.onclick = () => { if(confirm('เริ่มตอบคำถามเกี่ยวกับร้านใหม่ทั้งหมดไหม?')) startOnboarding(true); };
+    const mai = $('#m-ai'); if(mai) mai.onclick = setupAI;
     const del = $('#m-del');
     if(del) del.onclick = () => {
       if(!confirm('ลบ ' + b.name + ' ?')) return;
@@ -826,6 +901,7 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     if(hadFocus) ta.focus();
     syncDock();
     setDock(typingFor === b.id ? 'think' : (hadFocus ? 'typing' : 'idle'));
+    syncRead();
   }
   function addTyping(){ const t = document.createElement('div'); t.className = 'msg typing'; t.innerHTML = '<i></i><i></i><i></i>'; $('#thread').appendChild(t); }
   function composeReply(b, text){
@@ -843,12 +919,16 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
   }
   function send(text){
     const b = active(); if(!b || typingFor) return;
+    if(S.ob && typeof S.ob.step === 'number' && b.id === S.ob.bot) return obAnswer(b, text);
     b.msgs.push({r:'me', t: text.trim(), s: stamp()}); typingFor = b.id; save(); renderSide(); renderChat(); setDock('think');
+    if(b.role === 'legal'){
+      legalReply(b, text).then(rep => { typingFor = null; pushBot(b, {t: rep.t, link: rep.link, src: rep.src}); if(!(active() && active().id === b.id)) setDock('idle'); });
+      return;
+    }
     const rep = composeReply(b, text);
     setTimeout(() => {
-      b.msgs.push({r:'bot', t: rep.t, link: rep.link, s: stamp()}); typingFor = null; save(); renderSide();
-      if(active() && active().id === b.id) renderChat();
-      else setDock('idle');
+      typingFor = null; pushBot(b, {t: rep.t, link: rep.link});
+      if(!(active() && active().id === b.id)) setDock('idle');
     }, 1900 + Math.random() * 600);
   }
   document.addEventListener('click', () => {
@@ -1049,6 +1129,462 @@ dialog::backdrop{background:oklch(0 0 0 / .6)}
     renderSide();
   }
   document.querySelectorAll('#snav button').forEach(b => b.onclick = () => setPage(PAGE === b.dataset.page ? '' : b.dataset.page));
+
+  /* ---------- unread messages: avatar badge, team total, browser tab title + favicon ---------- */
+  const isViewing = b => {
+    if(!b || PAGE || !active() || active().id !== b.id || document.hidden) return false;
+    if(!$('#app').getClientRects().length) return false;
+    return !matchMedia('(max-width:720px)').matches || $('#app').dataset.view === 'chat';
+  };
+  function pushBot(b, msg){
+    b.msgs.push(Object.assign({r:'bot', s: stamp()}, msg));
+    if(!isViewing(b)) b.unread = (b.unread || 0) + 1;
+    save(); renderSide();
+    if(active() && active().id === b.id) renderChat();
+  }
+  function syncRead(){
+    const b = active();
+    if(b && b.unread && isViewing(b)){ b.unread = 0; save(); renderSide(); }
+  }
+  const LANDING_TITLE = document.title.replace(/^\(\d+\)\s*/, '');
+  let tabKey = '';
+  function updateTab(){
+    const n = S.bots.reduce((a, x) => a + (x.unread || 0), 0);
+    document.title = (n ? '(' + (n > 99 ? '99+' : n) + ') ' : '') + (location.hash === '#app' ? 'Antistant' : LANDING_TITLE);
+    if(tabKey === String(n)) return; tabKey = String(n);
+    const src = document.querySelector('.ws-brand img'); if(!src) return;
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d');
+      const k = Math.min(60 / img.width, 60 / img.height), w = img.width * k, h = img.height * k;
+      x.drawImage(img, (64 - w) / 2, (64 - h) / 2, w, h);
+      if(n){
+        x.beginPath(); x.arc(46, 18, 17, 0, 7); x.fillStyle = '#ff3b5c'; x.fill(); x.lineWidth = 3; x.strokeStyle = '#fff'; x.stroke();
+        x.fillStyle = '#fff'; x.font = '700 ' + (n > 9 ? 18 : 24) + 'px system-ui,sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(n > 9 ? '9+' : String(n), 46, 19);
+      }
+      let l = document.querySelector('link[rel="icon"]');
+      if(!l){ l = document.createElement('link'); l.rel = 'icon'; document.head.appendChild(l); }
+      l.type = 'image/png'; l.href = c.toDataURL('image/png');
+    };
+    img.src = src.src;
+  }
+  document.addEventListener('visibilitychange', () => { syncRead(); updateTab(); });
+  addEventListener('focus', syncRead);
+
+  /* ================= LEGAL KNOWLEDGE BASE =================
+     Researched from public sources on 16 ต.ค. 2569 for online computer-equipment shops in Thailand.
+     The Legal Agent reads this data (titles, plain-Thai summaries, keywords, sources). Re-check it with the agencies before relying on it:
+     several points (platform age rules, NBTC licence classes, which IT products need มอก.) were not fully confirmed by official pages. */
+  const KB_CHECKED = '16 ต.ค. 2569';
+  const LEGAL_DISCLAIMER = 'ข้อมูลนี้เป็นแนวทางเบื้องต้นจากแหล่งข้อมูลสาธารณะ ไม่ใช่คำปรึกษาทางกฎหมาย ก่อนดำเนินการจริงควรยืนยันกับหน่วยงานที่เกี่ยวข้องหรือทนายความอีกครั้ง';
+  const LEGAL_KB = {
+    age: {title:'อายุและความยินยอมของผู้ปกครอง', kw:/อายุ|ผู้ปกครอง|ผู้เยาว์|บรรลุนิติภาวะ|20 ปี/,
+      text:'กฎหมายไทยกำหนดให้บรรลุนิติภาวะเมื่ออายุ 20 ปีบริบูรณ์ (ป.พ.พ. มาตรา 19) ถ้ายังไม่ถึง ผู้ปกครองให้ความยินยอมให้ประกอบธุรกิจการค้าได้ และในเรื่องธุรกิจนั้นจะมีฐานะเสมือนบรรลุนิติภาวะ (มาตรา 27) ส่วนแพลตฟอร์ม TikTok Shop กำหนดให้เจ้าของร้านต้องอายุ 20 ปีบริบูรณ์ขึ้นไป ส่วน Shopee และ Lazada ควรเช็กเงื่อนไขใน Seller Center อีกครั้ง',
+      src:[{n:'ป.พ.พ. มาตรา 27 (Legardy)', u:'https://www.legardy.com/thai-law/civil-commercial/civil-and-commercial-section27'}, {n:'เงื่อนไขเปิดร้าน TikTok Shop (KTC)', u:'https://www.ktc.co.th/article/knowledge/tiktok-shop-online-selling-platform'}]},
+    ereg: {title:'จดทะเบียนพาณิชย์อิเล็กทรอนิกส์', kw:/จดทะเบียนพาณิชย์|พาณิชย์อิเล็ก|dbd|ทะเบียนการค้า|จดทะเบียน/i,
+      text:'ผู้ค้าขายออนไลน์ต้องยื่นจดทะเบียนพาณิชย์อิเล็กทรอนิกส์ภายใน 30 วันนับจากวันเริ่มขาย ค่าธรรมเนียม 50 บาท ยื่นออนไลน์ผ่านเว็บไซต์กรมพัฒนาธุรกิจการค้า (DBD) หรือที่สำนักงานเขต/เทศบาลก็ได้',
+      src:[{n:'กรมพัฒนาธุรกิจการค้า (DBD)', u:'https://www.dbd.go.th'}, {n:'จดทะเบียนพาณิชย์ 2026 ใครต้องทำ (KBank)', u:'https://www.kasikornbank.com/th/kbiz/article/pages/commercial-registration.aspx'}]},
+    dm: {title:'ธุรกิจตลาดแบบตรง (สคบ.)', kw:/ตลาดแบบตรง|สคบ|ขายตรง/,
+      text:'บุคคลธรรมดาที่มีรายได้จากการขายออนไลน์เกิน 1.8 ล้านบาทต่อปี ต้องจดทะเบียนธุรกิจตลาดแบบตรงกับ สคบ. ตาม พ.ร.บ.ขายตรงและตลาดแบบตรง พ.ศ. 2545 ผู้มีรายได้ไม่เกินเกณฑ์ หรือ SME ที่ขึ้นทะเบียนแล้วได้รับยกเว้น',
+      src:[{n:'ตลาดแบบตรงคืออะไร ใครต้องจด (FlowAccount)', u:'https://flowaccount.com/blog/direct-marketing-registration/'}]},
+    vat: {title:'ภาษีมูลค่าเพิ่ม (VAT)', kw:/vat|แวต|ภาษีมูลค่าเพิ่ม|1\.8 ล้าน|ภาษี/i,
+      text:'เมื่อรายได้เกิน 1.8 ล้านบาทต่อปี ต้องจดทะเบียนภาษีมูลค่าเพิ่ม (VAT 7%) กับกรมสรรพากร',
+      src:[{n:'รายได้เกิน 1.8 ล้านแต่ไม่จด VAT (FlowAccount)', u:'https://flowaccount.com/blog/revenue-over-1-8-million-not-vat-registered/'}]},
+    epay: {title:'กฎหมาย e-Payment', kw:/e-?payment|อีเพย์|3,?000 ครั้ง|สรรพากร|รับโอน/i,
+      text:'ธนาคารและอีวอลเล็ตต้องส่งข้อมูลบัญชีที่ฝาก/รับโอนตั้งแต่ 3,000 ครั้งต่อปี หรือตั้งแต่ 400 ครั้งและยอดรวม 2 ล้านบาทขึ้นไป ให้กรมสรรพากร เป็นการรายงานข้อมูล ไม่ใช่ภาษีใหม่ แต่ควรทำบัญชีรายรับให้ตรงกับยอดโอน',
+      src:[{n:'ภาษี e-Payment (FlowAccount)', u:'https://flowaccount.com/blog/e-payment-tax/'}]},
+    used: {title:'สินค้ามือสอง', kw:/มือสอง|ของเก่า|รีเฟอร์บิช|refurb|used/i,
+      text:'การค้าของเก่าอยู่ภายใต้ พ.ร.บ.ควบคุมการขายทอดตลาดและค้าของเก่า พ.ศ. 2474 ถ้ารับซื้อ-ขายของมือสองเป็นธุรกิจประจำ ควรสอบถามการขอใบอนุญาตค้าของเก่าที่สำนักงานเขต/อำเภอ และแพลตฟอร์มอย่าง TikTok Shop อาจขอเอกสารใบอนุญาตสำหรับหมวดมือสอง',
+      src:[{n:'ขายมือสองบน TikTok Shop ต้องมีใบอนุญาตอะไร (BigSeller)', u:'https://www.bigseller.com/blog/articleDetails/4351/secondhand.htm'}, {n:'ร้านค้าของเก่าที่ได้รับอนุญาต (data.go.th)', u:'https://data.go.th/en/dataset/dataset_40_204'}]},
+    nbtc: {title:'อุปกรณ์ที่มีคลื่นวิทยุ (กสทช.)', kw:/กสทช|wifi|ไวไฟ|bluetooth|บลูทูธ|ไร้สาย|เราเตอร์|router|คลื่น/i,
+      text:'อุปกรณ์ที่ส่งคลื่นวิทยุ เช่น WiFi, Bluetooth, เราเตอร์ เมาส์หรือคีย์บอร์ดไร้สาย ต้องผ่านการรับรองและมีเครื่องหมายจาก กสทช. การนำเข้าต้องได้รับอนุญาต และแม้รุ่นที่ได้รับยกเว้นใบอนุญาตก็ยังต้องมีเครื่องหมาย ปี 2569 มีการตรวจยึดเราเตอร์ WiFi ที่ไม่ผ่านมาตรฐานจริง',
+      src:[{n:'สำนักงาน กสทช.', u:'https://www.nbtc.go.th'}, {n:'ข่าวตรวจยึดอุปกรณ์ไม่ผ่านมาตรฐาน (แนวหน้า)', u:'https://www.naewna.com/business/966184'}]},
+    tisi: {title:'มาตรฐาน มอก.', kw:/มอก|สมอ|พาวเวอร์แบงก์|power ?bank|แบตเตอรี่|อะแดปเตอร์|psu/i,
+      text:'พาวเวอร์แบงก์เป็นสินค้าควบคุม ต้องมีเครื่องหมาย มอก. 2879-2560 (บังคับตั้งแต่ 16 พ.ย. 2563) และกระทรวงอุตสาหกรรมกำลังเสนอคุมแบตเตอรี่ลิเทียม/นิกเกิลเพิ่ม คาดบังคับกลางปี 2570 สินค้าไฟฟ้าอื่น เช่น อะแดปเตอร์ หรือ PSU ให้เช็กรายการสินค้าควบคุมกับ สมอ.',
+      src:[{n:'สำนักงานมาตรฐานผลิตภัณฑ์อุตสาหกรรม (สมอ.)', u:'https://www.tisi.go.th'}, {n:'อุตฯ คุมเข้มแบตเตอรี่-พาวเวอร์แบงก์ (InfoQuest)', u:'https://www.infoquest.co.th/2026/622170'}]},
+    imp: {title:'การนำเข้าและภาษีนำเข้า', kw:/นำเข้า|ศุลกากร|ภาษีนำเข้า|อากร|hs ?code|ชิปปิ้ง/i,
+      text:'ตั้งแต่ 1 ม.ค. 2569 สินค้านำเข้าทุกมูลค่า (รวมที่ต่ำกว่า 1,500 บาท) ต้องเสีย VAT 7% และอากรขาเข้าตามพิกัดศุลกากร อากรของชิ้นส่วนคอมแต่ละชนิดต่างกันตาม HS code จึงควรตรวจพิกัดกับกรมศุลกากร (Call Center 1164) หรือใช้ตัวแทนออกของ',
+      src:[{n:'ยกเลิกยกเว้นภาษีสินค้าต่ำกว่า 1,500 บาท (The Standard)', u:'https://thestandard.co/customs-de-minimis-revenue-imports-drop/'}, {n:'คำถามเรื่องภาษีนำเข้า (DHL)', u:'https://www.dhl.com/discover/th-th/logistics-advice/import-export-advice/import-duty-faq'}]},
+    ads: {title:'โฆษณาและการคุ้มครองผู้บริโภค', kw:/โฆษณา|เกินจริง|รีวิว|ประกัน|เคลม|ผู้บริโภค/,
+      text:'ตาม พ.ร.บ.คุ้มครองผู้บริโภค พ.ศ. 2522 โฆษณาต้องไม่เป็นเท็จหรือเกินจริง สคบ. เตือนเรื่องอวดยอดขายหรือบอกว่าของจะหมดเกินจริง โฆษณาเท็จมีโทษจำคุกไม่เกิน 6 เดือน หรือปรับไม่เกิน 50,000 บาท (มาตรา 47) และควรแจ้งเงื่อนไขประกันและการเคลมให้ชัด',
+      src:[{n:'สคบ. เตือนไลฟ์ขายของโฆษณาเกินจริง (Thai PBS)', u:'https://www.thaipbs.or.th/program/EveningNews/watch/bzewjtbo8xu0'}, {n:'กฎหมายคุ้มครองผู้บริโภค (iLaw)', u:'https://www.ilaw.or.th/articles/44880'}]},
+    pdpa: {title:'PDPA ข้อมูลส่วนบุคคล', kw:/pdpa|ข้อมูลส่วนบุคคล|ข้อมูลลูกค้า|ความเป็นส่วนตัว/i,
+      text:'ชื่อ ที่อยู่ เบอร์โทรของลูกค้าเป็นข้อมูลส่วนบุคคลตาม พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 ร้านควรมีประกาศความเป็นส่วนตัว ขอความยินยอมแยกถ้าจะส่งโปรโมชัน เก็บข้อมูลให้ปลอดภัย และปิดชื่อ/ที่อยู่ก่อนโพสต์สลิปหรือเลขพัสดุ',
+      src:[{n:'PDPA สำหรับร้านค้า (Shopee)', u:'https://shopee.co.th/blog/pdpa-update-2022'}, {n:'PDPA คืออะไร (OfficeMate)', u:'https://www.ofm.co.th/blog/pdpa/'}]}
+  };
+  const kbSources = ids => { const seen = new Set(), out = []; ids.forEach(k => (LEGAL_KB[k] ? LEGAL_KB[k].src : []).forEach(s => { if(!seen.has(s.u)){ seen.add(s.u); out.push(s); } })); return out; };
+
+  /* ---------- Secretary onboarding: greets, then asks about the business one step at a time ----------
+     Questions are Grok-style option cards. Typed answers (and "other") go to an AI (Claude API) that reads them, extracts the
+     facts, and replies; the reply contains <question>, which the app replaces with the next prepared question.
+     Without an API key a local rule-based fallback does the same job.
+     After the shop profile, the Secretary moves on to the business model and calls the Legal Agent into this same chat. */
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const SUPPORTED_CH = ['Facebook', 'Shopee', 'Lazada', 'TikTok Shop'];
+  const isNew = a => /^เพิ่งเริ่ม/.test((a && a.sales) || '');
+  const isMinor = (a, p) => (p && p.age && +p.age < 20) || /ยังไม่ครบ/.test((a && a.age20) || '');
+  const yes = v => /^(มี|ไม่แน่ใจ)/.test(v || '') || /ใช่|มีบ้าง/.test(v || '');
+  const OB = [
+    {key:'about', type:'text', skip:true, q:() => 'ร้านของคุณชื่ออะไร คุณอายุเท่าไร และให้ผมเรียกคุณว่าอะไรดีครับ?'},
+    {key:'product', type:'card', q:() => 'ร้านขายสินค้าประเภทไหนเป็นหลักครับ?',
+      opts:[{l:'อุปกรณ์คอมพิวเตอร์'}, {l:'อื่นๆ', other:true, ph:'พิมพ์ประเภทสินค้าของคุณ'}]},
+    {key:'channels', type:'card', multi:true, q:() => 'ตอนนี้ตั้งใจจะขาย หรือขายอยู่ช่องทางไหนครับ?',
+      opts:[{l:'Facebook'}, {l:'Shopee'}, {l:'Lazada'}, {l:'TikTok Shop'}, {l:'อื่นๆ', other:true, ph:'พิมพ์ช่องทางของคุณ'}]},
+    {key:'sales', type:'card', q:() => 'ยอดขายโดยประมาณต่อเดือนอยู่ราวไหนครับ?',
+      opts:[{l:'เพิ่งเริ่ม ยังไม่มียอดขาย'}, {l:'ต่ำกว่า 50,000 บาท'}, {l:'50,000 – 300,000 บาท'}, {l:'300,000 – 1 ล้านบาท'}, {l:'มากกว่า 1 ล้านบาท'}]},
+    {key:'team', type:'card', q:() => 'มีกี่คนที่ดูแลร้านครับ?',
+      opts:[{l:'Solo Entrepreneur'}, {l:'Duo Entrepreneur'}, {l:'More than 3', num:true, ph:'พิมพ์จำนวนคน'}]},
+    {key:'pain', type:'text', cond:a => !isNew(a), q:() => 'งานไหนกินเวลาหรือทำให้ปวดหัวที่สุดครับ? เล่าให้ผมฟังได้เลย'},
+    {key:'goal', type:'text', q:a => isNew(a) ? 'Vision ของธุรกิจตอนนี้เป็นยังไงครับ และตั้งใจจะเปิดร้านในอีกกี่เดือน?' : 'เป้าหมายของธุรกิจตอนนี้คืออะไรครับ?'},
+    {key:'autonomy', type:'card', q:() => 'อยากให้ AI ลงมือทำเองได้แค่ไหนครับ?',
+      opts:[{l:'Auto', d:'ปล่อยให้ AI ทำอะไรก็ได้ทั้งหมดเอง'}, {l:'Manual', d:'ต้องให้คุณอนุมัติทุกครั้ง'}, {l:'Semi auto', d:'ขั้นตอนไหนทำได้ AI จะทำเอง ขั้นตอนไหนควรถามก่อน AI จะถามเพื่อยืนยัน'}]},
+    /* ---- business model + legal consultation (same chat) ---- */
+    {key:'sourcing', type:'card', lead:() => 'ต่อไปขอคุยเรื่องโมเดลธุรกิจของร้านหน่อยนะครับ', q:() => 'คุณจะหาสินค้ามาขายแบบไหนครับ?',
+      opts:[{l:'นำเข้าเองจากต่างประเทศ'}, {l:'รับจากผู้นำเข้าหรือตัวแทนจำหน่ายในไทย'}, {l:'ทั้งสองแบบ'}, {l:'อื่นๆ', other:true, ph:'เล่าวิธีหาสินค้าของคุณ'}],
+      advice:() => 'รับทราบครับ เรื่องนี้เกี่ยวกับกฎหมายหลายข้อ ขอเรียกฝ่ายกฎหมายมาช่วยดูด้วยนะครับ'},
+    {key:'age20', who:'legal', kb:['age'], type:'card', cond:(a, p) => !p.age,
+      lead:() => 'ก่อนอื่นขอเช็กเรื่องอายุนะครับ เพราะมีผลกับการจดทะเบียนและการเปิดร้านบนแพลตฟอร์ม', q:() => 'คุณอายุครบ 20 ปีบริบูรณ์แล้วหรือยังครับ?',
+      opts:[{l:'ครบ 20 ปีแล้ว'}, {l:'ยังไม่ครบ 20 ปี'}], advice:v => /ยังไม่/.test(v) ? '' : 'เยี่ยมครับ เรื่องอายุไม่มีปัญหา'},
+    {key:'guardian', who:'legal', kb:['age'], type:'card', cond:(a, p) => isMinor(a, p),
+      lead:a => LEGAL_KB.age.text + (/TikTok/.test(a.channels || '') ? '\n\nคุณเลือกขายบน TikTok Shop ไว้ด้วย ร้านนั้นอาจต้องเปิดในชื่อผู้ปกครองครับ' : ''),
+      q:() => 'ผู้ปกครองพร้อมให้ความยินยอมและช่วยลงทะเบียนร้านไหมครับ?', opts:[{l:'ได้ ผู้ปกครองช่วยได้'}, {l:'ยังไม่แน่ใจ'}, {l:'อื่นๆ', other:true, ph:'พิมพ์คำตอบของคุณ'}],
+      advice:v => /^ได้/.test(v) ? 'ดีครับ ให้ผู้ปกครองทำหนังสือยินยอมเก็บไว้ และใช้ข้อมูลผู้ปกครองตอนสมัครแพลตฟอร์มที่กำหนดอายุ 20 ปี' : 'ไม่เป็นไรครับ ผมจะใส่ไว้ในเช็กลิสต์ให้คุยกับผู้ปกครองก่อนเริ่มจดทะเบียนนะครับ'},
+    {key:'condition', who:'legal', kb:['used'], type:'card', q:() => 'สินค้าที่จะขายเป็นของใหม่หรือมือสองครับ?',
+      opts:[{l:'ของใหม่ทั้งหมด'}, {l:'มีของมือสองหรือรีเฟอร์บิช'}], advice:v => /มือสอง|รีเฟอร์บิช|used/i.test(v) ? LEGAL_KB.used.text : 'โอเคครับ ของใหม่ไม่ต้องใช้ใบอนุญาตค้าของเก่า'},
+    {key:'wireless', who:'legal', kb:['nbtc'], type:'card', q:() => 'มีสินค้าที่ใช้คลื่นวิทยุไหมครับ เช่น WiFi, Bluetooth, เราเตอร์, เมาส์หรือคีย์บอร์ดไร้สาย',
+      opts:[{l:'มี'}, {l:'ไม่มี'}, {l:'ไม่แน่ใจ'}], advice:v => yes(v) ? LEGAL_KB.nbtc.text + ' ก่อนรับของเข้าร้าน ให้เช็กว่ากล่องมีเครื่องหมาย กสทช. ทุกครั้งนะครับ' : 'โอเคครับ ข้ามเรื่อง กสทช. ไปได้'},
+    {key:'power', who:'legal', kb:['tisi'], type:'card', q:() => 'มีสินค้าไฟฟ้าหรือแบตเตอรี่ไหมครับ เช่น พาวเวอร์แบงก์ อะแดปเตอร์ PSU',
+      opts:[{l:'มี'}, {l:'ไม่มี'}, {l:'ไม่แน่ใจ'}], advice:v => yes(v) ? LEGAL_KB.tisi.text : 'โอเคครับ'},
+    {key:'registered', who:'legal', kb:['ereg', 'dm', 'vat'], type:'card', q:() => 'ตอนนี้จดทะเบียนพาณิชย์อิเล็กทรอนิกส์แล้วหรือยังครับ?',
+      opts:[{l:'จดแล้ว'}, {l:'ยังไม่ได้จด'}, {l:'ไม่แน่ใจว่าต้องจดไหม'}],
+      advice:v => (/^จดแล้ว/.test(v) ? 'เยี่ยมครับ' : LEGAL_KB.ereg.text) + '\n\nอีกเรื่องที่ต้องจำไว้: ' + LEGAL_KB.dm.text},
+    {key:'customer_data', who:'legal', kb:['pdpa', 'ads'], type:'card', q:() => 'ร้านจะเก็บข้อมูลลูกค้าไว้ใช้ต่อไหมครับ เช่น ชื่อ ที่อยู่ เบอร์โทร',
+      opts:[{l:'ใช้แค่จัดส่งสินค้า'}, {l:'เก็บไว้ส่งโปรโมชันด้วย'}, {l:'ยังไม่แน่ใจ'}],
+      advice:v => LEGAL_KB.pdpa.text + (/โปรโมชัน/.test(v) ? ' และต้องขอความยินยอมแยกก่อนส่งโปรโมชันนะครับ' : '') + '\n\nส่วนการโฆษณา: ' + LEGAL_KB.ads.text}
+  ];
+  const DUTY = {finance:'คำนวณต้นทุน กำไร และติดตามเกณฑ์ภาษี', marketing:'วางแคมเปญ เขียนคอนเทนต์และแคปชัน', legal:'ตรวจกฎหมาย ใบอนุญาต และข้อความโฆษณาก่อนปล่อย',
+    ops:'ดูสต็อก ออเดอร์ และการจัดส่ง', market:'ติดตามคู่แข่ง ราคา และแนวโน้มตลาด', support:'ตอบแชตและรีวิวลูกค้าเป็นภาษาไทย', analyst:'วิเคราะห์ยอดขายและพฤติกรรมลูกค้า', daily:'สรุปยอดและข่าวสำคัญประจำวัน'};
+  const whoName = p => p && p.nickname ? 'คุณ' + p.nickname : 'คุณ';
+  const INTAKE = {
+    finance:(a, p) => `สวัสดีครับ ${whoName(p)} ผมได้รับข้อมูลร้านจาก Secretary แล้ว\n\nผมจะดูเรื่องต้นทุน กำไรต่อสินค้า และเตือนเมื่อใกล้เกณฑ์ภาษีที่เกี่ยวข้อง${a.sales ? ' โดยอิงยอดขาย "' + a.sales + '" ต่อเดือน' : ''}\n\nขอต้นทุนสินค้า 3–5 รายการที่ขายดีที่สุดเมื่อพร้อมได้เลยครับ`,
+    marketing:(a, p) => `สวัสดีครับ ${whoName(p)} ผมได้รับข้อมูลร้านจาก Secretary แล้ว\n\nผมจะวางแคมเปญและเขียนคอนเทนต์ให้เหมาะกับช่องทาง ${a.channels || 'ที่คุณขายอยู่'}${a.goal ? ' ให้ตรงกับเป้าหมายที่คุณเล่า' : ''}\n\nอยากให้เริ่มจากโปรโมชันหรือคอนเทนต์ก่อนดีครับ?`,
+    legal:(a, p) => `สวัสดีครับ ${whoName(p)} ผมได้รับข้อมูลร้านจาก Secretary แล้ว\n\nผมจะตรวจข้อกำหนดของธุรกิจ${a.product || 'ของคุณ'} ทั้งใบอนุญาต ฉลาก และข้อความโฆษณา ก่อนที่ฝ่ายอื่นจะปล่อยออกไป\n\nเดี๋ยวผมจะเข้าไปคุยรายละเอียดกับคุณในแชตของ Secretary ด้วยครับ`,
+    ops:(a, p) => `สวัสดีครับ ${whoName(p)} ผมได้รับข้อมูลร้านจาก Secretary แล้ว\n\nผมจะดูสต็อก ออเดอร์ และการจัดส่งจากช่องทาง ${a.channels || 'ที่คุณขายอยู่'} และเตือนเมื่อสินค้าใกล้หมดหรือพัสดุค้าง\n\nขอรายการสินค้าและจำนวนสต็อกปัจจุบันเมื่อพร้อมครับ`,
+    market:(a, p) => `สวัสดีครับ ${whoName(p)} ผมได้รับข้อมูลร้านจาก Secretary แล้ว\n\nผมจะติดตามคู่แข่ง ราคา และแนวโน้มของตลาด${a.product || ''} แล้วสรุปทิศทางพร้อมแนวทางที่ควรทำต่อ\n\nมีคู่แข่งที่อยากให้ผมจับตาเป็นพิเศษไหมครับ?`,
+    support:(a, p) => `สวัสดีครับ ${whoName(p)} ผมได้รับข้อมูลร้านจาก Secretary แล้ว\n\nผมจะช่วยตอบแชตและรีวิวลูกค้าเป็นภาษาไทยจากช่องทาง ${a.channels || 'ที่คุณขายอยู่'} ในโทนเสียงของร้านคุณ\n\nขอตัวอย่างคำตอบที่คุณชอบสัก 2–3 ข้อความ เพื่อให้ผมเลียนแบบสไตล์ได้ครับ`,
+    analyst:(a, p) => `สวัสดีครับ ${whoName(p)} ผมได้รับข้อมูลร้านจาก Secretary แล้ว\n\nผมจะวิเคราะห์ยอดขายและพฤติกรรมลูกค้าเพื่อหาว่าอะไรช่วยให้ร้านโตได้จริง เมื่อมีข้อมูลยอดขายย้อนหลัง ส่งมาให้ผมได้เลยครับ`,
+    daily:(a, p) => `สวัสดีครับ ${whoName(p)} ผมได้รับข้อมูลร้านจาก Secretary แล้ว\n\nผมจะสรุปยอดและข่าวสำคัญของร้านให้เป็นประจำ ขอเวลาเก็บข้อมูลสักพัก แล้วจะส่งฉบับแรกให้ครับ`
+  };
+
+  /* --- AI (Claude API) with local fallback --- */
+  const AI_MODEL = 'claude-haiku-5-5';
+  const aiOn = () => { try { return !!(localStorage.getItem('antistant.aiKey') || localStorage.getItem('antistant.aiEndpoint')); } catch { return false; } };
+  function setupAI(){
+    let cur = ''; try { cur = localStorage.getItem('antistant.aiKey') || ''; } catch {}
+    const v = prompt('วาง API key ของ Anthropic เพื่อให้ Secretary ใช้ AI จริงอ่านคำตอบ\n(เก็บไว้ในเบราว์เซอร์เครื่องนี้เท่านั้น เหมาะกับการทดลอง ถ้าใช้งานจริงควรผ่านเซิร์ฟเวอร์ของคุณ)\nเว้นว่างแล้วกด OK เพื่อลบ key', cur ? '(ตั้งไว้แล้ว – พิมพ์ใหม่เพื่อเปลี่ยน)' : '');
+    if(v === null) return;
+    try {
+      if(v.trim() === '') localStorage.removeItem('antistant.aiKey');
+      else if(!v.startsWith('(ตั้งไว้แล้ว')) localStorage.setItem('antistant.aiKey', v.trim());
+    } catch {}
+    alert(aiOn() ? 'เปิดใช้ AI แล้ว คำตอบที่พิมพ์เองจะถูกส่งให้ AI อ่าน' : 'ปิด AI แล้ว ใช้ตัวอ่านคำตอบแบบง่ายในเครื่องแทน');
+  }
+  async function aiCall(system, user){
+    const key = localStorage.getItem('antistant.aiKey'), ep = localStorage.getItem('antistant.aiEndpoint');
+    const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 15000);
+    try {
+      const res = await fetch(ep || 'https://api.anthropic.com/v1/messages', {method:'POST', signal: ctl.signal,
+        headers: ep ? {'content-type':'application/json'} : {'content-type':'application/json', 'x-api-key': key, 'anthropic-version':'2023-06-01', 'anthropic-dangerous-direct-browser-access':'true'},
+        body: JSON.stringify({model: AI_MODEL, max_tokens: 700, system, messages:[{role:'user', content: user}]})});
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const j = await res.json();
+      return (j.content || []).map(c => c.text || '').join('');
+    } finally { clearTimeout(to); }
+  }
+  const STEP_RULES = {
+    about:'ดึงข้อมูลจากคำตอบ: fields = {"shop": ชื่อร้าน, "age": อายุเป็นตัวเลข, "nickname": ชื่อที่ให้เรียก} (ไม่มีข้อมูลไหนให้เว้นเป็น "") ok เป็น true เสมอ reply ทักทายสั้นๆ เรียกชื่อที่ให้ไว้ เช่น "ยินดีที่ได้รู้จักครับ คุณ...."',
+    product:'ok เป็น true ก็ต่อเมื่อร้านขายอุปกรณ์คอมพิวเตอร์/ชิ้นส่วนคอม/แกดเจ็ตไอที value = สรุปสั้นๆ ถ้าเป็นสินค้าประเภทอื่น ok=false และ reply ต้องแจ้งว่าตอนนี้ทีม AI ทำงานได้เฉพาะธุรกิจอุปกรณ์คอมพิวเตอร์เท่านั้น',
+    channels:'ช่องทางที่รองรับมีเฉพาะ Facebook, Shopee, Lazada, TikTok Shop ok=true ถ้ามีอย่างน้อย 1 ช่องทางที่รองรับ value = ช่องทางที่รองรับคั่นด้วย ", " ถ้ามีช่องทางอื่นปนมา ให้ reply บอกว่าช่องทางนั้นยังไม่รองรับ ถ้าไม่มีช่องทางที่รองรับเลย ok=false และ reply ต้องแจ้งว่าตอนนี้รองรับเฉพาะ 4 ช่องทางนี้',
+    sales:'ok=true value = คำตอบสรุปสั้นๆ', team:'ok=true value = จำนวนคนที่ดูแลร้านแบบสั้นๆ',
+    pain:'ok=true value = สรุปปัญหา/งานที่กินเวลาแบบสั้นๆ fields = {"roles": array ของฝ่ายที่ควรเข้ามาช่วย เลือกจาก finance, marketing, legal, ops, market, support, analyst}',
+    goal:'ok=true value = สรุปวิสัยทัศน์หรือเป้าหมายสั้นๆ', autonomy:'ok=true value = Auto, Manual หรือ Semi auto ที่ใกล้เคียงที่สุด',
+    sourcing:'ok=true value = สรุปสั้นๆ ว่านำเข้าเอง รับจากผู้นำเข้าในไทย หรือทั้งสองแบบ'
+  };
+  async function aiInterpret(st, text){
+    const system = 'คุณคือ Secretary ของ Antistant (ทีม AI ช่วยดูแลร้านค้าออนไลน์) กำลังสัมภาษณ์เจ้าของร้านทีละข้อ ตอบเป็นภาษาไทยสุภาพ สั้น กระชับ ไม่เกิน 2 ประโยค ตอบกลับเป็น JSON เท่านั้น (ห้ามมีข้อความอื่น) รูปแบบ: {"ok": true|false, "value": string, "fields": object, "reply": string} reply ต้องจบด้วย <question> เสมอ (ระบบจะแทนที่ด้วยคำถามถัดไปหรือคำถามเดิมให้เอง) ห้ามถามคำถามใหม่เองในช่อง reply';
+    const user = JSON.stringify({question: st.q(S.ob.ans, S.ob.prof), step: st.key, rules: STEP_RULES[st.key] || 'ok=true value = สรุปคำตอบสั้นๆ', profile: S.ob.ans, owner_answer: text});
+    const raw = await aiCall(system, user);
+    const m = raw.match(/\{[\s\S]*\}/); if(!m) throw new Error('no json');
+    const j = JSON.parse(m[0]);
+    return {ok: j.ok !== false, value: String(j.value || text), fields: j.fields && typeof j.fields === 'object' ? j.fields : {}, reply: String(j.reply || '')};
+  }
+  const COMPUTER_RE = /คอม|พีซี|\bpc\b|laptop|notebook|โน้ตบุ๊ก|การ์ดจอ|gpu|cpu|เมนบอร์ด|mainboard|แรม|ram|ssd|ฮาร์ดดิสก์|จอ|คีย์บอร์ด|เมาส์|เกมมิ่ง|gaming|ไอที|\bit\b|แกดเจ็ต|gadget|อุปกรณ์/i;
+  function localInterpret(st, text){
+    const clean = s => String(s || '').trim();
+    switch(st.key){
+      case 'about': {
+        const age = (text.match(/(?:อายุ\s*)?(\d{2})\s*(?:ปี|ขวบ)?/) || [])[1] || '';
+        let shop = (text.match(/ร้าน\s*([^\s,/]+(?:\s[A-Za-z0-9&]+)*)/) || [])[1] || '';
+        let nick = (text.match(/(?:เรียก(?:ว่า)?|ชื่อเล่น|ชื่อผม|ชื่อฉัน|ชื่อหนู|ผมชื่อ|ฉันชื่อ|ชื่อ(?!ร้าน))\s*([ก-๙A-Za-z]+)/) || [])[1] || '';
+        if(!nick){ const parts = text.split(/[,/\n]+/).map(clean).filter(Boolean).filter(x => !/ร้าน|\d{2}/.test(x)); if(parts.length) nick = parts[parts.length - 1].replace(/^คุณ/, ''); }
+        if(shop) shop = 'ร้าน ' + shop;
+        return {ok:true, value:text, fields:{shop, age, nickname: nick}, reply: 'ยินดีที่ได้รู้จักครับ' + (nick ? ' คุณ' + nick : '')};
+      }
+      case 'product':
+        if(COMPUTER_RE.test(text)) return {ok:true, value: text === 'อุปกรณ์คอมพิวเตอร์' ? text : 'อุปกรณ์คอมพิวเตอร์ (' + text + ')', fields:{}, reply:'รับทราบครับ ผมจะให้ทุกฝ่ายดูข้อกำหนดและตลาดของธุรกิจอุปกรณ์คอมพิวเตอร์โดยเฉพาะ'};
+        return {ok:false, value:text, fields:{}, reply:'ตอนนี้ทีม AI ของเราทำงานได้เฉพาะธุรกิจอุปกรณ์คอมพิวเตอร์เท่านั้นครับ ถ้าร้านของคุณมีสินค้าคอมพิวเตอร์ เลือก "อุปกรณ์คอมพิวเตอร์" ได้เลย'};
+      case 'channels': {
+        const low = text.toLowerCase();
+        const hit = SUPPORTED_CH.filter(c => low.includes(c.toLowerCase()) || (c === 'TikTok Shop' && /tiktok|ติ๊กต็อก/.test(low)) || (c === 'Facebook' && /facebook|เฟซ|fb/.test(low)));
+        const other = text.split(/[,\n]+/).map(clean).filter(Boolean).some(x => !SUPPORTED_CH.some(c => x.toLowerCase().includes(c.toLowerCase())) && !/tiktok|facebook|เฟซ/i.test(x));
+        if(!hit.length) return {ok:false, value:text, fields:{}, reply:'ตอนนี้ระบบรองรับเฉพาะช่องทาง Facebook, Shopee, Lazada และ TikTok Shop เท่านั้นครับ'};
+        return {ok:true, value:hit.join(', '), fields:{}, reply: other ? 'ช่องทางอื่นที่นอกเหนือจากนี้ตอนนี้ยังไม่รองรับ ผมจะเริ่มจาก ' + hit.join(', ') + ' ให้ก่อนครับ' : 'รับทราบครับ'};
+      }
+      case 'pain': {
+        const roles = []; for(const [r, re] of ROUTE) if(re.test(text) && !roles.includes(r)) roles.push(r);
+        return {ok:true, value:text, fields:{roles}, reply:'เข้าใจแล้วครับ ผมจะให้ฝ่ายที่เกี่ยวข้องเข้ามาช่วยเรื่องนี้ก่อน'};
+      }
+      case 'autonomy': return {ok:true, value:/semi/i.test(text) ? 'Semi auto' : /manual/i.test(text) ? 'Manual' : /auto/i.test(text) ? 'Auto' : text, fields:{}, reply:'รับทราบครับ'};
+      case 'goal': return {ok:true, value:text, fields:{}, reply:'ขอบคุณที่เล่าให้ฟังครับ'};
+      default: return {ok:true, value:text, fields:{}, reply:''};
+    }
+  }
+  async function interpret(i, text){
+    const st = OB[i], t0 = Date.now(); let r = null;
+    const picked = st.type === 'card' && st.opts.some(o => o.l === text);   // a clicked option needs no AI
+    if(aiOn() && !picked){ try { r = await aiInterpret(st, text); } catch(e) { r = null; } }
+    if(!r) r = localInterpret(st, text);
+    await sleep(Math.max(0, 600 - (Date.now() - t0)));
+    return r;
+  }
+  const cleanReply = s => String(s || '').replace(/<question>/gi, '').trim();
+
+  /* --- UI: Grok-style option card, "calling" pill, Searching... block --- */
+  function cardFor(b, m){
+    const c = m.card, box = document.createElement('div'); box.className = 'qcard'; box.setAttribute('role', 'group'); box.setAttribute('aria-label', c.title);
+    const ttl = document.createElement('div'); ttl.className = 'q-title'; ttl.textContent = c.title; box.appendChild(ttl);
+    m.sel = m.sel || [];
+    let go = null;
+    c.opts.forEach((o, i) => {
+      const key = String.fromCharCode(65 + i), isOther = !!(o.other || o.num);
+      const row = document.createElement('button'); row.type = 'button'; row.className = 'q-opt';
+      const pressedOther = c.multi && isOther && m.other;
+      row.innerHTML = `<span class="q-key">${key}</span><span class="q-lbl"><span>${esc(pressedOther ? o.l + ': ' + m.other : o.l)}</span>${o.d ? `<small>${esc(o.d)}</small>` : ''}</span>`;
+      if(c.multi) row.setAttribute('aria-pressed', String(isOther ? !!m.other : m.sel.includes(o.l)));
+      const edit = () => {
+        const w = document.createElement('div'); w.className = 'q-opt q-edit';
+        w.innerHTML = `<span class="q-key">${key}</span><input class="q-in" type="${o.num ? 'number' : 'text'}" ${o.num ? 'min="1"' : ''} placeholder="${esc(o.ph || 'พิมพ์คำตอบของคุณ')}" aria-label="${esc(o.l)}">`;
+        row.replaceWith(w); const inp = w.querySelector('input'); inp.focus();
+        inp.onkeydown = e => {
+          if(e.key === 'Escape'){ w.replaceWith(row); return; }
+          if(e.key !== 'Enter' || e.isComposing || !inp.value.trim()) return;
+          e.preventDefault(); const v = inp.value.trim(), txt = o.num ? `${o.l} (${v} คน)` : v;
+          if(c.multi){ m.other = txt; save(); renderChat(); } else send(txt);
+        };
+      };
+      row.onclick = () => {
+        if(isOther){ if(c.multi && m.other){ m.other = ''; save(); renderChat(); } else edit(); return; }
+        if(c.multi){ m.sel = m.sel.includes(o.l) ? m.sel.filter(x => x !== o.l) : [...m.sel, o.l]; row.setAttribute('aria-pressed', String(m.sel.includes(o.l))); if(go) go.disabled = !(m.sel.length || m.other); save(); return; }
+        send(o.l);
+      };
+      box.appendChild(row);
+    });
+    if(c.multi){
+      go = document.createElement('button'); go.type = 'button'; go.className = 'q-go'; go.textContent = 'ต่อไป'; go.disabled = !(m.sel.length || m.other);
+      go.onclick = () => { const parts = [...m.sel]; if(m.other) parts.push('อื่นๆ: ' + m.other); if(parts.length) send(parts.join(', ')); };
+      box.appendChild(go);
+    }
+    return box;
+  }
+  function skipFor(){
+    const box = document.createElement('div'); box.className = 'chips';
+    const x = document.createElement('button'); x.className = 'chip-q skip'; x.textContent = 'ข้ามไปก่อน'; x.onclick = () => send('ข้ามไปก่อน'); box.appendChild(x);
+    return box;
+  }
+  const hostOf = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } };
+  function srcBlock(src, done, label){
+    const box = document.createElement('div'); box.className = 'srch' + (done ? ' done' : '');
+    box.innerHTML = `<div class="srch-h">${done ? '<svg class="i" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg>' : '<span class="spin" aria-hidden="true"></span>'}<span>${esc(label)}</span></div>` +
+      `<ul>${src.map((s, i) => `<li style="--i:${i}"><span class="sdot" aria-hidden="true"></span><span><a href="${esc(s.u)}" target="_blank" rel="noopener noreferrer">${esc(s.n)}</a> <small>${esc(hostOf(s.u))}</small></span></li>`).join('')}</ul>`;
+    return box;
+  }
+  function sysRow(m){
+    const row = document.createElement('div'); row.className = 'row';
+    if(m.kind === 'call'){
+      const w = S.bots.find(x => x.id === m.who), nm = esc(w ? w.name : 'ฝ่ายกฎหมาย');
+      const box = document.createElement('div'); box.className = 'sys-call' + (m.done ? ' done' : '');
+      box.innerHTML = (w ? avatar(w, 'lg') : '') + `<span>${m.done ? `<b>${nm}</b> เข้าร่วมการสนทนาแล้ว` : `กำลังเรียก <b>${nm}</b> มาปรึกษาร่วมด้วย<span class="dots"><i>.</i><i>.</i><i>.</i></span>`}</span>`;
+      row.appendChild(box);
+    } else row.appendChild(srcBlock(m.src || [], !!m.done, m.done ? `ค้นข้อมูลจาก ${(m.src || []).length} แหล่ง` : 'Searching...'));
+    return row;
+  }
+  function pushSys(b, msg){
+    const m = Object.assign({r:'sys', s: stamp()}, msg);
+    b.msgs.push(m); save();
+    if(active() && active().id === b.id) renderChat(); else renderSide();
+    return m;
+  }
+  async function searchFor(b, ids){
+    const src = kbSources(ids); if(!src.length) return;
+    const m = pushSys(b, {kind:'search', src, t:'กำลังค้นข้อมูล…'});
+    await sleep(700 + src.length * 520);
+    m.done = true; m.t = `ค้นข้อมูลจาก ${src.length} แหล่ง`; save();
+    if(active() && active().id === b.id) renderChat();
+  }
+  function ensureLegal(team){
+    let lg = S.bots.find(x => x.team === team && x.role === 'legal');
+    if(!lg){ lg = mkBot(team, 'legal'); lg.msgs = []; S.bots.push(lg); save(); renderSide(); }
+    return lg;
+  }
+
+  /* --- flow --- */
+  function nextIdx(i){ let j = i + 1; while(j < OB.length && OB[j].cond && !OB[j].cond(S.ob.ans, S.ob.prof)) j++; return j; }
+  const speaker = (b, who) => who === 'legal' ? ensureLegal(b.team).id : b.id;
+  function questionMsg(b, i, ack){
+    const st = OB[i], a = S.ob.ans, p = S.ob.prof, q = st.q(a, p);
+    const lead = typeof st.lead === 'function' ? st.lead(a, p) : (st.lead || '');
+    const t = [ack, lead].filter(Boolean).join('\n\n');
+    const from = speaker(b, st.who);
+    if(st.type === 'card') return {t, from, card: {key: st.key, title: q, opts: st.opts, multi: !!st.multi}};
+    return {t: [t, q].filter(Boolean).join('\n\n'), from, skip: !!st.skip};
+  }
+  function botSay(b, msg){
+    return new Promise(res => {
+      typingFor = b.id; if(active() && active().id === b.id) renderChat();
+      setTimeout(() => { typingFor = null; pushBot(b, msg); res(); }, 750 + Math.min(1500, (msg.t || '').length * 12));
+    });
+  }
+  // ask step i; ack is the previous step's reply (said by ackWho)
+  async function askStep(b, i, ack, ackWho, again){
+    const st = OB[i], who = st.who || 'sec';
+    if(ack && (ackWho || 'sec') !== who){ await botSay(b, {t: ack, from: speaker(b, ackWho)}); ack = ''; }
+    if(who === 'legal' && !again){
+      const lg = ensureLegal(b.team);
+      if(!S.ob.legalJoined){
+        S.ob.legalJoined = true; save();
+        const call = pushSys(b, {kind:'call', who: lg.id, t:`กำลังเรียก ${lg.name} มาปรึกษาร่วมด้วย`});
+        await sleep(1500); call.done = true; call.t = `${lg.name} เข้าร่วมการสนทนาแล้ว`; save(); renderChat();
+        const src = /นำเข้า|ทั้งสอง/.test(S.ob.ans.sourcing || '') ? ['imp'] : [];
+        await searchFor(b, [...src, ...(st.kb || [])]);
+        const hello = `สวัสดีครับ${S.ob.prof.nickname ? ' ' + whoName(S.ob.prof) : ''} ผม ${lg.name} ขอร่วมดูเรื่องกฎหมายของร้านด้วยนะครับ`;
+        const srcNote = /นำเข้า|ทั้งสอง/.test(S.ob.ans.sourcing || '') ? 'เรื่องการนำเข้า: ' + LEGAL_KB.imp.text
+          : /ผู้นำเข้า|ตัวแทน/.test(S.ob.ans.sourcing || '') ? 'ถ้ารับสินค้าจากผู้นำเข้าในไทย ให้ขอใบกำกับภาษีและเอกสารรับรอง เช่น มอก. หรือเครื่องหมาย กสทช. จากผู้ขายไว้ทุกล็อต เพื่อใช้ยืนยันเวลาถูกตรวจ' : '';
+        ack = [hello, srcNote, ack].filter(Boolean).join('\n\n');
+      } else await searchFor(b, st.kb || []);
+    }
+    await botSay(b, questionMsg(b, i, ack));
+  }
+  function startOnboarding(force){
+    if(S.ob && !force) return;
+    const sec = S.bots.find(x => x.role === 'secretary'); if(!sec) return;
+    S.ob = {step: 0, ans: {}, prof: {}, bot: sec.id}; sec.msgs = []; sec.unread = 0;
+    if(force) S.legal = null;
+    if(PAGE) leavePage();
+    S.active = sec.id; $('#app').dataset.view = 'chat'; save(); renderSide(); renderChat();
+    (async () => {
+      await botSay(sec, {t: 'สวัสดีครับ ยินดีต้อนรับสู่ Antistant\nผมคือ Secretary ผู้ช่วยส่วนตัวของคุณ ผมจะรับเรื่องทุกอย่างจากคุณ แล้วส่งต่อให้ทีม AI แต่ละฝ่ายเอง\n\nก่อนเริ่ม ขอทำความรู้จักธุรกิจของคุณสักเล็กน้อยนะครับ'});
+      await askStep(sec, 0, '');
+    })();
+  }
+  async function obAnswer(b, text){
+    text = text.trim(); const i = S.ob.step, st = OB[i];
+    b.msgs.push({r:'me', t: text, s: stamp()});
+    if(i === 0 && text === 'ข้ามไปก่อน'){
+      S.ob.step = 'skipped'; save(); renderSide(); renderChat();
+      botSay(b, {t: 'ได้เลยครับ ตอนไหนพร้อมกลับมาตั้งค่าได้จากเมนู ⋯ มุมขวาบน เลือก "ตั้งค่าร้านใหม่" ระหว่างนี้สั่งงานผมได้ตามสบายครับ'}); return;
+    }
+    typingFor = b.id; save(); renderSide(); renderChat();
+    const r = await interpret(i, text);
+    typingFor = null;
+    if(!r.ok){ await botSay(b, {t: cleanReply(r.reply), from: speaker(b, st.who)}); await askStep(b, i, '', st.who, true); return; }
+    S.ob.ans[st.key] = r.value;
+    if(r.fields) Object.keys(r.fields).forEach(k => { if(r.fields[k] !== '' && r.fields[k] != null){ if(k === 'roles') S.ob.ans.roles = r.fields[k]; else S.ob.prof[k] = r.fields[k]; } });
+    const ack = st.advice ? st.advice(r.value, S.ob.ans, S.ob.prof) : cleanReply(r.reply);
+    const j = nextIdx(i); S.ob.step = j; save();
+    if(st.key === 'autonomy'){ await obSummary(b, ack); if(j < OB.length) await askStep(b, j, ''); return; }
+    if(j < OB.length) await askStep(b, j, ack, st.who); else await legalFinish(b, ack, st.who);
+  }
+  function rolesFrom(a){
+    let roles = Array.isArray(a.roles) ? a.roles.filter(r => ROLES[r] && r !== 'secretary') : [];
+    if(!roles.length) for(const [r, re] of ROUTE) if(re.test((a.pain || '') + ' ' + (a.goal || '')) && !roles.includes(r)) roles.push(r);
+    if(!roles.length) roles = isNew(a) ? ['legal', 'finance', 'marketing', 'market'] : ['finance', 'marketing', 'ops'];
+    return roles;
+  }
+  async function obSummary(b, ack){
+    const a = S.ob.ans, p = S.ob.prof;
+    const roles = rolesFrom(a);
+    const lines = [['ร้าน', p.shop], ['ผู้ดูแลร้าน', p.nickname ? p.nickname + (p.age ? ` (อายุ ${p.age} ปี)` : '') : ''], ['สินค้า', a.product], ['ช่องทางขาย', a.channels], ['ยอดขายต่อเดือน', a.sales],
+      ['ทีมดูแลร้าน', a.team], ['งานที่อยากให้ช่วย', a.pain], [isNew(a) ? 'Vision และแผนเปิดร้าน' : 'เป้าหมายธุรกิจ', a.goal], ['ระดับที่ AI ทำเองได้', a.autonomy]]
+      .filter(x => x[1]).map(x => `• ${x[0]}: ${x[1]}`).join('\n');
+    await botSay(b, {t: `${ack ? ack + '\n\n' : ''}ขอบคุณครับ ผมได้ข้อมูลครบแล้ว สรุปร้านของคุณตามนี้\n${lines}`});
+    const created = [];
+    const members = roles.map(r => {
+      let m = S.bots.find(x => x.team === b.team && x.role === r);
+      if(!m){ m = mkBot(b.team, r); m.msgs = []; S.bots.push(m); created.push(m); }
+      return m;
+    });
+    save(); renderSide();
+    const duty = members.map(m => `• ${m.name}: ${DUTY[m.role]}`).join('\n');
+    await botSay(b, {t: `จากที่คุยกัน งานเหล่านี้ทีม AI จัดการให้ได้เลยครับ\n${duty}\n\n${created.length ? 'ผมเพิ่ม ' + created.map(m => m.name).join(', ') + ' เข้าทีมให้แล้ว\n' : ''}ผมแจ้งข้อมูลร้านให้แต่ละฝ่ายแล้ว ลองกดเปิดแชตของฝ่ายที่สนใจได้เลยครับ`, links: members.map(m => m.id)});
+    members.forEach((m, i) => setTimeout(() => pushBot(m, {t: INTAKE[m.role](a, p)}), 900 + i * 1100));
+  }
+
+  /* --- legal wrap-up: checklist into the Legal Agent's own chat + memory for later conversations --- */
+  function legalChecklist(a, p){
+    const L = [];
+    if(isMinor(a, p)) L.push({prio:'now', kb:'age', t:'ขอหนังสือยินยอมจากผู้ปกครองให้ประกอบธุรกิจการค้า และเปิดร้านบนแพลตฟอร์มที่กำหนดอายุ 20 ปี (เช่น TikTok Shop) ในชื่อผู้ปกครอง'});
+    if(!/^จดแล้ว/.test(a.registered || '')) L.push({prio:'now', kb:'ereg', t:'จดทะเบียนพาณิชย์อิเล็กทรอนิกส์ที่ DBD ภายใน 30 วันนับจากวันเริ่มขาย (ค่าธรรมเนียม 50 บาท ยื่นออนไลน์ได้)'});
+    if(/มือสอง|รีเฟอร์บิช/.test(a.condition || '')) L.push({prio:'now', kb:'used', t:'สอบถามใบอนุญาตค้าของเก่าที่สำนักงานเขต/อำเภอ และเตรียมเอกสารสำหรับหมวดมือสองของแพลตฟอร์ม'});
+    if(yes(a.wireless)) L.push({prio:'now', kb:'nbtc', t:'ขายเฉพาะอุปกรณ์ไร้สายที่มีเครื่องหมาย กสทช. ถ้านำเข้าเองต้องขออนุญาตนำเข้าและเครื่องหมายก่อนวางขาย'});
+    if(yes(a.power)) L.push({prio:'now', kb:'tisi', t:'ตรวจว่าพาวเวอร์แบงก์มีเครื่องหมาย มอก. 2879 และเช็กสินค้าไฟฟ้าอื่นกับรายการสินค้าควบคุมของ สมอ.'});
+    if(/นำเข้า|ทั้งสอง/.test(a.sourcing || '')) L.push({prio:'now', kb:'imp', t:'วางแผนต้นทุนนำเข้า: VAT 7% และอากรตามพิกัดตั้งแต่บาทแรก ตรวจ HS code ของสินค้าแต่ละชนิด หรือใช้ตัวแทนออกของ'});
+    if(/ผู้นำเข้า|ตัวแทน|ทั้งสอง/.test(a.sourcing || '')) L.push({prio:'now', kb:'tisi', t:'ขอใบกำกับภาษีและเอกสารรับรอง (มอก./กสทช.) จากผู้นำเข้าหรือตัวแทนจำหน่ายทุกล็อต'});
+    L.push({prio:'now', kb:'pdpa', t: /โปรโมชัน/.test(a.customer_data || '') ? 'ทำประกาศความเป็นส่วนตัว และขอความยินยอมแยกก่อนส่งโปรโมชันถึงลูกค้า' : 'ทำประกาศความเป็นส่วนตัวสั้นๆ แจ้งว่าเก็บข้อมูลลูกค้าเพื่อจัดส่ง และปิดชื่อ/ที่อยู่ก่อนโพสต์สลิปหรือเลขพัสดุ'});
+    L.push({prio:'watch', kb:'ads', t:'โฆษณาตามจริง ไม่อวดยอดขายหรือบอกว่าของจะหมดเกินจริง และแจ้งเงื่อนไขประกัน/เคลมให้ชัด'});
+    L.push({prio:'watch', kb:'vat', t:'ติดตามรายได้ทั้งปี: เกิน 1.8 ล้านบาท ต้องจด VAT และจดทะเบียนตลาดแบบตรงกับ สคบ.'});
+    L.push({prio:'watch', kb:'epay', t:'ทำบัญชีรายรับให้ตรงกับยอดโอน เพราะธนาคารรายงานบัญชีที่รับโอนถี่ให้สรรพากรตามกฎหมาย e-Payment'});
+    return L;
+  }
+  async function legalFinish(b, ack, ackWho){
+    const lg = ensureLegal(b.team), a = S.ob.ans, p = S.ob.prof;
+    if(ack) await botSay(b, {t: ack, from: speaker(b, ackWho)});
+    const items = legalChecklist(a, p);
+    const now = items.filter(x => x.prio === 'now'), watch = items.filter(x => x.prio === 'watch');
+    S.legal = {items, at: KB_CHECKED, ans: Object.fromEntries(['sourcing', 'age20', 'guardian', 'condition', 'wireless', 'power', 'registered', 'customer_data'].filter(k => a[k]).map(k => [k, a[k]]))};
+    S.ob.step = 'done'; save();
+    const shop = p.shop ? p.shop : 'ร้านของคุณ';
+    pushBot(lg, {t: `สรุปเรื่องกฎหมายของ${shop.startsWith('ร้าน') ? '' : ' '}${shop} (ข้อมูลตรวจเมื่อ ${KB_CHECKED})\n\nต้องทำตอนนี้\n${now.map((x, i) => `${i + 1}. ${x.t}`).join('\n')}\n\nต้องคอยติดตาม\n${watch.map(x => '• ' + x.t).join('\n')}\n\n${LEGAL_DISCLAIMER}`,
+      src: kbSources([...new Set(items.map(x => x.kb))])});
+    await botSay(b, {t: `ผมสรุปสิ่งที่ต้องทำทั้งหมด ${now.length} เรื่อง และเรื่องที่ต้องคอยติดตามอีก ${watch.length} เรื่อง ส่งไว้ในแชตของผมแล้วครับ กดเปิดดูได้เลย ถ้ามีคำถามเรื่องกฎหมายเพิ่มก็ถามผมที่นั่นได้ตลอด`, from: lg.id, links: [lg.id]});
+    await botSay(b, {t: 'ขอบคุณครับ ตอนนี้ทีมรู้จักร้านของคุณครบแล้ว มีอะไรสั่งงานผมได้เลยครับ'});
+  }
+  // Legal Agent replies later in its own chat: shows its search, then answers from the knowledge base + what the owner told us
+  async function legalReply(b, text){
+    const hits = Object.keys(LEGAL_KB).filter(k => LEGAL_KB[k].kw.test(text));
+    if(hits.length) await searchFor(b, hits);
+    const memo = S.legal ? S.legal.items : [];
+    if(aiOn()){
+      try {
+        const kb = Object.fromEntries(Object.entries(LEGAL_KB).map(([k, v]) => [k, {title: v.title, text: v.text, sources: v.src.map(s => s.u)}]));
+        const sys = 'คุณคือ ' + b.name + ' ฝ่ายกฎหมายของ Antistant ดูแลร้านขายอุปกรณ์คอมพิวเตอร์ออนไลน์ในไทย ตอบภาษาไทย สุภาพ กระชับ ใช้เฉพาะข้อมูลใน knowledge_base และข้อมูลร้าน ถ้าไม่แน่ใจให้บอกตรงๆ และแนะนำให้ยืนยันกับหน่วยงาน ห้ามแต่งกฎหมายหรือตัวเลขขึ้นเอง';
+        const t = await aiCall(sys, JSON.stringify({knowledge_base: kb, shop_profile: S.ob ? {...S.ob.ans, ...S.ob.prof} : {}, legal_checklist: memo.map(x => x.t), question: text}));
+        if(t.trim()) return {t: t.trim(), src: kbSources(hits)};
+      } catch(e) {}
+    }
+    const name = S.ob && S.ob.prof ? whoName(S.ob.prof) : 'คุณ';
+    if(hits.length){
+      const related = memo.filter(x => hits.includes(x.kb)).map(x => '• ' + x.t);
+      return {t: hits.map(k => `${LEGAL_KB[k].title}\n${LEGAL_KB[k].text}`).join('\n\n') + (related.length ? `\n\nจากที่${name}บอกไว้ ในเช็กลิสต์ของร้านยังมีเรื่องนี้อยู่\n${related.join('\n')}` : '') + `\n\n(ข้อมูลตรวจเมื่อ ${KB_CHECKED})`, src: kbSources(hits)};
+    }
+    if(memo.length) return {t: `จากที่คุยกันไว้ ร้านของ${name}ยังมีเรื่องที่ต้องทำตอนนี้\n${memo.filter(x => x.prio === 'now').map((x, i) => `${i + 1}. ${x.t}`).join('\n')}\n\nอยากให้ผมอธิบายข้อไหนเพิ่ม หรือถามเรื่องอื่น เช่น มอก. กสทช. PDPA ภาษีนำเข้า ได้เลยครับ`};
+    return composeReply(b, text);
+  }
+  function maybeStartOnboarding(){
+    if(S.ob || !$('#app').getClientRects().length) return;
+    startOnboarding();
+  }
+  addEventListener('hashchange', () => { updateTab(); setTimeout(() => { maybeStartOnboarding(); syncRead(); }, 700); });
+  setTimeout(maybeStartOnboarding, 900);
 
   renderSide(); renderChat();
   if(!$('#avsvc').dataset.src) warmLive();
